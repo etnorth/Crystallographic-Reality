@@ -11,7 +11,7 @@ The follwing list includes wanted features, some might be doable during summer, 
 - Surfaces, polyhedrals, etc.
 
 
-## Things to do
+## Some specific things to do
 **Always document the process**
 - [ ] Read and convert .cif-files to a physical unit(y) cell
   - [ ] Cell_length
