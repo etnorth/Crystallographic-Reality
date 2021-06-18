@@ -1,0 +1,41 @@
+CIF2CELL 2.0.0
+2021-06-18 15:48
+Output for Si (Silicon)
+CIF file exported from Inorganic Crystal Structure Database.
+Database reference code: 51688.
+ BIBLIOGRAPHIC INFORMATION
+Toebbens, D.M. et al., Materials Science Forum 378, 288-293 (2001) 
+ INPUT CELL INFORMATION
+Symmetry information:
+Cubic crystal system.
+Space group number     : 227
+Hall symbol            : F 4d 2 3 -1d
+Hermann-Mauguin symbol : Fd-3mS
+
+Lattice parameters:
+          a           b           c 
+  5.4305300   5.4305300   5.4305300 
+      alpha        beta       gamma 
+ 90.0000000  90.0000000  90.0000000 
+Representative sites :
+Atom           a1          a2          a3 
+Si      0.0000000   0.0000000   0.0000000
+
+ OUTPUT CELL INFORMATION
+Symmetry information:
+Cubic crystal system.
+Space group number     : 227
+Hall symbol            : F 4d 2 3 -1d
+Hermann-Mauguin symbol : Fd-3mS
+
+Bravais lattice vectors :
+  0.5000000   0.5000000   0.0000000 
+  0.5000000   0.0000000   0.5000000 
+  0.0000000   0.5000000   0.5000000 
+All sites, (lattice coordinates):
+Atom           a1          a2          a3 
+Si      0.0000000   0.0000000   0.0000000
+Si      0.2500000   0.2500000   0.2500000
+
+Unit cell volume  :  40.0374731 A^3
+Unit cell density :   1.4029357 u/A^3 =  15.7211164 g/cm^3
