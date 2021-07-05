@@ -1,0 +1,291 @@
+(C:\Users\erlen\Anaconda3) C:\Users\erlen\Documents\Github\Crystallographic-Reality\cif2cell\Scripts>python cif2cell -h
+Usage: cif2cell FILE [-p PROGRAM] [other options]
+
+A program for generating input lattice structures to various electronic
+structure programs from a CIF (Crystallographic Information Framework) file.
+This code was published in Comput. Phys. Commun. 182, 1183 (2011). Please cite
+generously.
+
+Options:
+  -h, --help            show this help message and exit
+  --version             Print version number.
+  -v, --verbose         Be as verbose as possible.
+  -q, --quiet           Suppress all but explicitly requested screen output.
+                        Overrides --verbose flag.
+
+  General options:
+    -f FILE, --file=FILE
+                        Input CIF file, unless given as first argument to the
+                        program.
+    -p PROGRAM, --program=PROGRAM
+                        The electronic structure code you want to create input
+                        file(s) for. Currently supports: abinit, ase, atat,
+                        bmdl, castep, cellgen, cfg, cif, coo, cp2k, cpmd,
+                        crystal09, elk, emto, exciting, fhi-aims, fleur,
+                        hutsepot, kfcd, kgrn, kstr, lammps, mopac, ncol,
+                        pwscf, quantum-espresso, rspt, shape, siesta,
+                        spacegroup, spc, sprkkr, vasp, xband, xyz. This
+                        keyword is case insensitive.
+    -o FILE, --outputfile=FILE
+                        Name of output file (if other than default for you
+                        electronic structure code).
+    -a, --append        Append the output to given output file rather than
+                        overwriting.
+    --grammar=GRAMMAR   Set the CIF grammar to be used when parsing the input
+                        file (default is 1.1).
+    --which-filename    If given together with the --program option, the name
+                        of the output file will be printed to screen.
+    -b BLOCK, --block=BLOCK
+                        Block of data in input file (if there are more than
+                        one block in the CIF file).
+
+  Cell generation options:
+    --no-reduce         Do not reduce to the primitive cell.
+    --force             Attempt to force generation of output file despite
+                        problems and/or ambiguities in the input file. There
+                        are no guarantees that what you get makes sense, but
+                        the program makes an honest attempt. Implies --force-
+                        alloy.
+    --force-alloy       Force generation of output file for an alloy compound
+                        for an electronic structure code that does not
+                        implement any alloy theory (such as CPA).
+    --vca               Set up an alloy using the virtual crystal
+                        approximation (VCA). Currently only supported by the
+                        CASTEP interface.
+    --cartesian         Make the program generate any output in cartesian
+                        coordinates.
+    --coordinate-tolerance=COORDTOL
+                        Parameter for determining when two coordinates are the
+                        same (default=0.0002).
+    --setup-all         Make a more complete setup, not just the geometrical
+                        part. This is currently only available for mopac,
+                        pwscf, quantum-espresso, rspt, vasp.
+    --k-resolution=KRESOLUTION
+                        The desired resolution in k-space (default=0.2). Used
+                        for generating k-space grid options if --setup-all is
+                        specified.
+    --transform-cell=[[],[],[]]
+                        Transformation matrix applied to the lattice vectors
+                        and the symmetry operations if you, for example, want
+                        to realign the cell.
+    --body-centred-setting=0,1
+                        If set to 1, use the more symmetrical set of primitive
+                        translation vectors used for the bcc structure also
+                        for other body-centred crystals.
+    --cubic-diagonal-z  Set up cubic cell with [111] direction along the
+                        z-axis.
+    --rhombohedral-diagonal
+                        Set up rhombohedral cell with threefold axis along
+                        pseudocubic [111] direction.
+    --random-displacements=displacementsize
+                        Randomly displace all atoms. Depending on the
+                        distribution, the displacement size is either the
+                        maximal displacement (for uniform distribution) or the
+                        standard deviation (for gaussian distribution) in
+                        Angstrom.
+    --random-displacements-distribution=uniform/gaussian
+                        The distribution used for displacing the atoms.
+    --export-cif-labels
+                        Export atom labels from the CIF file (currently only
+                        supported for castep and RSPt).
+
+  Supercell generation options:
+    --supercell=[k,l,m]/[[],[],[]]
+                        Three integers separated with commas and enclosed in
+                        square brackets that specify the dimensions of a
+                        supercell OR three vectors of integers that gives the
+                        map to the supercell to be constructed from the
+                        primitive cell. If combined with the --no-reduce
+                        option the supercell will instead be generated based
+                        on the conventional cell.
+    --supercell-dimensions=[x,y,z]/[[],[],[]]
+                        Three numbers separated with commas and enclosed in
+                        square brackets that specify the desired ABSOLUTE
+                        dimensions of a supercell (in angstrom) OR three
+                        vectors of numbers that gives the desired lattice
+                        vectors. The program will automatically generate a
+                        supercell, attempting to get as close as possible to
+                        the desired dimensions.
+    --supercell-vacuum=[k,l,m]
+                        Three numbers >=0 separated with commas and enclosed
+                        in square brackets that specify a number of unit cell
+                        units of vacuum to be added along the first, second or
+                        third of the generated lattice vectors.
+    --supercell-translation-vector=[k,l,m], --supercell-prevacuum-translation=[k,l,m]
+                        Three numbers separated with commas and enclosed in
+                        square brackets that specify a shift of all atomic
+                        positions in the cell prior to vacuum generation (in
+                        units of the lattice vectors of the supercell).
+    --supercell-postvacuum-translation=[k,l,m]
+                        Three numbers separated with commas and enclosed in
+                        square brackets that specify a final shift of all
+                        atomic positions in the final cell (in units of the
+                        lattice vectors of the new cell).
+    --supercell-realign=0,1
+                        Realign the supercell lattice vectors with respect to
+                        the cartesian reference frame. For orthorhombic cells,
+                        it puts the first, second and third lattice vectors
+                        along x, y and z, respectively.
+    --supercell-sort=SUPERCELLSORT
+                        Sort the atom positions by some scheme. Currently
+                        available are:  1) By cartesian coordinate - example:
+                        xzy will sort first on x then on z then on y.  2) by
+                        lattice vector - example: 132 will sort first by
+                        lattice vector 1 then by lattice vector 3 and last by
+                        lattice vector 2.
+
+  Surface generation options:
+    --surface-wizard=[h,k,l]
+                        Three integers separated with commas and enclosed in
+                        square brackets that specify a (hkl) plane. The wizard
+                        will suggest a supercell map that gives the first two
+                        lattice vectors in the (hkl) plane. The third lattice
+                        vector is selected as the [hkl] direction, or
+                        reasonably orthogonal to the (hkl) plane (if the [hkl]
+                        direction is far from orthogonal to this plane).
+
+  Printing options:
+    --print-digits=PRINTDIGITS
+                        Number of digits used when printing coordinates etc.
+                        to screen (default=8). Useful if you need to tweak the
+                        screen output for cutting and pasting into some
+                        unsupported program. There is no point in going over
+                        16 because of the floating point accuracy.
+    --print-atomic-units
+                        Output lattice parameters in bohrradii rather than
+                        angstrom.
+    --print-cartesian   Atomic sites printed to screen in cartesian rather
+                        than lattice coordinates.
+    --print-symmetry-operations
+                        Print symmetry operations of the generated cell.
+    --print-seitz-matrices
+                        Print symmetry operations of the generated cell in
+                        Seitz matrix form.
+    --print-charge-state, --print-oxidation-numbers
+                        Print information about the oxidation state from the
+                        CIF file.
+    --print-reference-bibtex
+                        Print citation in BibTeX format and exit.
+
+  Program specific options:
+    --abinit-braces     Put curly braces around input values for ABINIT.
+    --cellgen-map=[[k,l,m],[n,o,p],[q,r,s]]
+                        Nine integers separated with commas and enclosed three
+                        and three in square brackets (this is a matrix in
+                        Python) that specify the map to a supercell to be
+                        output for the RSPt supercell generator 'cellgen'.
+                        Overrides --cellgen-supercell-dims.
+    --cellgen-supercell-dimensions=[k,l,m]
+                        Three integers separated with commas and enclosed in
+                        square brackets that specify the dimensions of a
+                        supercell to be output to the RSPt supercell generator
+                        'cellgen' (the diagonal elements of the 'map').
+    --cellgen-reference-vector=[x,y,z]
+                        Three reals separated with commas and enclosed in
+                        square brackets that specify an optional shift of the
+                        origin used by the RSPt supercell generator 'cellgen'.
+    --castep-cartesian  Output atom positions in cartesian rather than lattice
+                        coordinates.
+    --castep-atomic-units
+                        Output to CASTEP in atomic units (bohr radii) rather
+                        than angstrom.
+    --cpmd-cutoff=CPMDCUTOFF
+                        Set the cutoff written to the &SYSTEM block
+                        (default=100.0 Ry).
+    --crystal09-rhombohedral-setting
+                        For trigonal spacegroups where this is possible,
+                        specify the rhombohedral cell in the Crystal09 input.
+    --emto-hard-sphere-radii=HARDSPHERERADII
+                        Set hard spheres in KSTR to something other than the
+                        default (=0.67).
+    --fhi-aims-cartesian
+                        Store the coordinates for FHI-AIMS in cartesian
+                        format.
+    --mopac-first-line="string"
+                        String to be used for the first line (the run
+                        commands) of the MOPAC input.
+    --mopac-second-line="string"
+                        String to be used for the second line (documentation)
+                        of the MOPAC input.
+    --mopac-third-line="string"
+                        String to be used for the third line (documentation)
+                        of the MOPAC input.
+    --mopac-freeze-structure=T/F
+                        If set to 'T' then add a 0 after each coordinate
+                        (freezing the structure), if set to 'F' then add a 1
+                        (allowing everything to relax).
+    --pwscf-pseudostring=_PSEUDO
+                        String to attach to the element name to identify the
+                        pseudopotential file (e.g. something like
+                        "_HSCV_PBE-1.0.UPF").
+    --pwscf-atomic-units
+                        Write PWSCF .in file in atomic units (bohr) rather
+                        than angstrom.
+    --pwscf-alat-units  Use 'alat' units for the positions in the PWSCF .in
+                        file.
+    --pwscf-cartesian   Write lattice vectors and positions to PWSCF .in file
+                        in cartesian coordinates and set the lengths scale to
+                        1.
+    --pwscf-cartesian-latticevectors
+                        Write lattice vectors to PWSCF .in file in cartesian
+                        coordinates and set the lengths scale to 1.
+    --pwscf-cartesian-positions
+                        Write lattice positions to PWSCF .in file in cartesian
+                        coordinates.
+    --rspt-new          Generate a symt.inp file in the new format.
+    --rspt-spinpol      Generate new format symt.inp file with spin
+                        polarization.
+    --rspt-relativistic
+                        Generate new format symt.inp file with relativistic
+                        effects.
+    --rspt-spinaxis=[x,y,z]
+                        Spin axis for symt.inp (default is [0.0,0.0,0.0].
+    --rspt-no-spin      Force a nonmagnetic setup in conjunction with --setup-
+                        all.
+    --rspt-mtradii=N    Integer that gives the method for setting muffin tin
+                        radii.
+    --rspt-cartesian-latticevectors
+                        Put lattice vectors in atomic units and the lenght
+                        scale parameter to 1.
+    --rspt-pass-wyckoff
+                        Pass wyckoff labels from CIF file to the symt/rspt.inp
+                        file.
+    --sprkkr-minangmom=SPRKKRMINANGMOM
+                        Enforce minimum onsite angular momentum (=l+1, so that
+                        3 will be d-states).
+    --spacegroup-supercell=[k,l,m]
+                        Three integers separated with commas and enclosed in
+                        square brackets that specify the dimensions of a
+                        supercell to be output to the elk input generator
+                        'spacegroup'.
+    --vasp-format=VASPFORMAT
+                        Format of the generated POSCAR file, either 4 or 5.
+                        Default is 4.
+    --vasp-print-species
+                        Print the atomic species to screen in the order they
+                        are put in the POSCAR file (useful for scripting).
+    --vasp-cartesian    Write lattice vectors and positions to POSCAR file in
+                        cartesian coordinates and set length to 1.
+    --vasp-cartesian-lattice-vectors
+                        Write lattice vectors to POSCAR file in cartesian
+                        coordinates and set the length scale to 1.
+    --vasp-cartesian-positions
+                        Write atomic positions to POSCAR file in Cartesian
+                        rather than Direct coordinates.
+    --vasp-selective-dynamics
+                        Output POSCAR in selective dynamics format (without
+                        any constrained atoms).
+    --vasp-pseudo-libdr=VASPPSEUDOLIB
+                        Path to the VASP pseudopotential library. Also
+                        settable by the VASP_PAWLIB environment variable.
+    --vasp-pseudo-priority="_d,_pv,_sv,_h,_s"
+                        Set the priority of different pseudopotentials by a
+                        list of suffixes. Also available via the
+                        VASP_PP_PRIORITY environment variable.
+    --vasp-encutfac=1.5
+                        Factor that multiplies the maximal ENCUT found in the
+                        POTCAR file.
+    --xyz-atomic-units  Output xyz file in atomic units (bohr radii) rather
+                        than angstrom.
+
+(C:\Users\erlen\Anaconda3) C:\Users\erlen\Documents\Github\Crystallographic-Reality\cif2cell\Scripts>
