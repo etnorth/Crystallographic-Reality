@@ -15,7 +15,7 @@ public class Crystal : MonoBehaviour
     private Vector3[] atomPos; // The position of each atom
     public GameObject parent; // An object to be used as the parent of the unit cell
     public GameObject Atom; // Atom prefab
-    private GameObject[] Atoms; // Array of atom objects. Initialized in Start
+    private GameObject[] AtomObjects; // Array of atom objects.
     public double scaleChange = 0.1f; // A scale for making unit cell smaller/larger.
     
     
@@ -23,45 +23,28 @@ public class Crystal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Initialization
+        // Initialization (The thought is to have a separate game scene with buttons, sliders, etc. for setting up the crystal. This is parsed to this file and creates the appropriate crystal)
         infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\files\Si.cif"; // This will likely be input from user somehow. @ makes backslash parsable
+        bool convertFile = true; // Specifies that the user wishes to convert their .cif to a .xyz automatically by the program
 
-        Debug.Log("Testing comma: 5,4");
-        try
+        if (convertFile)
         {
-            float.Parse("5,4");
+            ConvertCifToXyz(infile); // Converts .cif-file to .xyz-file using cif2cell (uses --no-reduce to get the conventional cell and not the primitive cell. This could maybe be changed by the user later)
         }
-        catch (FormatException error)
-        {
-            Debug.Log("FormatException: We hate comma and refuse to understand it");
-        }
-
-
-        Debug.Log("Testing period: 5.4");
-        try
-        {
-            float.Parse("5.4", System.Globalization.CultureInfo.InvariantCulture);
-        }
-        catch (FormatException error)
-        {
-            Debug.Log("FormatException: We hate period and refuse to understand it");
-        }
-
-
-
-        Convert_cif(infile); // Converts .cif-file to .xyz-file using cif2cell
         Read(Path.GetDirectoryName(infile) + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
+        CreateCell();
 
 
-
+        /*
         NumOfAtoms = 12; // TEMPORARY
-        Atoms = new GameObject[NumOfAtoms]; // Initializes list of atoms
+        AtomObjects = new GameObject[NumOfAtoms]; // Initializes list of atoms
         for (int i = 0; i < NumOfAtoms; i++) // Loops over each atom
         {
-            Atoms[i] = Instantiate(Atom, parent.transform, false); // Instantiate (Spawn) atom i
-            Atoms[i].transform.Translate(i/2f, 0, 0); // Move atom i by x-direction. This will correspond to atom positions after read_cif is done
+            AtomObjects[i] = Instantiate(Atom, parent.transform, false); // Instantiate (Spawn) atom i
+            AtomObjects[i].transform.Translate(i/2f, 0, 0); // Move atom i by x-direction. This will correspond to atom positions after read_cif is done
             //Atoms[i].transform.localScale += scalechange;
         }
+        */
     }
 
     // Update is called once per frame
@@ -87,7 +70,7 @@ public class Crystal : MonoBehaviour
     }
 
     // Called in Start
-    void Convert_cif(string infile)
+    void ConvertCifToXyz(string infile)
     {
         // Converts a .cif-file to .xyz using python and cif2cell in the command line
 
@@ -95,14 +78,19 @@ public class Crystal : MonoBehaviour
         System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(); // Defines a variable to insert our information in
         startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden; // Hides the Command prompt window from user
         startInfo.FileName = "cmd.exe"; // Calls for the command prompt
-        startInfo.Arguments = "/C cd " + Path.GetDirectoryName(infile) + " & python cif2cell " + Path.GetFileName(infile) + " -p xyz --no-reduce -o cif2cell_convert/" + Path.GetFileNameWithoutExtension(infile) + ".xyz"; // Moves to appropriate directory and calls for convertion of chosen .cif-file
+        startInfo.Arguments = "/C cd " + Path.GetDirectoryName(infile) + 
+            " & python cif2cell " + Path.GetFileName(infile) + 
+            " --program=xyz --no-reduce --cartesian --outputfile=cif2cell_convert/" + 
+            Path.GetFileNameWithoutExtension(infile) + ".xyz"; // Moves to appropriate directory and calls for convertion of chosen .cif-file
+        //startInfo.Arguments = "/C cd " + Path.GetDirectoryName(infile) + " & python cif2cell " + Path.GetFileName(infile) + " -p xyz --no-reduce --supercell=[2,2,2] -o cif2cell_convert/" + Path.GetFileNameWithoutExtension(infile) + ".xyz"; // Moves to appropriate directory and calls for convertion of chosen .cif-file (SHOULD BE A SUPERCELL)
         process.StartInfo = startInfo; // Puts the information we have defined inside the process
         process.Start(); // Starts the process
+        process.WaitForExit(); // Waits for the process to end before continuing
 
         if (File.Exists(Path.GetDirectoryName(infile) + @"\\cif2cell_convert\\" + Path.GetFileNameWithoutExtension(infile) + ".xyz")) { // If the converted file exists in the correct location
             Debug.Log(".cif-file converted to .xyz!"); // Prints to the Unity Console
         }
-        else // Notifies that the program could not find the converted file in time (the if-process seems to sometimes be quicker than the conversion process, so could have false negatives)
+        else // Notifies that the program could not find the converted file in time
         {
             Debug.Log("Cannot confirm that the conversion worked."); // Prints to the Unity Console
         }
@@ -137,6 +125,7 @@ public class Crystal : MonoBehaviour
                 atomPos[i] = new Vector3(float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture),
                     float.Parse(words[2], System.Globalization.CultureInfo.InvariantCulture),
                     float.Parse(words[3], System.Globalization.CultureInfo.InvariantCulture)); // NullReferenceException: Object reference not set to an instance of an object
+                i++;
             }
         }
 
@@ -165,6 +154,21 @@ public class Crystal : MonoBehaviour
             i++;
         }
         */
+    }
+
+    void CreateCell()
+    {
+        // Creates the cell that is being investigated.
+
+        AtomObjects = new GameObject[NumOfAtoms]; // Initializes the array of AtomObjects with a set length so we can fill the array iteratively
+
+        for (int i = 0; i<NumOfAtoms; i++)
+        {
+            //AtomObjects[i] = Instantiate(Atom, atomPos[i], new Quaternion(), parent.transform);
+            AtomObjects[i] = Instantiate(Atom, parent.transform, false); // Creates an atom with its position relative to the parent
+            AtomObjects[i].transform.Translate(atomPos[i]); // Sets the atom position to match that of the .xyz-file (can do scaling in Update() )
+        }
+
     }
 
     // Deprecated

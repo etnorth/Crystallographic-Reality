@@ -15,12 +15,12 @@ C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Realit
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-54460
+59543
 Successfully changed project path to: C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Reality
 C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Reality
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 615.29 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 3.00 ms.
+Refreshing native plugins compatible for Editor in 118.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 2.89 ms.
 Initialize engine version: 2020.3.11f1 (99c7afb366b3)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Reality/Assets
@@ -35,23 +35,23 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56940
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56828
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.002730 seconds.
+Registered in 0.002386 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 58.30 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.25 ms.
+Refreshing native plugins compatible for Editor in 141.97 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.27 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  3.979 seconds
+- Completed reload, in  4.640 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.014565 seconds.
+Registered in 0.014293 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 80.11 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.58 ms.
+Refreshing native plugins compatible for Editor in 107.25 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
 [XR] OculusXRPlugin: registering subsystems
 [XR] Unable to register display lifecyle provider: [1]
 [XR] Oculus Input lifecycle provider registered.
@@ -63,46 +63,99 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  3.960 seconds
+- Completed reload, in  2.944 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
-Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.19 ms.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.18 seconds
+Refreshing native plugins compatible for Editor in 1.00 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
 Unloading 2389 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 102.3 MB.
 System memory in use after: 102.2 MB.
 
 Unloading 40 unused Assets to reduce memory usage. Loaded Objects now: 2867.
-Total: 3.089400 ms (FindLiveObjects: 0.297800 ms CreateObjectMapping: 0.176800 ms MarkObjects: 2.523400 ms  DeleteObjects: 0.089800 ms)
+Total: 3.073000 ms (FindLiveObjects: 0.296500 ms CreateObjectMapping: 0.142800 ms MarkObjects: 2.537200 ms  DeleteObjects: 0.094700 ms)
 
 ========================================================================
 Received Import Request.
   path: Assets/Scripts/Crystal.cs
   artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1078d4285e4cd1ae14759928530b1ba') in 0.047881 seconds
-  Import took 0.052782 seconds .
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1078d4285e4cd1ae14759928530b1ba') in 0.065297 seconds
+  Import took 0.073145 seconds .
 
 ========================================================================
-Received Prepare
-Refreshing native plugins compatible for Editor in 10.82 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.16 ms.
-Unloading 30 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 54.2 MB.
-System memory in use after: 54.4 MB.
+Received Import Request.
+  Time since last request: 937.533430 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6efc2a98ff038ded93bff74da04777cb') in 0.015386 seconds
+  Import took 0.075448 seconds .
 
-Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 2867.
-Total: 3.459400 ms (FindLiveObjects: 0.259900 ms CreateObjectMapping: 0.113100 ms MarkObjects: 3.024300 ms  DeleteObjects: 0.060700 ms)
+========================================================================
+Received Import Request.
+  Time since last request: 716.140214 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1fd73c4fc1d8d59b317d316317d2480c') in 0.020017 seconds
+  Import took 0.034111 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019085 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1fd73c4fc1d8d59b317d316317d2480c') in 0.017258 seconds
+  Import took 0.027539 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 30.448233 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a0518382ddf667ca0e7297cdcdc2c376') in 0.010469 seconds
+  Import took 0.018365 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.010180 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a0518382ddf667ca0e7297cdcdc2c376') in 0.013442 seconds
+  Import took 0.019125 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 24.936174 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e8dbaee42823d0432be2a73621eb492') in 0.008916 seconds
+  Import took 0.017130 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.946888 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '208f92f6b70ed040d268f3043750850d') in 0.010889 seconds
+  Import took 0.016285 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 26.719141 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '800b90ad163ea025f73f74b662641f87') in 0.008410 seconds
+  Import took 0.016438 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 1.156736 seconds.
+Registered in 1.604803 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.53 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.43 ms.
+Refreshing native plugins compatible for Editor in 1.46 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.26 ms.
 NullReferenceException: Object reference not set to an instance of an object
   at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
   at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
@@ -110,33 +163,25 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.766 seconds
+- Completed reload, in  2.356 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.20 ms.
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
 Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 108.4 MB.
 System memory in use after: 108.6 MB.
 
 Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2871.
-Total: 2.869000 ms (FindLiveObjects: 0.277100 ms CreateObjectMapping: 0.114200 ms MarkObjects: 2.400100 ms  DeleteObjects: 0.076100 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 155.250433 seconds.
-  path: Assets/Scripts/Crystal.cs
-  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e1e1d02029bda04383e8a1c21bbc54b3') in 0.012762 seconds
-  Import took 0.023277 seconds .
+Total: 3.058300 ms (FindLiveObjects: 0.251200 ms CreateObjectMapping: 0.113000 ms MarkObjects: 2.585300 ms  DeleteObjects: 0.107700 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.017839 seconds.
+Registered in 0.013438 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.20 ms.
+Refreshing native plugins compatible for Editor in 0.87 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.15 ms.
 NullReferenceException: Object reference not set to an instance of an object
   at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
   at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
@@ -144,7 +189,7 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.545 seconds
+- Completed reload, in  1.271 seconds
 Platform modules already initialized, skipping
 Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
 Preloading 2 native plugins for Editor in 0.16 ms.
@@ -153,6 +198,2620 @@ System memory in use before: 108.4 MB.
 System memory in use after: 108.6 MB.
 
 Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2875.
-Total: 2.888300 ms (FindLiveObjects: 0.252300 ms CreateObjectMapping: 0.128200 ms MarkObjects: 2.418700 ms  DeleteObjects: 0.087900 ms)
+Total: 3.008200 ms (FindLiveObjects: 0.242400 ms CreateObjectMapping: 0.105500 ms MarkObjects: 2.537200 ms  DeleteObjects: 0.122300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 65.704166 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f33ce77bca39318037de05bdd41cd505') in 0.010692 seconds
+  Import took 0.015601 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014868 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 5.49 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.85 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.955 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2879.
+Total: 2.948700 ms (FindLiveObjects: 0.242300 ms CreateObjectMapping: 0.105000 ms MarkObjects: 2.481900 ms  DeleteObjects: 0.118400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 34.033752 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '87f529049897fbc3d3ea3ff93cbec100') in 0.006870 seconds
+  Import took 0.015478 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014530 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.07 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.481 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2883.
+Total: 3.112800 ms (FindLiveObjects: 0.240000 ms CreateObjectMapping: 0.103200 ms MarkObjects: 2.688600 ms  DeleteObjects: 0.079600 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 57.835926 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '56abd572b8cc6778004ed3582b710767') in 0.006887 seconds
+  Import took 0.015991 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.951176 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '56abd572b8cc6778004ed3582b710767') in 0.009700 seconds
+  Import took 0.014009 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.028988 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.81 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.35 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.696 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 3.46 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.46 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.4 MB.
+System memory in use after: 108.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2887.
+Total: 7.088900 ms (FindLiveObjects: 1.116800 ms CreateObjectMapping: 1.714600 ms MarkObjects: 4.134900 ms  DeleteObjects: 0.119900 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014687 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.19 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.409 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.98 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2891.
+Total: 3.246900 ms (FindLiveObjects: 0.233200 ms CreateObjectMapping: 0.102300 ms MarkObjects: 2.816100 ms  DeleteObjects: 0.094100 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 204.589791 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a4154e4560eca59d1706664009569688') in 0.006925 seconds
+  Import took 0.012798 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.025237 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.799 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.91 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2895.
+Total: 3.524500 ms (FindLiveObjects: 0.254600 ms CreateObjectMapping: 0.116800 ms MarkObjects: 3.041200 ms  DeleteObjects: 0.110900 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014706 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.05 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.449 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.98 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2899.
+Total: 3.186300 ms (FindLiveObjects: 0.298500 ms CreateObjectMapping: 0.115900 ms MarkObjects: 2.701000 ms  DeleteObjects: 0.069700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 26.989340 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9da019e78f45d9fac5a10359371447f5') in 0.007292 seconds
+  Import took 0.015545 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.915116 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9da019e78f45d9fac5a10359371447f5') in 0.009264 seconds
+  Import took 0.013725 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.025278 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.47 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.30 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.379 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 2.13 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.39 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2903.
+Total: 19.391200 ms (FindLiveObjects: 3.485800 ms CreateObjectMapping: 1.482300 ms MarkObjects: 14.167400 ms  DeleteObjects: 0.251600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.017553 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.47 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.68 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.557 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.08 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2907.
+Total: 3.485600 ms (FindLiveObjects: 0.385400 ms CreateObjectMapping: 0.182700 ms MarkObjects: 2.836300 ms  DeleteObjects: 0.079000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 172.989850 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe781b8adec45f06562d9e88182a263a') in 0.011881 seconds
+  Import took 0.020310 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.637040 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe781b8adec45f06562d9e88182a263a') in 0.007288 seconds
+  Import took 0.012443 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015040 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 2.22 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.85 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.093 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.07 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.6 MB.
+System memory in use after: 108.8 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2911.
+Total: 3.237100 ms (FindLiveObjects: 0.425300 ms CreateObjectMapping: 0.126200 ms MarkObjects: 2.565900 ms  DeleteObjects: 0.118600 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 164.850241 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '058f372aeb11e6681f0e22c2ee323c5b') in 0.014427 seconds
+  Import took 0.021675 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014213 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.16 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.21 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.468 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.6 MB.
+System memory in use after: 108.8 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2915.
+Total: 3.079800 ms (FindLiveObjects: 0.278300 ms CreateObjectMapping: 0.123300 ms MarkObjects: 2.620200 ms  DeleteObjects: 0.056400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 22.215688 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '58debf386902eb969fb58846f00added') in 0.007162 seconds
+  Import took 0.015382 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.910392 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '58debf386902eb969fb58846f00added') in 0.007587 seconds
+  Import took 0.011867 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016840 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.03 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.21 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.975 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.99 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.6 MB.
+System memory in use after: 108.8 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2919.
+Total: 3.418500 ms (FindLiveObjects: 0.294600 ms CreateObjectMapping: 0.113200 ms MarkObjects: 2.910200 ms  DeleteObjects: 0.099300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014348 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.68 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.34 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.229 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.6 MB.
+System memory in use after: 108.8 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2923.
+Total: 2.856500 ms (FindLiveObjects: 0.250500 ms CreateObjectMapping: 0.110200 ms MarkObjects: 2.387600 ms  DeleteObjects: 0.107100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.017126 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.12 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.495 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.5 MB.
+System memory in use after: 108.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2927.
+Total: 3.478700 ms (FindLiveObjects: 0.390100 ms CreateObjectMapping: 0.130100 ms MarkObjects: 2.883800 ms  DeleteObjects: 0.073300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 210.829768 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aaca25e06be0f3f5cc5db9ecb672dc8e') in 0.007108 seconds
+  Import took 0.015437 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.866071 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aaca25e06be0f3f5cc5db9ecb672dc8e') in 0.007846 seconds
+  Import took 0.012168 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.013867 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.44 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.47 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.150 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.8 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2931.
+Total: 3.267200 ms (FindLiveObjects: 0.296500 ms CreateObjectMapping: 0.140000 ms MarkObjects: 2.756800 ms  DeleteObjects: 0.072700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 391.351647 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eadde42a05d29e5e5c75e0ba1a5b5a6f') in 0.020061 seconds
+  Import took 0.028556 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014370 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.05 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.468 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2935.
+Total: 2.836500 ms (FindLiveObjects: 0.281300 ms CreateObjectMapping: 0.130300 ms MarkObjects: 2.352700 ms  DeleteObjects: 0.070800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 21.018007 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0fcb19bdaee660bf58ec276410dae3c9') in 0.006915 seconds
+  Import took 0.016092 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.944647 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0fcb19bdaee660bf58ec276410dae3c9') in 0.008932 seconds
+  Import took 0.013520 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.018322 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.91 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.25 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.783 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.31 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2939.
+Total: 2.961500 ms (FindLiveObjects: 0.259500 ms CreateObjectMapping: 0.116900 ms MarkObjects: 2.486100 ms  DeleteObjects: 0.097900 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014745 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.97 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.23 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.478 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2943.
+Total: 2.891300 ms (FindLiveObjects: 0.275800 ms CreateObjectMapping: 0.122700 ms MarkObjects: 2.419200 ms  DeleteObjects: 0.072300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 55.401057 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dfddb060d9330f0d814010231c9ac984') in 0.009281 seconds
+  Import took 0.014191 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.073486 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dfddb060d9330f0d814010231c9ac984') in 0.007673 seconds
+  Import took 0.011873 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.019065 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.62 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.25 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.913 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.6 MB.
+System memory in use after: 108.8 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2947.
+Total: 2.878100 ms (FindLiveObjects: 0.255200 ms CreateObjectMapping: 0.108300 ms MarkObjects: 2.460400 ms  DeleteObjects: 0.053100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014640 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.441 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2951.
+Total: 3.147300 ms (FindLiveObjects: 0.255400 ms CreateObjectMapping: 0.108600 ms MarkObjects: 2.703000 ms  DeleteObjects: 0.078900 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 18.508671 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'edcb892c3dbf4aac67b34e669673d7ab') in 0.007718 seconds
+  Import took 0.015815 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.119438 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'edcb892c3dbf4aac67b34e669673d7ab') in 0.010517 seconds
+  Import took 0.016242 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016820 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 2.46 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.39 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.343 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 2.71 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.65 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2955.
+Total: 6.170200 ms (FindLiveObjects: 0.738900 ms CreateObjectMapping: 0.500600 ms MarkObjects: 4.763600 ms  DeleteObjects: 0.157400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016092 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.10 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.26 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.353 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.00 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2959.
+Total: 3.890800 ms (FindLiveObjects: 0.377400 ms CreateObjectMapping: 0.207600 ms MarkObjects: 3.224300 ms  DeleteObjects: 0.068600 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 162.963299 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1d2d07dfb91b08661974cc6be64e2cf6') in 0.015534 seconds
+  Import took 0.027031 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.013736 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.01 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.103 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.01 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2963.
+Total: 3.111000 ms (FindLiveObjects: 0.329400 ms CreateObjectMapping: 0.119300 ms MarkObjects: 2.604300 ms  DeleteObjects: 0.056900 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014803 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.87 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.504 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.23 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.8 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2967.
+Total: 3.223100 ms (FindLiveObjects: 0.313200 ms CreateObjectMapping: 0.125000 ms MarkObjects: 2.721700 ms  DeleteObjects: 0.061800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 52.223251 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '22e06acb9c65a632471024463641189f') in 0.007074 seconds
+  Import took 0.011115 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.974598 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '22e06acb9c65a632471024463641189f') in 0.010018 seconds
+  Import took 0.017736 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.024752 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.28 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.37 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.875 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.97 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2971.
+Total: 3.628000 ms (FindLiveObjects: 0.325000 ms CreateObjectMapping: 0.126300 ms MarkObjects: 3.095100 ms  DeleteObjects: 0.080100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.019184 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.20 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.495 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.00 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2975.
+Total: 3.859700 ms (FindLiveObjects: 0.276400 ms CreateObjectMapping: 0.124400 ms MarkObjects: 3.372900 ms  DeleteObjects: 0.084700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 57.226952 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbb6e3c29fb5e603f1fb33d7d4f4475f') in 0.007223 seconds
+  Import took 0.012452 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.686552 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbb6e3c29fb5e603f1fb33d7d4f4475f') in 0.011773 seconds
+  Import took 0.016540 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.024458 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 3.08 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.36 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.878 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2979.
+Total: 3.441700 ms (FindLiveObjects: 0.290300 ms CreateObjectMapping: 0.195700 ms MarkObjects: 2.892800 ms  DeleteObjects: 0.061500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014883 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.98 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.494 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.97 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2983.
+Total: 3.482600 ms (FindLiveObjects: 0.303200 ms CreateObjectMapping: 0.115400 ms MarkObjects: 2.980400 ms  DeleteObjects: 0.082500 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 43.077764 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b4a65f09cc3fd8f042a4032ac1dd6ac') in 0.007805 seconds
+  Import took 0.015795 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.195002 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b4a65f09cc3fd8f042a4032ac1dd6ac') in 0.011971 seconds
+  Import took 0.016634 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.024002 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.14 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.30 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.594 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.7 MB.
+System memory in use after: 108.9 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2987.
+Total: 3.489300 ms (FindLiveObjects: 0.266800 ms CreateObjectMapping: 0.132500 ms MarkObjects: 2.958300 ms  DeleteObjects: 0.130200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014989 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.20 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.28 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.474 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2991.
+Total: 3.482800 ms (FindLiveObjects: 0.261400 ms CreateObjectMapping: 0.109400 ms MarkObjects: 3.037500 ms  DeleteObjects: 0.073200 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 102.473988 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '27a94b40adf2ba78985815789ffb6018') in 0.008053 seconds
+  Import took 0.016131 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.232846 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '27a94b40adf2ba78985815789ffb6018') in 0.008382 seconds
+  Import took 0.014724 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.025255 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 3.41 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.38 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.236 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.08 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2995.
+Total: 3.338500 ms (FindLiveObjects: 0.353700 ms CreateObjectMapping: 0.146500 ms MarkObjects: 2.774100 ms  DeleteObjects: 0.062800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014798 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.509 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.91 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2999.
+Total: 3.934600 ms (FindLiveObjects: 0.273600 ms CreateObjectMapping: 0.130100 ms MarkObjects: 3.438600 ms  DeleteObjects: 0.091200 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 506.914479 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1e59c8e9176eff940167c4e2344670ae') in 0.006491 seconds
+  Import took 0.015071 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.026287 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 2.04 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.32 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.517 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.48 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.32 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3003.
+Total: 5.596300 ms (FindLiveObjects: 0.867300 ms CreateObjectMapping: 0.198300 ms MarkObjects: 4.446400 ms  DeleteObjects: 0.081300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.025666 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 3.98 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.46 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  3.044 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.87 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.55 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3007.
+Total: 13.374400 ms (FindLiveObjects: 1.624200 ms CreateObjectMapping: 1.878300 ms MarkObjects: 9.588100 ms  DeleteObjects: 0.271700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016631 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.467 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.02 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.21 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3011.
+Total: 4.783000 ms (FindLiveObjects: 0.352400 ms CreateObjectMapping: 0.191700 ms MarkObjects: 4.106000 ms  DeleteObjects: 0.130800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016390 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.542 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3015.
+Total: 3.232000 ms (FindLiveObjects: 0.458000 ms CreateObjectMapping: 0.162300 ms MarkObjects: 2.526500 ms  DeleteObjects: 0.071000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016018 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.66 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.473 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3019.
+Total: 3.251000 ms (FindLiveObjects: 0.346900 ms CreateObjectMapping: 0.134600 ms MarkObjects: 2.707600 ms  DeleteObjects: 0.060500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014151 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.363 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.09 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3023.
+Total: 3.571200 ms (FindLiveObjects: 0.248400 ms CreateObjectMapping: 0.100000 ms MarkObjects: 3.106000 ms  DeleteObjects: 0.115800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016012 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.00 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.515 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.8 MB.
+System memory in use after: 109.0 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3027.
+Total: 2.853700 ms (FindLiveObjects: 0.309500 ms CreateObjectMapping: 0.126200 ms MarkObjects: 2.360000 ms  DeleteObjects: 0.056400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014493 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.365 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3031.
+Total: 3.236100 ms (FindLiveObjects: 0.329000 ms CreateObjectMapping: 0.133400 ms MarkObjects: 2.712700 ms  DeleteObjects: 0.059700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016750 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.98 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.364 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3035.
+Total: 3.204600 ms (FindLiveObjects: 0.324300 ms CreateObjectMapping: 0.127000 ms MarkObjects: 2.671600 ms  DeleteObjects: 0.080500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.018809 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.348 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3039.
+Total: 3.229600 ms (FindLiveObjects: 0.282600 ms CreateObjectMapping: 0.124900 ms MarkObjects: 2.710800 ms  DeleteObjects: 0.081400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.017016 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.477 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3043.
+Total: 3.826300 ms (FindLiveObjects: 0.265600 ms CreateObjectMapping: 0.112500 ms MarkObjects: 3.351200 ms  DeleteObjects: 0.095700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016059 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.486 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.99 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3047.
+Total: 3.080800 ms (FindLiveObjects: 0.333400 ms CreateObjectMapping: 0.126100 ms MarkObjects: 2.551100 ms  DeleteObjects: 0.069000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016248 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.480 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.19 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3051.
+Total: 3.285700 ms (FindLiveObjects: 0.275100 ms CreateObjectMapping: 0.117200 ms MarkObjects: 2.772400 ms  DeleteObjects: 0.120100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.017675 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.87 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.22 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.441 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3055.
+Total: 3.131400 ms (FindLiveObjects: 0.273500 ms CreateObjectMapping: 0.116500 ms MarkObjects: 2.628800 ms  DeleteObjects: 0.111600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014523 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.64 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.41 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.487 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3059.
+Total: 3.108300 ms (FindLiveObjects: 0.296100 ms CreateObjectMapping: 0.128400 ms MarkObjects: 2.623400 ms  DeleteObjects: 0.059100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.074012 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.99 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.542 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.00 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3063.
+Total: 4.205000 ms (FindLiveObjects: 0.594600 ms CreateObjectMapping: 0.141600 ms MarkObjects: 3.336100 ms  DeleteObjects: 0.130900 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015563 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.16 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.37 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.497 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.12 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.9 MB.
+System memory in use after: 109.1 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3067.
+Total: 4.597300 ms (FindLiveObjects: 0.317600 ms CreateObjectMapping: 0.134700 ms MarkObjects: 4.066400 ms  DeleteObjects: 0.077100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014420 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.360 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3071.
+Total: 3.259800 ms (FindLiveObjects: 0.278500 ms CreateObjectMapping: 0.120200 ms MarkObjects: 2.757400 ms  DeleteObjects: 0.102700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.022130 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.00 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.532 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3075.
+Total: 4.994000 ms (FindLiveObjects: 0.281200 ms CreateObjectMapping: 0.111400 ms MarkObjects: 4.481800 ms  DeleteObjects: 0.118300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015111 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.06 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.324 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.03 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3079.
+Total: 4.211100 ms (FindLiveObjects: 0.274600 ms CreateObjectMapping: 0.118100 ms MarkObjects: 3.741400 ms  DeleteObjects: 0.075800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.017986 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 2.12 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.22 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.465 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3083.
+Total: 3.451700 ms (FindLiveObjects: 0.311900 ms CreateObjectMapping: 0.116800 ms MarkObjects: 2.936800 ms  DeleteObjects: 0.084800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.017161 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.99 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.522 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3087.
+Total: 3.888900 ms (FindLiveObjects: 0.263200 ms CreateObjectMapping: 0.105900 ms MarkObjects: 3.431500 ms  DeleteObjects: 0.086700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.018150 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.03 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.470 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.28 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.22 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3091.
+Total: 3.756300 ms (FindLiveObjects: 0.505300 ms CreateObjectMapping: 0.164500 ms MarkObjects: 2.970000 ms  DeleteObjects: 0.115500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014622 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.437 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3095.
+Total: 2.972500 ms (FindLiveObjects: 0.288800 ms CreateObjectMapping: 0.120700 ms MarkObjects: 2.470400 ms  DeleteObjects: 0.091300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015324 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.452 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3099.
+Total: 3.206600 ms (FindLiveObjects: 0.274500 ms CreateObjectMapping: 0.113700 ms MarkObjects: 2.708500 ms  DeleteObjects: 0.108800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016307 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.432 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3103.
+Total: 2.925900 ms (FindLiveObjects: 0.254100 ms CreateObjectMapping: 0.104100 ms MarkObjects: 2.459400 ms  DeleteObjects: 0.107200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016295 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.02 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.443 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.27 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.0 MB.
+System memory in use after: 109.2 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3107.
+Total: 3.297700 ms (FindLiveObjects: 0.278800 ms CreateObjectMapping: 0.114200 ms MarkObjects: 2.794000 ms  DeleteObjects: 0.109500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014258 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.52 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.466 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.22 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3111.
+Total: 3.256300 ms (FindLiveObjects: 0.277800 ms CreateObjectMapping: 0.112800 ms MarkObjects: 2.788200 ms  DeleteObjects: 0.076000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016871 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.04 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.447 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 2.12 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3115.
+Total: 3.498400 ms (FindLiveObjects: 0.299600 ms CreateObjectMapping: 0.107900 ms MarkObjects: 2.960500 ms  DeleteObjects: 0.129400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016179 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.88 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.467 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3119.
+Total: 3.302900 ms (FindLiveObjects: 0.319800 ms CreateObjectMapping: 0.120500 ms MarkObjects: 2.801100 ms  DeleteObjects: 0.060200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016662 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.800 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.99 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3123.
+Total: 3.647500 ms (FindLiveObjects: 0.498500 ms CreateObjectMapping: 0.215000 ms MarkObjects: 2.868500 ms  DeleteObjects: 0.063300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.027156 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.487 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3127.
+Total: 3.509500 ms (FindLiveObjects: 0.352200 ms CreateObjectMapping: 0.204700 ms MarkObjects: 2.849700 ms  DeleteObjects: 0.101700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015253 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.97 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.547 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.17 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.21 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3131.
+Total: 2.932000 ms (FindLiveObjects: 0.283500 ms CreateObjectMapping: 0.145100 ms MarkObjects: 2.431400 ms  DeleteObjects: 0.070700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.018844 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.10 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.539 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.01 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3135.
+Total: 3.143600 ms (FindLiveObjects: 0.361800 ms CreateObjectMapping: 0.130000 ms MarkObjects: 2.568300 ms  DeleteObjects: 0.082000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.021817 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.25 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.384 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3139.
+Total: 3.336500 ms (FindLiveObjects: 0.299300 ms CreateObjectMapping: 0.118400 ms MarkObjects: 2.805900 ms  DeleteObjects: 0.111900 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.061177 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.525 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3143.
+Total: 3.510000 ms (FindLiveObjects: 0.317300 ms CreateObjectMapping: 0.133200 ms MarkObjects: 2.978300 ms  DeleteObjects: 0.079800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.062125 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.461 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.1 MB.
+System memory in use after: 109.3 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3147.
+Total: 3.560700 ms (FindLiveObjects: 0.286000 ms CreateObjectMapping: 0.120500 ms MarkObjects: 3.029700 ms  DeleteObjects: 0.123300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.087282 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.49 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.22 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.584 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3151.
+Total: 4.154500 ms (FindLiveObjects: 0.354600 ms CreateObjectMapping: 0.120700 ms MarkObjects: 3.546000 ms  DeleteObjects: 0.119100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016337 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.486 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.97 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3155.
+Total: 3.553300 ms (FindLiveObjects: 0.292100 ms CreateObjectMapping: 0.120900 ms MarkObjects: 3.078500 ms  DeleteObjects: 0.060600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015981 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.475 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.12 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3159.
+Total: 3.442300 ms (FindLiveObjects: 0.297500 ms CreateObjectMapping: 0.101600 ms MarkObjects: 2.930000 ms  DeleteObjects: 0.111800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.017624 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.49 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.27 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.111 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.05 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.21 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3163.
+Total: 3.339900 ms (FindLiveObjects: 0.312600 ms CreateObjectMapping: 0.122900 ms MarkObjects: 2.835800 ms  DeleteObjects: 0.066700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016359 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.491 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.04 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3167.
+Total: 7.507800 ms (FindLiveObjects: 0.301400 ms CreateObjectMapping: 0.121500 ms MarkObjects: 7.009000 ms  DeleteObjects: 0.074700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015365 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.478 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3171.
+Total: 3.071100 ms (FindLiveObjects: 0.303600 ms CreateObjectMapping: 0.145000 ms MarkObjects: 2.540200 ms  DeleteObjects: 0.081200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015543 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.88 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.321 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3175.
+Total: 3.147200 ms (FindLiveObjects: 0.294500 ms CreateObjectMapping: 0.121500 ms MarkObjects: 2.633000 ms  DeleteObjects: 0.097000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016036 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.17 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.519 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3179.
+Total: 2.965100 ms (FindLiveObjects: 0.280500 ms CreateObjectMapping: 0.105400 ms MarkObjects: 2.501500 ms  DeleteObjects: 0.076200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015036 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.333 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.32 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3183.
+Total: 3.054300 ms (FindLiveObjects: 0.289600 ms CreateObjectMapping: 0.122800 ms MarkObjects: 2.551000 ms  DeleteObjects: 0.089700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014536 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.468 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.02 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.2 MB.
+System memory in use after: 109.4 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3187.
+Total: 3.351700 ms (FindLiveObjects: 0.284800 ms CreateObjectMapping: 0.119900 ms MarkObjects: 2.860700 ms  DeleteObjects: 0.085200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.023024 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.72 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.467 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3191.
+Total: 3.609600 ms (FindLiveObjects: 0.296500 ms CreateObjectMapping: 0.263000 ms MarkObjects: 2.948800 ms  DeleteObjects: 0.100200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.019183 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.09 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.507 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.02 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.4 MB.
+System memory in use after: 109.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3195.
+Total: 4.734900 ms (FindLiveObjects: 0.291900 ms CreateObjectMapping: 0.121900 ms MarkObjects: 4.156500 ms  DeleteObjects: 0.163000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.024748 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 3.14 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.43 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.465 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.92 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.4 MB.
+System memory in use after: 109.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3199.
+Total: 3.314900 ms (FindLiveObjects: 0.289800 ms CreateObjectMapping: 0.115000 ms MarkObjects: 2.785300 ms  DeleteObjects: 0.123700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015596 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.52 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.22 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.453 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.91 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.4 MB.
+System memory in use after: 109.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3203.
+Total: 3.568500 ms (FindLiveObjects: 0.313000 ms CreateObjectMapping: 0.118300 ms MarkObjects: 3.028200 ms  DeleteObjects: 0.107500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015055 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.99 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.459 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3207.
+Total: 3.124300 ms (FindLiveObjects: 0.282500 ms CreateObjectMapping: 0.111000 ms MarkObjects: 2.621000 ms  DeleteObjects: 0.108800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015249 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.409 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.07 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.4 MB.
+System memory in use after: 109.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3211.
+Total: 3.396200 ms (FindLiveObjects: 0.284800 ms CreateObjectMapping: 0.113300 ms MarkObjects: 2.881700 ms  DeleteObjects: 0.115200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015183 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.03 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.458 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.4 MB.
+System memory in use after: 109.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3215.
+Total: 3.355700 ms (FindLiveObjects: 0.316800 ms CreateObjectMapping: 0.122400 ms MarkObjects: 2.809500 ms  DeleteObjects: 0.105600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.020311 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.65 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.43 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.423 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.73 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.23 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.4 MB.
+System memory in use after: 109.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3219.
+Total: 7.693600 ms (FindLiveObjects: 0.648500 ms CreateObjectMapping: 0.206900 ms MarkObjects: 6.750100 ms  DeleteObjects: 0.083400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016123 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.99 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.499 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.18 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.4 MB.
+System memory in use after: 109.6 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3223.
+Total: 3.519600 ms (FindLiveObjects: 0.353900 ms CreateObjectMapping: 0.144700 ms MarkObjects: 2.950000 ms  DeleteObjects: 0.069500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.026672 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 2.06 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.38 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.441 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 2.08 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.55 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.5 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3227.
+Total: 8.064500 ms (FindLiveObjects: 0.458200 ms CreateObjectMapping: 0.735500 ms MarkObjects: 6.677800 ms  DeleteObjects: 0.187600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016920 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 2.37 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.26 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.629 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 2.81 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.55 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.5 MB.
+System memory in use after: 109.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3231.
+Total: 5.865300 ms (FindLiveObjects: 0.557000 ms CreateObjectMapping: 0.321300 ms MarkObjects: 4.873000 ms  DeleteObjects: 0.109600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015900 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.03 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.22 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.837 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.08 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.5 MB.
+System memory in use after: 109.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3235.
+Total: 6.189000 ms (FindLiveObjects: 0.850100 ms CreateObjectMapping: 0.149200 ms MarkObjects: 5.114100 ms  DeleteObjects: 0.074000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.020579 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.97 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.038 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.19 ms.
+Unloading 2346 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.5 MB.
+System memory in use after: 109.7 MB.
+
+Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 3239.
+Total: 3.821300 ms (FindLiveObjects: 0.420200 ms CreateObjectMapping: 0.170000 ms MarkObjects: 3.160400 ms  DeleteObjects: 0.069300 ms)
 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file
