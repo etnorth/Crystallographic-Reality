@@ -20,6 +20,36 @@ public class Crystal : MonoBehaviour
     public GameObject parent; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this.
     public GameObject atom; // Atom prefab. Selected manually in Unity
     private GameObject[] atomObjects; // Array of atom objects.
+    /*private Dictionary<string, Color> atomColors = new Dictionary<string, Color>() // A Dictionary to apply colors depending on what atom it is
+    {
+        {"H", Color.white},
+        {"C", Color.black},
+        {"N", Color.blue},
+        {"O", Color.red},
+        {"F", Color.green}, {"Cl", Color.green},
+        {"Br", Color.red}, // Should be "Dark red"
+        {"I", Color.magenta}, //Should be "Dark violet"
+        {"P", Color.yellow}, // Should be "Orange"
+        {"S", Color.yellow},
+        {"B", Color.yellow}, // Should be "Beige
+        {"Li", Color.magenta}, 
+        {"Na", Color.magenta}, 
+        {"K", Color.magenta}, 
+        {"Rb", Color.magenta}, 
+        {"Cs", Color.magenta},
+        {"Fr", Color.magenta},
+        {"Be", Color.green}, // Should be "Dark green"
+        {"Mg", Color.green}, // Should be "Dark green"
+        {"Ca", Color.green}, // Should be "Dark green"
+        {"Sr", Color.green}, // Should be "Dark green"
+        {"Ba", Color.green}, // Should be "Dark green"
+        {"Ra", Color.green}, // Should be "Dark green"
+        {"Ti", Color.gray},
+        {"Fe", Color.yellow}, // Should be "Dark orange"
+
+        {"Si", Color.gray},
+        {"Cu", Color.yellow}, // I'd prefer "Orange"
+    };*/
     public double scaleChange = 0.1f; // A scale for making unit cell smaller/larger.
     
     
