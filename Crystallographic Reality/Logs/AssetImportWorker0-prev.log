@@ -15,12 +15,12 @@ C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Realit
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-64343
+60176
 Successfully changed project path to: C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Reality
 C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Reality
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 242.88 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 5.80 ms.
+Refreshing native plugins compatible for Editor in 76.77 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 2.89 ms.
 Initialize engine version: 2020.3.11f1 (99c7afb366b3)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path C:/Users/erlen/Documents/Github/Crystallographic-Reality/Crystallographic Reality/Assets
@@ -35,23 +35,23 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56164
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56620
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.012394 seconds.
+Registered in 0.002203 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 103.80 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.22 ms.
+Refreshing native plugins compatible for Editor in 53.25 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in 16.339 seconds
+- Completed reload, in  2.039 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.134974 seconds.
+Registered in 0.014027 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 78.18 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.22 ms.
+Refreshing native plugins compatible for Editor in 54.12 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.20 ms.
 [XR] OculusXRPlugin: registering subsystems
 [XR] Unable to register display lifecyle provider: [1]
 [XR] Oculus Input lifecycle provider registered.
@@ -63,62 +63,59 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  2.618 seconds
+- Completed reload, in  1.524 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.27 seconds
-Refreshing native plugins compatible for Editor in 0.94 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 2.24 ms.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
+Refreshing native plugins compatible for Editor in 0.95 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.23 ms.
 Unloading 2390 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 102.5 MB.
-System memory in use after: 102.5 MB.
+System memory in use before: 123.0 MB.
+System memory in use after: 123.0 MB.
 
-Unloading 39 unused Assets to reduce memory usage. Loaded Objects now: 2871.
-Total: 3.974600 ms (FindLiveObjects: 0.303800 ms CreateObjectMapping: 0.144300 ms MarkObjects: 3.440600 ms  DeleteObjects: 0.084300 ms)
+Unloading 39 unused Assets to reduce memory usage. Loaded Objects now: 2897.
+Total: 3.060600 ms (FindLiveObjects: 0.291600 ms CreateObjectMapping: 0.150700 ms MarkObjects: 2.509600 ms  DeleteObjects: 0.107200 ms)
 
 ========================================================================
 Received Import Request.
+  path: Assets/ExampleAssets/Tutorial
+  artifactKey: Guid(4aa865ce879c443d3b970d28b0499121) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ExampleAssets/Tutorial using Guid(4aa865ce879c443d3b970d28b0499121) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '938ee713edb9049b67cdb743846cd0d9') in 0.012731 seconds
+  Import took 0.018014 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.637552 seconds.
   path: Assets/Scripts/Crystal.cs
   artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '888b03f4e9e33d627483ce7aaf12a670') in 0.061052 seconds
-  Import took 0.068895 seconds .
-
-========================================================================
-Received Prepare
-Refreshing native plugins compatible for Editor in 22.43 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.18 ms.
-Unloading 30 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 54.5 MB.
-System memory in use after: 54.7 MB.
-
-Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 2871.
-Total: 3.130600 ms (FindLiveObjects: 0.309600 ms CreateObjectMapping: 0.194200 ms MarkObjects: 2.565600 ms  DeleteObjects: 0.059500 ms)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0422479fa10c56fc3f1dd0d29a52252f') in 0.031934 seconds
+  Import took 0.036591 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 426.646208 seconds.
-  path: Assets/Prefabs/Atom Variant.prefab
-  artifactKey: Guid(df6ced97f5d36cb44bf500ebc562d8b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Atom Variant.prefab using Guid(df6ced97f5d36cb44bf500ebc562d8b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f71e153ff3bb17b0e4f21fd8294b8c15') in 0.125179 seconds
-  Import took 0.133739 seconds .
+  Time since last request: 0.009151 seconds.
+  path: Assets/Scripts/Crystal.cs
+  artifactKey: Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Crystal.cs using Guid(d59da744eb441fb43a977a4b91997b2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0422479fa10c56fc3f1dd0d29a52252f') in 0.003413 seconds
+  Import took 0.010403 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 16.688559 seconds.
-  path: Assets/Prefabs/Hydrogen.prefab
-  artifactKey: Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Hydrogen.prefab using Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7592daf4b3cd1b0d4df2100bc2775a55') in 0.029574 seconds
-  Import took 0.037681 seconds .
+  Time since last request: 617.682311 seconds.
+  path: Packages/com.unity.xr.windowsmr/Tests/Runtime/Resources/Materials/YFlipColorMesh.mat
+  artifactKey: Guid(af4e1f6f711c4cb44935f0bb5fce8c5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.unity.xr.windowsmr/Tests/Runtime/Resources/Materials/YFlipColorMesh.mat using Guid(af4e1f6f711c4cb44935f0bb5fce8c5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5744f85aebe5c12f8942c09522b110d5') in 0.216139 seconds
+  Import took 0.225166 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.067955 seconds.
+Registered in 0.021440 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.89 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.31 ms.
+Refreshing native plugins compatible for Editor in 1.55 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.38 ms.
 NullReferenceException: Object reference not set to an instance of an object
   at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
   at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
@@ -126,244 +123,15 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.465 seconds
+- Completed reload, in  2.172 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.16 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.28 ms.
+Refreshing native plugins compatible for Editor in 1.33 ms, found 16 plugins.
+Preloading 2 native plugins for Editor in 0.25 ms.
 Unloading 2347 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 108.8 MB.
-System memory in use after: 109.0 MB.
+System memory in use before: 129.5 MB.
+System memory in use after: 129.7 MB.
 
-Unloading 34 unused Assets to reduce memory usage. Loaded Objects now: 2881.
-Total: 3.523100 ms (FindLiveObjects: 0.259200 ms CreateObjectMapping: 0.144600 ms MarkObjects: 3.040400 ms  DeleteObjects: 0.077700 ms)
+Unloading 32 unused Assets to reduce memory usage. Loaded Objects now: 2940.
+Total: 5.863700 ms (FindLiveObjects: 0.584400 ms CreateObjectMapping: 0.355900 ms MarkObjects: 4.844100 ms  DeleteObjects: 0.076800 ms)
 
-========================================================================
-Received Import Request.
-  Time since last request: 207.403401 seconds.
-  path: Assets/Prefabs/Hydrogen.prefab
-  artifactKey: Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Hydrogen.prefab using Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ed249a57e9728d52ea2c2a9104f9162a') in 0.084621 seconds
-  Import took 0.092785 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.622523 seconds.
-  path: Assets/Prefabs/Hydrogen.prefab
-  artifactKey: Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Hydrogen.prefab using Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f4ea0565797b352d45311e31353f2f6') in 0.023837 seconds
-  Import took 0.031459 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.581498 seconds.
-  path: Assets/Prefabs/Hydrogen.prefab
-  artifactKey: Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Hydrogen.prefab using Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbfa1d7e46c9cf8fe1b4eca2dd77f571') in 0.021353 seconds
-  Import took 0.028666 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 73.971745 seconds.
-  path: Assets/Prefabs/Hydrogen.prefab
-  artifactKey: Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Hydrogen.prefab using Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b6a0664faf8f4dd88a4afb00c47b2152') in 0.032618 seconds
-  Import took 0.039992 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 1.331967 seconds.
-  path: Assets/Prefabs/Hydrogen.prefab
-  artifactKey: Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Hydrogen.prefab using Guid(b8302634e8e1ea54da2424754f5e702f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '33c521b96106ee961911bb718d168a26') in 0.019086 seconds
-  Import took 0.026980 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.020635 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 3.48 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.32 ms.
-NullReferenceException: Object reference not set to an instance of an object
-  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
-  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
-
-(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  2.155 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.91 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.24 ms.
-Unloading 2347 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 108.9 MB.
-System memory in use after: 109.1 MB.
-
-Unloading 35 unused Assets to reduce memory usage. Loaded Objects now: 2885.
-Total: 5.958700 ms (FindLiveObjects: 0.788100 ms CreateObjectMapping: 0.550300 ms MarkObjects: 4.458700 ms  DeleteObjects: 0.159500 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 839.422410 seconds.
-  path: Assets/Tree.prefab
-  artifactKey: Guid(fdc358169e476c846b32ab5f130d1001) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Tree.prefab using Guid(fdc358169e476c846b32ab5f130d1001) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cc7ad8b2697e173ee80c85df63772d18') in 0.523849 seconds
-  Import took 0.532759 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 35.880829 seconds.
-  path: Assets/New Terrain.asset
-  artifactKey: Guid(ad45616d02ecb404ba58181c2194bb95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/New Terrain.asset using Guid(ad45616d02ecb404ba58181c2194bb95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66f12c30ed6eb55ff312a66de98914c8') in 0.048786 seconds
-  Import took 0.081604 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.015347 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.90 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.22 ms.
-NullReferenceException: Object reference not set to an instance of an object
-  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
-  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
-
-(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.811 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.91 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.18 ms.
-Unloading 2347 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 110.6 MB.
-System memory in use after: 110.3 MB.
-
-Unloading 35 unused Assets to reduce memory usage. Loaded Objects now: 2930.
-Total: 3.281800 ms (FindLiveObjects: 0.253500 ms CreateObjectMapping: 0.109700 ms MarkObjects: 2.326200 ms  DeleteObjects: 0.591500 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 393.930728 seconds.
-  path: Assets/Tree.prefab
-  artifactKey: Guid(fdc358169e476c846b32ab5f130d1001) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Tree.prefab using Guid(fdc358169e476c846b32ab5f130d1001) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b94123df65dafff45f8eca0921d1c33') in 0.205741 seconds
-  Import took 0.218994 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.016296 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.87 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.21 ms.
-NullReferenceException: Object reference not set to an instance of an object
-  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:249 
-  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Users\erlen\Documents\Github\Crystallographic-Reality\Crystallographic Reality\Library\PackageCache\com.unity.xr.oculus@1.9.1\Runtime\OculusLoader.cs:234 
-
-(Filename: Library/PackageCache/com.unity.xr.oculus@1.9.1/Runtime/OculusLoader.cs Line: 249)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.583 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.97 ms, found 16 plugins.
-Preloading 2 native plugins for Editor in 0.19 ms.
-Unloading 2347 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 110.1 MB.
-System memory in use after: 110.3 MB.
-
-Unloading 33 unused Assets to reduce memory usage. Loaded Objects now: 2934.
-Total: 3.165400 ms (FindLiveObjects: 0.284900 ms CreateObjectMapping: 0.116800 ms MarkObjects: 2.692200 ms  DeleteObjects: 0.070300 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 2425.063936 seconds.
-  path: Packages/com.unity.settings-manager/package.json
-  artifactKey: Guid(3001f7491ac66e34a9694543d9f8b1ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Packages/com.unity.settings-manager/package.json using Guid(3001f7491ac66e34a9694543d9f8b1ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5365adc159486a8a7f0ed0680cd8546a') in 0.130354 seconds
-  Import took 0.137100 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 6.433563 seconds.
-  path: Assets/Tree_Textures/diffuse.png
-  artifactKey: Guid(941deb350dd7e8d47a7ad955c2bee3e2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Tree_Textures/diffuse.png using Guid(941deb350dd7e8d47a7ad955c2bee3e2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '67a77046960a1104a80e0fe8fd29c4c3') in 0.058702 seconds
-  Import took 0.065445 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000394 seconds.
-  path: Assets/Tree_Textures/shadow.png
-  artifactKey: Guid(8a493be7ee7dac641a3fbd3a8024384f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Tree_Textures/shadow.png using Guid(8a493be7ee7dac641a3fbd3a8024384f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '724621adad55323cf3b440c5fc4e1f99') in 0.026036 seconds
-  Import took 0.032392 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000331 seconds.
-  path: Assets/Tree_Textures/translucency_gloss.png
-  artifactKey: Guid(39790f75ed2109a46ab642b0fcbabdf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Tree_Textures/translucency_gloss.png using Guid(39790f75ed2109a46ab642b0fcbabdf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c79c4b7a35eab2155cb903fbec0255a8') in 0.026628 seconds
-  Import took 0.037907 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.001139 seconds.
-  path: Assets/Tree_Textures/normal_specular.png
-  artifactKey: Guid(b3dd49b99ef52e54cb3838c88a4d68f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Tree_Textures/normal_specular.png using Guid(b3dd49b99ef52e54cb3838c88a4d68f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '09f35089258a1054cd1cf80491253e80') in 0.026169 seconds
-  Import took 0.033486 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 2.898045 seconds.
-  path: Assets/ExampleAssets
-  artifactKey: Guid(83b7bbecd9fac4db9824039903a1eea8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ExampleAssets using Guid(83b7bbecd9fac4db9824039903a1eea8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2bcfb1b979a28109c01204c06ad9a053') in 0.013084 seconds
-  Import took 0.022557 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 6.392771 seconds.
-  path: Assets/Tree_Textures
-  artifactKey: Guid(bb4161662b753ff45a8b12a58323b2b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Tree_Textures using Guid(bb4161662b753ff45a8b12a58323b2b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '64d96fca0ee6467cba2ba1fcfce1ae93') in 0.015009 seconds
-  Import took 0.023777 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 7.044628 seconds.
-  path: Assets/Samples
-  artifactKey: Guid(1d686f317bf9dfa41a129b332b532637) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Samples using Guid(1d686f317bf9dfa41a129b332b532637) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fc1a7b5bb4595d458bedecb5e2ad70e2') in 0.013361 seconds
-  Import took 0.022641 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 2.016946 seconds.
-  path: Assets/Samples/XR Interaction Toolkit
-  artifactKey: Guid(eb022da2c8c375d418c6d538557f7bc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Samples/XR Interaction Toolkit using Guid(eb022da2c8c375d418c6d538557f7bc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f0218e4d9af0950ad701a5c11975cc7') in 0.013957 seconds
-  Import took 0.019293 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.920073 seconds.
-  path: Assets/Samples/XR Interaction Toolkit/1.0.0-pre.4
-  artifactKey: Guid(9fd57e04792d01447a24edd1bda8293a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Samples/XR Interaction Toolkit/1.0.0-pre.4 using Guid(9fd57e04792d01447a24edd1bda8293a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a390cba956dc4bf19d6f64398cb8117f') in 0.013752 seconds
-  Import took 0.022843 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 93.985718 seconds.
-  path: Assets/XR/Settings/Open XR Package Settings.asset
-  artifactKey: Guid(69502b436ea168249b034e1e4e096331) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/XR/Settings/Open XR Package Settings.asset using Guid(69502b436ea168249b034e1e4e096331) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '59b3398f6f9cea49692af7edc1e0464c') in 0.032766 seconds
-  Import took 0.041172 seconds .
-
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

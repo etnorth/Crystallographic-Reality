@@ -20,7 +20,7 @@ public class Crystal : MonoBehaviour
     public GameObject parent; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this.
     public GameObject atom; // Atom prefab. Selected manually in Unity
     private GameObject[] atomObjects; // Array of atom objects.
-    /*private Dictionary<string, Color> atomColors = new Dictionary<string, Color>() // A Dictionary to apply colors depending on what atom it is
+    private Dictionary<string, Color> atomColors = new Dictionary<string, Color>() // A Dictionary to apply colors depending on what atom it is
     {
         {"H", Color.white},
         {"C", Color.black},
@@ -29,28 +29,20 @@ public class Crystal : MonoBehaviour
         {"F", Color.green}, {"Cl", Color.green},
         {"Br", Color.red}, // Should be "Dark red"
         {"I", Color.magenta}, //Should be "Dark violet"
+        // Skipped noble gases
         {"P", Color.yellow}, // Should be "Orange"
         {"S", Color.yellow},
         {"B", Color.yellow}, // Should be "Beige
-        {"Li", Color.magenta}, 
-        {"Na", Color.magenta}, 
-        {"K", Color.magenta}, 
-        {"Rb", Color.magenta}, 
-        {"Cs", Color.magenta},
-        {"Fr", Color.magenta},
-        {"Be", Color.green}, // Should be "Dark green"
-        {"Mg", Color.green}, // Should be "Dark green"
-        {"Ca", Color.green}, // Should be "Dark green"
-        {"Sr", Color.green}, // Should be "Dark green"
-        {"Ba", Color.green}, // Should be "Dark green"
-        {"Ra", Color.green}, // Should be "Dark green"
+        {"Li", Color.magenta}, {"Na", Color.magenta}, {"K", Color.magenta}, {"Rb", Color.magenta}, {"Cs", Color.magenta},{"Fr", Color.magenta}, // Alkali metals
+        {"Be", Color.green}, {"Mg", Color.green}, {"Ca", Color.green}, {"Sr", Color.green}, {"Ba", Color.green}, {"Ra", Color.green}, // Alkaline earth metals - Should be "Dark green"
         {"Ti", Color.gray},
         {"Fe", Color.yellow}, // Should be "Dark orange"
+        {"other", Color.cyan}, // Should be "Pink"
 
         {"Si", Color.gray},
         {"Cu", Color.yellow}, // I'd prefer "Orange"
-    };*/
-    public double scaleChange = 0.1f; // A scale for making unit cell smaller/larger.
+    };
+    public float scaleChange; // A scale for making unit cell smaller/larger.
     
     
 
@@ -244,26 +236,34 @@ public class Crystal : MonoBehaviour
 
         //atomObjects = new GameObject[NumOfAtoms]; // Initializes the array of AtomObjects with a set length so we can fill the array iteratively
         List<GameObject> atomObjectsList = new List<GameObject>();
+        List<string> atomElementsList = new List<string>();
+
         Vector3 equivalentPosition; // Initializes position for equivalent atoms (atoms on edges or corners will be duplicated in other edges and corners)
         List<GameObject> equivalentAtomObjects = new List<GameObject>(); // Creates a list for the new atoms
+        List<string> equivalentAtomElements = new List<string>(); // Creates a list for the new atomElements
         int equivalentCount = 0;
 
         
         for (int i = 0; i < NumOfAtoms; i++)
         {
             atomObjectsList.Add(Instantiate(atom, parent.transform, false)); // Creates an atom with its position relative to the parent
-            atomObjectsList[i].transform.Translate(atomPos[i]); // Sets the atom position to match that of the .xyz-file (can do scaling in Update() )
+            atomObjectsList[i].transform.localPosition = atomPos[i]; // Sets the atom position to match that of the .xyz-file (can do scaling in Update() )
+            atomElementsList.Add(atomElement[i]); // Adds the atoms element to the list we will be using
+            SetAtomColor(atomObjectsList[i], atomElement[i]); // Sets the atom's color based on it's element
 
             // Creates atoms not in the .xyz-file, but still useful or necessary
             for (int j = 0; j < 3; j++) // Iterates over x, y and z
             {
                 if (Mathf.Abs(atomPos[i][j]) < 0.0001f) // If atom position is approx. 0
                 {
-                    equivalentPosition = atomPos[i];
-
+                    equivalentPosition = atomPos[i]; // Updates the equivalent position
                     equivalentPosition[j] = cellLength[j]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
+
                     equivalentAtomObjects.Add(Instantiate(atom, parent.transform, false)); // Instantiates an equivalent atom to the original
-                    equivalentAtomObjects[equivalentCount].transform.Translate(equivalentPosition); // Sets the equivalent position
+                    equivalentAtomObjects[equivalentCount].transform.localPosition = equivalentPosition; // Sets the equivalent position
+                    equivalentAtomElements.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
+                    SetAtomColor(equivalentAtomObjects[equivalentCount], equivalentAtomElements[equivalentCount]); // Sets the atom's color based on it's element
+
                     Debug.Log("1st created " + equivalentPosition + " from " + atomPos[i]);
                     equivalentCount++;
                 }
@@ -273,6 +273,7 @@ public class Crystal : MonoBehaviour
         
         // Solves the cases where two coordinates are zero. NOTE: This creates duplicates of atoms as (x,1,0) and (x,0,1) from previous loop are flipped to (x,1,1). Will destroy duplicates.
         List<GameObject> moreEquivalentAtomObjects = new List<GameObject>();
+        List<string> moreEquivalentAtomElements = new List<string>();
         equivalentCount = 0;
 
         for (int i = 0; i < equivalentAtomObjects.Count; i++)
@@ -283,10 +284,13 @@ public class Crystal : MonoBehaviour
                 if (Mathf.Abs(equivalentAtomObjects[i].transform.localPosition[j]) < 0.0001f) // If atom position is approx. 0
                 {
                     equivalentPosition = equivalentAtomObjects[i].transform.localPosition;
-
                     equivalentPosition[j] = cellLength[j]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
+
                     moreEquivalentAtomObjects.Add(Instantiate(atom, parent.transform, false)); // Instantiates an equivalent atom to the original
-                    moreEquivalentAtomObjects[equivalentCount].transform.Translate(equivalentPosition); // Sets the equivalent position
+                    moreEquivalentAtomObjects[equivalentCount].transform.localPosition = equivalentPosition; // Sets the equivalent position
+                    moreEquivalentAtomElements.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
+                    SetAtomColor(moreEquivalentAtomObjects[equivalentCount], moreEquivalentAtomElements[equivalentCount]); // Sets the atom's color based on it's element
+
                     Debug.Log("2nd created " + equivalentPosition + " from " + equivalentAtomObjects[i].transform.localPosition);
                     equivalentCount++;
                 }
@@ -295,6 +299,7 @@ public class Crystal : MonoBehaviour
 
         // Solves the case where three coordinates are zero (origin)
         List<GameObject> evenMoreEquivalentAtomObjects = new List<GameObject>();
+        List<string> evenMoreEquivalentAtomElements = new List<string>();
         equivalentCount = 0;
 
         for (int i = 0; i < moreEquivalentAtomObjects.Count; i++)
@@ -304,10 +309,13 @@ public class Crystal : MonoBehaviour
             if (Mathf.Abs(moreEquivalentAtomObjects[i].transform.localPosition[2]) < 0.0001f) // If atom position is approx. 0
             {
                 equivalentPosition = moreEquivalentAtomObjects[i].transform.localPosition;
-
                 equivalentPosition[2] = cellLength[2]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
+
                 evenMoreEquivalentAtomObjects.Add(Instantiate(atom, parent.transform, false)); // Instantiates an equivalent atom to the original
-                evenMoreEquivalentAtomObjects[equivalentCount].transform.Translate(equivalentPosition); // Sets the equivalent position
+                evenMoreEquivalentAtomObjects[equivalentCount].transform.localPosition = equivalentPosition; // Sets the equivalent position
+                evenMoreEquivalentAtomElements.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
+                SetAtomColor(evenMoreEquivalentAtomObjects[equivalentCount], evenMoreEquivalentAtomElements[equivalentCount]); // Sets the atom's color based on it's element
+
                 Debug.Log("3rd created " + equivalentPosition + " from " + moreEquivalentAtomObjects[i].transform.localPosition);
                 equivalentCount++;
             }
@@ -319,18 +327,87 @@ public class Crystal : MonoBehaviour
         atomObjectsList.AddRange(moreEquivalentAtomObjects);
         atomObjectsList.AddRange(evenMoreEquivalentAtomObjects);
 
+        atomElementsList.AddRange(equivalentAtomElements);
+        atomElementsList.AddRange(moreEquivalentAtomElements);
+        atomElementsList.AddRange(evenMoreEquivalentAtomElements);
+
 
         // Destroys duplicate atoms
         for (int i = 0; i < atomObjectsList.Count-1; i++)
         {
             if (atomObjectsList[i].transform.position == atomObjectsList[i+1].transform.position) // If position vectors are equal (Vector3 includes approximation)
             {
-                Destroy(atomObjectsList[i + 1]);
+                Destroy(atomObjectsList[i + 1]); // Destroys atom
+                atomObjectsList.RemoveAt(i + 1); // Removes the now destroyed atom from the list
+                atomElementsList.RemoveAt(i + 1); // Removes the element so we have track of it
             }
         }
 
-
         atomObjects = atomObjectsList.ToArray(); // Converts the atomObjectsList to an array (arrays are better, faster, harder, stronger)
+        atomElement = atomElementsList.ToArray(); // Updates the atomElement array to match all our atoms
+
+
+        // Adds grid lines for the unit cell (Done really dirty, but quicker than thinking out an algorithm)
+        GameObject gridLineX = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        GameObject gridLineY = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        GameObject gridLineZ = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        gridLineX.name = "X";
+        gridLineY.name = "Y";
+        gridLineZ.name = "Z";
+        gridLineX.transform.SetParent(parent.transform, false);
+        gridLineY.transform.SetParent(parent.transform, false);
+        gridLineZ.transform.SetParent(parent.transform, false);
+        gridLineX.transform.localScale = new Vector3(0.05f, cellLength[0] / 2, 0.05f);
+        gridLineY.transform.localScale = new Vector3(0.05f, cellLength[1] / 2, 0.05f);
+        gridLineZ.transform.localScale = new Vector3(0.05f, cellLength[2] / 2, 0.05f);
+        gridLineX.transform.Translate(cellLength[0] / 2f, 0, 0);
+        gridLineY.transform.Translate(0, 0, cellLength[1] / 2f); // y in crystallography is z in Unity
+        gridLineZ.transform.Translate(0, cellLength[2] / 2f, 0); // z in crystallography is y in Unity
+        gridLineX.transform.Rotate(0, 0, 90);
+        gridLineY.transform.Rotate(90, 0, 0);
+        gridLineZ.transform.Rotate(0, 0, 0); // Standard is along vertical axis
+
+        gridLineX.transform.RotateAround(parent.transform.position, new Vector3(0, cellLength[2], 0), (cellAngle[2] - 90) / 2); // gamma half
+        gridLineY.transform.RotateAround(parent.transform.position, new Vector3(0, cellLength[2], 0), (90 - cellAngle[2]) / 2); // gamma half
+        gridLineZ.transform.RotateAround(parent.transform.position, gridLineX.transform.localPosition, 90 - cellAngle[0]); // alpha. Rotate the z-axis from origin along the new x-axis by "90-alpha" degrees
+        gridLineZ.transform.RotateAround(parent.transform.position, gridLineY.transform.localPosition, cellAngle[1] - 90); // beta. Rotate the z-axis from origin along the new y-axis by "beta-90" degrees
+
+
+
+        GameObject gridLineXA = Instantiate(gridLineX, parent.transform, false);
+        gridLineXA.transform.localPosition = new Vector3(cellLength[0] / 2f, cellLength[2], 0);
+        GameObject gridLineXB = Instantiate(gridLineX, parent.transform, false);
+        gridLineXB.transform.localPosition = new Vector3(cellLength[0] / 2f, 0, cellLength[1]);
+        GameObject gridLineXC = Instantiate(gridLineX, parent.transform, false);
+        gridLineXC.transform.localPosition = new Vector3(cellLength[0] / 2f, cellLength[2], cellLength[1]);
+
+        GameObject gridLineYA = Instantiate(gridLineY, parent.transform, false);
+        gridLineYA.transform.localPosition = new Vector3(cellLength[0], 0, cellLength[1] / 2f);
+        GameObject gridLineYB = Instantiate(gridLineY, parent.transform, false);
+        gridLineYB.transform.localPosition = new Vector3(0, cellLength[2], cellLength[1] / 2f);
+        GameObject gridLineYC = Instantiate(gridLineY, parent.transform, false);
+        gridLineYC.transform.localPosition = new Vector3(cellLength[0], cellLength[2], cellLength[1] / 2f);
+
+        GameObject gridLineZA = Instantiate(gridLineZ, parent.transform, false);
+        gridLineZA.transform.localPosition = new Vector3(cellLength[0], cellLength[2] / 2f, 0);
+        GameObject gridLineZB = Instantiate(gridLineZ, parent.transform, false);
+        gridLineZB.transform.localPosition = new Vector3(0, cellLength[2] / 2f, cellLength[1]);
+        GameObject gridLineZC = Instantiate(gridLineZ, parent.transform, false);
+        gridLineZC.transform.localPosition = new Vector3(cellLength[0], cellLength[2] / 2f, cellLength[1]);
+    }
+
+    // Called in CreateCell
+    void SetAtomColor(GameObject atom, string element)
+    {
+        // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
+        try
+        {
+            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors[element]); // Changes the material color of the gameobject's renderer component
+        }
+        catch (KeyNotFoundException) // If atom is not in the dictonary, default to "other"
+        {
+            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors["other"]);
+        }
     }
 
     /* Deprecated

@@ -38,7 +38,7 @@ The follwing list includes wanted features, some might be doable during summer, 
     - [ ] Search the web
   - [ ] Scale crystal up/down
     - Figure out XR Interaction Toolkit
-    - Scale XR Rig. Gives same effect, but likely easier (and can keep crystal in nm)
+    - Scale XR Rig. Gives same effect, but likely easier (and can keep crystal in Å)
   - [ ] Teleport movement
   - [ ] Turn with joystick
 - [ ] Add symmetries

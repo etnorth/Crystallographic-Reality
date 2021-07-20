@@ -1568,7 +1568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 1734843215}
   atom: {fileID: 5581097201470644699, guid: 63bf732bf948af34dbe9bccb4da91532, type: 3}
-  scaleChange: 0.10000000149011612
+  scaleChange: 0.1
 --- !u!4 &1734843217
 Transform:
   m_ObjectHideFlags: 0
