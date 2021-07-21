@@ -21,7 +21,7 @@ The follwing list includes wanted features, some might be doable during summer, 
   - [x] atom_positions
     - Handled by converting .cif to .xyz
   - [ ] Ball-and-Stick model
-    - [ ] Ball
+    - [x] Ball
       - Use Dictionary to change color of the atoms
         - Might need to re-structure so atomElement and atomPos functions together
         No, just instantiate with color change immediately and apply same color for equivalentAtom as the other atom
@@ -29,8 +29,8 @@ The follwing list includes wanted features, some might be doable during summer, 
           - Add a tag to the GameObject when Instantiating (if possible?)
     - [ ] Stick
       - Algorithm to create sticks (heavy work)
-      - pdb instead of xyz?? (easier, but requires re-structuring code)
-  - [ ] Unit Cell grid
+      - pdb has sticks. Use pdb instead of xyz?? (easier, but requires making a ConvertCiftoPDB and ReadPDB function)
+  - [x] Unit Cell grid
     - Can scale down cylinders to rods (0.05,1,0.05) and place them according to Cell_length (and angle eventually)
     Create a prefab with scaling (and shader?), and Instantiate in CreateCell)() function
 - [ ] Create a functioning player, with working hands
@@ -42,5 +42,10 @@ The follwing list includes wanted features, some might be doable during summer, 
   - [ ] Teleport movement
   - [ ] Turn with joystick
 - [ ] Add symmetries
-  - Create Algorithm?
+  - Create Algorithm
+    - [ ] Hermann-Mauguin Space Group
+      - [x] Lattice Type (P, I, F) etc.
+      - [ ] Screw axes
+      - [ ] Glide planes
+    - [ ] Convert Space Group to Point Group ??
   - Read directly from cif2cell output and convert symmetry matrices into mirrors and axes

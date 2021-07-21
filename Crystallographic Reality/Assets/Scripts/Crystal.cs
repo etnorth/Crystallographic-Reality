@@ -15,30 +15,33 @@ public class Crystal : MonoBehaviour
     private Vector3[] atomPos; // The position of each atom
     private Vector3 cellLength; // Length of the sides of the cell
     private Vector3 cellAngle; // Angle of the lattice vectors
+    private string spaceGroup;
 
 
-    public GameObject parent; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this.
-    public GameObject atom; // Atom prefab. Selected manually in Unity
+    public GameObject crystal; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this. In hindsight I could have skipped this entirely and made this in the script, but this works fine.
+    public GameObject atom; // Atom prefab. Selected manually in Unity. This could also have been made by using GameObject.CreatePrimitive() and then setting constraints via the script
     private GameObject[] atomObjects; // Array of atom objects.
     private Dictionary<string, Color> atomColors = new Dictionary<string, Color>() // A Dictionary to apply colors depending on what atom it is
     {
+        // Using https://en.wikipedia.org/wiki/CPK_coloring#Typical_assignments
         {"H", Color.white},
         {"C", Color.black},
         {"N", Color.blue},
         {"O", Color.red},
         {"F", Color.green}, {"Cl", Color.green},
-        {"Br", Color.red}, // Should be "Dark red"
-        {"I", Color.magenta}, //Should be "Dark violet"
-        // Skipped noble gases
-        {"P", Color.yellow}, // Should be "Orange"
+        {"Br", new Color(153/255f, 34/255f, 0, 1)}, // "Dark red"
+        {"I", new Color(102/255f, 0, 187/255f, 1)}, //"Dark violet"
+        // Skipped noble gases (He, Ne, Ar, Xe, Kr use "Cyan")
+        {"P", new Color(255/255f, 153/255f, 0, 1)}, // "Orange"
         {"S", Color.yellow},
-        {"B", Color.yellow}, // Should be "Beige
-        {"Li", Color.magenta}, {"Na", Color.magenta}, {"K", Color.magenta}, {"Rb", Color.magenta}, {"Cs", Color.magenta},{"Fr", Color.magenta}, // Alkali metals
-        {"Be", Color.green}, {"Mg", Color.green}, {"Ca", Color.green}, {"Sr", Color.green}, {"Ba", Color.green}, {"Ra", Color.green}, // Alkaline earth metals - Should be "Dark green"
+        {"B", new Color(255/255f, 170/255f, 119/255f, 1)}, // "Beige
+        {"Li", Color.magenta}, {"Na", Color.magenta}, {"K", Color.magenta}, {"Rb", Color.magenta}, {"Cs", Color.magenta},{"Fr", Color.magenta}, // Alkali metals (Should be "Violet")
+        {"Be", new Color(0, 119/255f, 0, 1)}, {"Mg", new Color(0, 119/255f, 0, 1)}, {"Ca", new Color(0, 119/255f, 0, 1)}, {"Sr", new Color(0, 119/255f, 0, 1)}, {"Ba", new Color(0, 119/255f, 0, 1)}, {"Ra", new Color(0, 119/255f, 0, 1)}, // Alkaline earth metals ("Dark green")
         {"Ti", Color.gray},
-        {"Fe", Color.yellow}, // Should be "Dark orange"
-        {"other", Color.cyan}, // Should be "Pink"
+        {"Fe", new Color(221/255f, 119/255f, 0, 1)}, // "Dark orange"
+        {"other", new Color(221/255f, 119/255f, 1, 1)}, // "Pink"
 
+        // Not from "Typical Assignments
         {"Si", Color.gray},
         {"Cu", Color.yellow}, // I'd prefer "Orange"
     };
@@ -59,6 +62,7 @@ public class Crystal : MonoBehaviour
         }
         ReadXYZ(Path.GetDirectoryName(infile) + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
         CreateCell();
+        AddSymmetry();
 
 
         /*
@@ -120,15 +124,16 @@ public class Crystal : MonoBehaviour
             Debug.Log("Cannot confirm that the conversion worked."); // Prints to the Unity Console
         }
 
-        // .xyz does not include the lattice vectors, so we fetch those manually from the .cif-file
+        // .xyz does not include the lattice vectors, so we fetch those manually from the .cif-file. We also fetch the spacegroup
 
         Debug.Log("Fetching cell parameters manually"); // Prints to the Unity Console
         string[] lines = File.ReadAllLines(infile); // Reads the .cif file as an array of lines
         int i = 0; // Counter for cellLength
         int j = 0; // Counter for cellAngle
+        int k = 0; // Counter for spaceGroup (could have combined these to a counter for all needed parameters)
         foreach (string line in lines)
         {
-            if (line.Contains("_cell_length")) // Looks for the length of the sides of the cell
+            if (line.Contains("_cell_length")) // Looks for the length of the sides of the cell (a, b, c)
             {
                 string[] words = line.Split(' '); // Splits the line into an array of words. Splits by whitespace
                 if (words[1].Contains("(")) // If the file has included uncertainty, remove it.
@@ -136,10 +141,10 @@ public class Crystal : MonoBehaviour
                     words[1] = words[1].Remove(words[1].Length - 3);
                 }
                 cellLength[i] = float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture); // Sets index i to the length (.cif uses x->y->z so 0->1->2 should be fine)
-                
+
                 i++;
             }
-            else if (line.Contains("_cell_angle"))
+            else if (line.Contains("_cell_angle")) // Looks for the angles (alpha, beta, gamma)
             {
                 string[] words = line.Split(' '); // Splits the line into an array of words. Splits by whitespace
                 if (words[1].Contains("(")) // If the file has included uncertainty, remove it. Likely not the case for angles.
@@ -147,10 +152,17 @@ public class Crystal : MonoBehaviour
                     words[1] = words[1].Remove(words[1].Length - 3);
                 }
                 cellAngle[j] = float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture); // Sets index i to the angle (.cif uses x->y->z so 0->1->2 should be fine)
-                
+
                 j++;
             }
-            else if (i == 2 && j == 2) // When we have gotten all lengths and angles, stop the loop (saves time)
+            else if (line.Contains("_symmetry_space_group_name_H-M")) // Looks for the Space Group by Hermann-Mauguin notation
+            {
+                string[] words = line.Split('\''); // Splits the line into an array of words. Splits by '
+                spaceGroup = words[1]; // [0] = _symmetry_space_group_name_H-M , [1] = F d -3 m S, [2] = \n
+
+                k++;
+            }
+            else if (i == 2 && j == 2 && k ==1) // When we have gotten all lengths and angles, stop the loop (saves time)
             {
                 break;
             }
@@ -234,7 +246,9 @@ public class Crystal : MonoBehaviour
         }
         */
 
-        //atomObjects = new GameObject[NumOfAtoms]; // Initializes the array of AtomObjects with a set length so we can fill the array iteratively
+        GameObject atomParent = new GameObject("Atoms"); // Creates an empty GameObject to contain all atoms
+        atomParent.transform.parent = crystal.transform; // Sets the atomParent as a child of the Crystal
+        atomParent.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the atomParent is in the Crystal's (0,0,0) and not the worlds' (0,0,0)
         List<GameObject> atomObjectsList = new List<GameObject>();
         List<string> atomElementsList = new List<string>();
 
@@ -246,10 +260,11 @@ public class Crystal : MonoBehaviour
         
         for (int i = 0; i < NumOfAtoms; i++)
         {
-            atomObjectsList.Add(Instantiate(atom, parent.transform, false)); // Creates an atom with its position relative to the parent
-            atomObjectsList[i].transform.localPosition = atomPos[i]; // Sets the atom position to match that of the .xyz-file (can do scaling in Update() )
+            atomObjectsList.Add(Instantiate(atom, atomParent.transform, false)); // Creates an atom with its position relative to the parent
             atomElementsList.Add(atomElement[i]); // Adds the atoms element to the list we will be using
-            SetAtomColor(atomObjectsList[i], atomElement[i]); // Sets the atom's color based on it's element
+            atomObjectsList[i].transform.localPosition = atomPos[i]; // Sets the atom position to match that of the .xyz-file (can do scaling in Update() )
+            SetAtomColor(atomObjectsList[i], atomElement[i]); // Sets the atom's color based on its element
+            atomObjectsList[i].name = atomElement[i] + " " +  atomPos[i]; // Names the atom so they are easier to distinguish in the Unity Editor
 
             // Creates atoms not in the .xyz-file, but still useful or necessary
             for (int j = 0; j < 3; j++) // Iterates over x, y and z
@@ -259,10 +274,11 @@ public class Crystal : MonoBehaviour
                     equivalentPosition = atomPos[i]; // Updates the equivalent position
                     equivalentPosition[j] = cellLength[j]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
 
-                    equivalentAtomObjects.Add(Instantiate(atom, parent.transform, false)); // Instantiates an equivalent atom to the original
-                    equivalentAtomObjects[equivalentCount].transform.localPosition = equivalentPosition; // Sets the equivalent position
+                    equivalentAtomObjects.Add(Instantiate(atom, atomParent.transform, false)); // Instantiates an equivalent atom to the original
                     equivalentAtomElements.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
-                    SetAtomColor(equivalentAtomObjects[equivalentCount], equivalentAtomElements[equivalentCount]); // Sets the atom's color based on it's element
+                    equivalentAtomObjects[equivalentCount].transform.localPosition = equivalentPosition; // Sets the equivalent position
+                    SetAtomColor(equivalentAtomObjects[equivalentCount], equivalentAtomElements[equivalentCount]); // Sets the atom's color based on its element
+                    equivalentAtomObjects[equivalentCount].name = equivalentAtomElements[equivalentCount] + " " + equivalentPosition; // Names the atom so they are easier to distinguish in the Unity Editor
 
                     Debug.Log("1st created " + equivalentPosition + " from " + atomPos[i]);
                     equivalentCount++;
@@ -286,10 +302,11 @@ public class Crystal : MonoBehaviour
                     equivalentPosition = equivalentAtomObjects[i].transform.localPosition;
                     equivalentPosition[j] = cellLength[j]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
 
-                    moreEquivalentAtomObjects.Add(Instantiate(atom, parent.transform, false)); // Instantiates an equivalent atom to the original
+                    moreEquivalentAtomObjects.Add(Instantiate(atom, atomParent.transform, false)); // Instantiates an equivalent atom to the original
+                    moreEquivalentAtomElements.Add(equivalentAtomElements[i]); // Adds the atomElement for the equivalent atom
                     moreEquivalentAtomObjects[equivalentCount].transform.localPosition = equivalentPosition; // Sets the equivalent position
-                    moreEquivalentAtomElements.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
-                    SetAtomColor(moreEquivalentAtomObjects[equivalentCount], moreEquivalentAtomElements[equivalentCount]); // Sets the atom's color based on it's element
+                    SetAtomColor(moreEquivalentAtomObjects[equivalentCount], moreEquivalentAtomElements[equivalentCount]); // Sets the atom's color based on its element
+                    moreEquivalentAtomObjects[equivalentCount].name = moreEquivalentAtomElements[equivalentCount] + " " + equivalentPosition; // Names the atom so they are easier to distinguish in the Unity Editor
 
                     Debug.Log("2nd created " + equivalentPosition + " from " + equivalentAtomObjects[i].transform.localPosition);
                     equivalentCount++;
@@ -311,10 +328,11 @@ public class Crystal : MonoBehaviour
                 equivalentPosition = moreEquivalentAtomObjects[i].transform.localPosition;
                 equivalentPosition[2] = cellLength[2]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
 
-                evenMoreEquivalentAtomObjects.Add(Instantiate(atom, parent.transform, false)); // Instantiates an equivalent atom to the original
+                evenMoreEquivalentAtomObjects.Add(Instantiate(atom, atomParent.transform, false)); // Instantiates an equivalent atom to the original
+                evenMoreEquivalentAtomElements.Add(moreEquivalentAtomElements[i]); // Adds the atomElement for the equivalent atom
                 evenMoreEquivalentAtomObjects[equivalentCount].transform.localPosition = equivalentPosition; // Sets the equivalent position
-                evenMoreEquivalentAtomElements.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
-                SetAtomColor(evenMoreEquivalentAtomObjects[equivalentCount], evenMoreEquivalentAtomElements[equivalentCount]); // Sets the atom's color based on it's element
+                SetAtomColor(evenMoreEquivalentAtomObjects[equivalentCount], evenMoreEquivalentAtomElements[equivalentCount]); // Sets the atom's color based on its element
+                evenMoreEquivalentAtomObjects[equivalentCount].name = evenMoreEquivalentAtomElements[equivalentCount] + " " + equivalentPosition; // Names the atom so they are easier to distinguish in the Unity Editor
 
                 Debug.Log("3rd created " + equivalentPosition + " from " + moreEquivalentAtomObjects[i].transform.localPosition);
                 equivalentCount++;
@@ -348,52 +366,237 @@ public class Crystal : MonoBehaviour
 
 
         // Adds grid lines for the unit cell (Done really dirty, but quicker than thinking out an algorithm)
-        GameObject gridLineX = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        GameObject gridLineY = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        GameObject gridLineZ = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        gridLineX.name = "X";
-        gridLineY.name = "Y";
-        gridLineZ.name = "Z";
-        gridLineX.transform.SetParent(parent.transform, false);
-        gridLineY.transform.SetParent(parent.transform, false);
-        gridLineZ.transform.SetParent(parent.transform, false);
-        gridLineX.transform.localScale = new Vector3(0.05f, cellLength[0] / 2, 0.05f);
-        gridLineY.transform.localScale = new Vector3(0.05f, cellLength[1] / 2, 0.05f);
-        gridLineZ.transform.localScale = new Vector3(0.05f, cellLength[2] / 2, 0.05f);
-        gridLineX.transform.Translate(cellLength[0] / 2f, 0, 0);
-        gridLineY.transform.Translate(0, 0, cellLength[1] / 2f); // y in crystallography is z in Unity
-        gridLineZ.transform.Translate(0, cellLength[2] / 2f, 0); // z in crystallography is y in Unity
-        gridLineX.transform.Rotate(0, 0, 90);
-        gridLineY.transform.Rotate(90, 0, 0);
-        gridLineZ.transform.Rotate(0, 0, 0); // Standard is along vertical axis
+        {
+            GameObject unitCellGrid = new GameObject("Unit Cell Grid"); // Creates an empty GameObject to store gridLines in
+            unitCellGrid.transform.parent = crystal.transform; // Sets unitCellGrid as a child of the Crystal
+            unitCellGrid.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the unitCellGrid is in the Crystal's (0,0,0)
 
-        gridLineX.transform.RotateAround(parent.transform.position, new Vector3(0, cellLength[2], 0), (cellAngle[2] - 90) / 2); // gamma half
-        gridLineY.transform.RotateAround(parent.transform.position, new Vector3(0, cellLength[2], 0), (90 - cellAngle[2]) / 2); // gamma half
-        gridLineZ.transform.RotateAround(parent.transform.position, gridLineX.transform.localPosition, 90 - cellAngle[0]); // alpha. Rotate the z-axis from origin along the new x-axis by "90-alpha" degrees
-        gridLineZ.transform.RotateAround(parent.transform.position, gridLineY.transform.localPosition, cellAngle[1] - 90); // beta. Rotate the z-axis from origin along the new y-axis by "beta-90" degrees
+            GameObject gridLineX = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            gridLineX.transform.parent = unitCellGrid.transform; // Sets the gridLine to a child of the Unit Cell Grid
+            gridLineX.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the gridLine is in the unitCellGrid's (0,0,0)
+            gridLineX.transform.localScale = new Vector3(0.05f, cellLength[0] / 2, 0.05f);
+
+            GameObject gridLineY = Instantiate(gridLineX, unitCellGrid.transform, false); // Uses gridLineX as a template for Y and Z
+            GameObject gridLineZ = Instantiate(gridLineX, unitCellGrid.transform, false);
+
+            gridLineX.name = "X ";
+            gridLineY.name = "Y ";
+            gridLineZ.name = "Z ";
+            gridLineX.transform.Translate(cellLength[0] / 2f, 0, 0);
+            gridLineY.transform.Translate(0, 0, cellLength[1] / 2f); // y in crystallography is z in Unity
+            gridLineZ.transform.Translate(0, cellLength[2] / 2f, 0); // z in crystallography is y in Unity
+            gridLineX.transform.Rotate(0, 0, 90); // NOTE: Rotate() rotates along (z, x, y) not (x, y, z)
+            gridLineY.transform.Rotate(90, 0, 0);
+            gridLineZ.transform.Rotate(0, 0, 0); // Standard is along vertical axis
+
+            // Rotates gridLines to match cell_angle
+            gridLineX.transform.RotateAround(unitCellGrid.transform.position, new Vector3(0, cellLength[2], 0), (cellAngle[2] - 90) / 2); // gamma half
+            gridLineY.transform.RotateAround(unitCellGrid.transform.position, new Vector3(0, cellLength[2], 0), (90 - cellAngle[2]) / 2); // gamma half
+            gridLineZ.transform.RotateAround(unitCellGrid.transform.position, gridLineX.transform.localPosition, 90 - cellAngle[0]); // alpha. Rotate the z-axis from origin along the new x-axis by "90-alpha" degrees
+            gridLineZ.transform.RotateAround(unitCellGrid.transform.position, gridLineY.transform.localPosition, cellAngle[1] - 90); // beta. Rotate the z-axis from origin along the new y-axis by "beta-90" degrees
+
+
+            // Adds and places gridLines for the other unit cell edges
+            GameObject gridLineXA = Instantiate(gridLineX, unitCellGrid.transform, false);
+            gridLineXA.transform.localPosition = new Vector3(cellLength[0] / 2f, cellLength[2], 0);
+            GameObject gridLineXB = Instantiate(gridLineX, unitCellGrid.transform, false);
+            gridLineXB.transform.localPosition = new Vector3(cellLength[0] / 2f, 0, cellLength[1]);
+            GameObject gridLineXC = Instantiate(gridLineX, unitCellGrid.transform, false);
+            gridLineXC.transform.localPosition = new Vector3(cellLength[0] / 2f, cellLength[2], cellLength[1]);
+
+            GameObject gridLineYA = Instantiate(gridLineY, unitCellGrid.transform, false);
+            gridLineYA.transform.localPosition = new Vector3(cellLength[0], 0, cellLength[1] / 2f);
+            GameObject gridLineYB = Instantiate(gridLineY, unitCellGrid.transform, false);
+            gridLineYB.transform.localPosition = new Vector3(0, cellLength[2], cellLength[1] / 2f);
+            GameObject gridLineYC = Instantiate(gridLineY, unitCellGrid.transform, false);
+            gridLineYC.transform.localPosition = new Vector3(cellLength[0], cellLength[2], cellLength[1] / 2f);
+
+            GameObject gridLineZA = Instantiate(gridLineZ, unitCellGrid.transform, false);
+            gridLineZA.transform.localPosition = new Vector3(cellLength[0], cellLength[2] / 2f, 0);
+            GameObject gridLineZB = Instantiate(gridLineZ, unitCellGrid.transform, false);
+            gridLineZB.transform.localPosition = new Vector3(0, cellLength[2] / 2f, cellLength[1]);
+            GameObject gridLineZC = Instantiate(gridLineZ, unitCellGrid.transform, false);
+            gridLineZC.transform.localPosition = new Vector3(cellLength[0], cellLength[2] / 2f, cellLength[1]);
+        }
+    }
+
+    // Called in Start
+    void AddSymmetry()
+    {
+        // Adds symmetry to the cell.  F d -3 m S
+
+        string[] spaceGroupSymbols = spaceGroup.Split(' '); // Splits SpaceGroup into each symbol
+        GameObject symmetryParent = new GameObject("Symmetry"); // Creates an emprty GameObject to contain symmetries
+        symmetryParent.transform.parent = crystal.transform; // Sets the symmetryParent as a child of the Crystal
+        symmetryParent.transform.localPosition = new Vector3(0, 0, 0); // Sets the symmetryParent to (0,0,0)
+
+        // Lattice Type (Could also compare this with a dictionary)
+        switch (spaceGroupSymbols[0])
+        {
+            case "P":
+                // Primitive
+
+                // Atoms in corners
+
+                break;
+
+            case "I":
+                // Body centered
+
+                // Atoms in all corners
+                // atom in center. (a/2, b/2, c/2)
+
+                break;
+
+            case "F":
+                // Face centered
+
+                // Atoms in all corners
+                // Atoms on all faces. (a/2, b/2, 0) and all equivalent
+
+                break;
+
+            case "A":
+                // Base centered on A faces only
+
+                // Atoms in all corners
+                // Atoms on all A faces
+
+                break;
+
+            case "B":
+                // Base centered on B faces only
+
+                // Atoms in all corners
+                // Atoms on all B faces
+
+                break;
+
+            case "C":
+                // Base centered on C faces only
+
+                // Atoms in all corners
+                // Atoms on all C faces
+
+                break;
+
+            case "R":
+                // Rhombohedral
+
+                // Place atoms in all corners
+                // If there is any Rhombohedral stuff, do it (don't think there is)
+
+                break;
+            default:
+                Debug.Log("Could not determine Lattice type");
+                break;
+        }
+
+        // Screw axes and Glide planes
+
+        List<GameObject> symmetryElement = new List<GameObject>();
+
+        for (int i = 1; i < spaceGroupSymbols.Length; i++) // Iterates over the symbols, but skips the Lattice symbol
+        {
+            try
+            {
+                int.Parse(spaceGroupSymbols[i]); // If this works, the element is a screw axis. If it fails, the element is a glide plane
+                Debug.Log("This is a screw axis!: " + spaceGroupSymbols[i]);
+
+
+            }
+            catch (FormatException)
+            {
+                Debug.Log("This is a glide plane!: " + spaceGroupSymbols[i]);
+                switch (spaceGroupSymbols[i])
+                {
+                    case "a":
+                        // Glide translation along half a
 
 
 
-        GameObject gridLineXA = Instantiate(gridLineX, parent.transform, false);
-        gridLineXA.transform.localPosition = new Vector3(cellLength[0] / 2f, cellLength[2], 0);
-        GameObject gridLineXB = Instantiate(gridLineX, parent.transform, false);
-        gridLineXB.transform.localPosition = new Vector3(cellLength[0] / 2f, 0, cellLength[1]);
-        GameObject gridLineXC = Instantiate(gridLineX, parent.transform, false);
-        gridLineXC.transform.localPosition = new Vector3(cellLength[0] / 2f, cellLength[2], cellLength[1]);
+                        break;
 
-        GameObject gridLineYA = Instantiate(gridLineY, parent.transform, false);
-        gridLineYA.transform.localPosition = new Vector3(cellLength[0], 0, cellLength[1] / 2f);
-        GameObject gridLineYB = Instantiate(gridLineY, parent.transform, false);
-        gridLineYB.transform.localPosition = new Vector3(0, cellLength[2], cellLength[1] / 2f);
-        GameObject gridLineYC = Instantiate(gridLineY, parent.transform, false);
-        gridLineYC.transform.localPosition = new Vector3(cellLength[0], cellLength[2], cellLength[1] / 2f);
+                    case "b":
+                        // Glide translation along half b
 
-        GameObject gridLineZA = Instantiate(gridLineZ, parent.transform, false);
-        gridLineZA.transform.localPosition = new Vector3(cellLength[0], cellLength[2] / 2f, 0);
-        GameObject gridLineZB = Instantiate(gridLineZ, parent.transform, false);
-        gridLineZB.transform.localPosition = new Vector3(0, cellLength[2] / 2f, cellLength[1]);
-        GameObject gridLineZC = Instantiate(gridLineZ, parent.transform, false);
-        gridLineZC.transform.localPosition = new Vector3(cellLength[0], cellLength[2] / 2f, cellLength[1]);
+
+
+                        break;
+
+                    case "c":
+                        // Glide translation along half c
+
+
+
+                        break;
+
+
+                    case "n":
+                        // Glide translation along half of a face diagonal
+
+
+
+                        break;
+
+                    case "d":
+                        // Glide translation along quarter of a face diagonal
+
+
+
+                        break;
+
+                    case "e":
+                        // Two glides with the same glide plane and translation along two (different) half lattice-vectors (e.g. a and b)
+
+
+
+                        break;
+
+                    case "m":
+                        // Normal Mirror plane
+                        // along axis corresponding to i (i=1 -> x, i=2 -> y, i=3 -> z) I THINK. Could also be others maybe, depending on higher-order axes and stuff..?
+
+                        /*GameObject mirror = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                        mirror.name = "Mirror";
+                        mirror.transform.SetParent(parent.transform, false);*/
+
+                        // This is for z (testing)
+                        symmetryElement.Add(new GameObject("Mirror")); // Creates an empty GameObject to keep the Mirror in as the mirror is two parts
+                        symmetryElement[symmetryElement.Count - 1].transform.SetParent(symmetryParent.transform, false); // Count-1 gives the index of the final element aka. the element we just made
+                        symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, 0, cellLength[1] / 2); // z-coordinate = 0
+
+                        GameObject mirrorBottom = GameObject.CreatePrimitive(PrimitiveType.Quad); // Create the underside of the mirror (Quad is more or less a Plane)
+                        mirrorBottom.transform.parent = symmetryElement[symmetryElement.Count - 1].transform; // Make "Mirror" its parent
+                        mirrorBottom.transform.localPosition = new Vector3(0, 0, 0); // Set the position (it kept being in the wrong place)
+                        mirrorBottom.transform.localScale = new Vector3(cellLength[0], cellLength[1], 1);
+                        mirrorBottom.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0.5f); // Sets the color to a semi-transparent blue (RGBA)
+                        ToTransparentMode(mirrorBottom.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
+
+                        GameObject mirrorTop = Instantiate(mirrorBottom, symmetryElement[symmetryElement.Count - 1].transform, false); // Clones the underside
+
+                        mirrorBottom.transform.Rotate(-90, 0, 0); // Rotates the mirror to lie down (underside)
+                        mirrorTop.transform.Rotate(90, 0, 0); // Rotates the mirror to lie down (overside)
+
+                        symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count - 1], symmetryParent.transform, false)); // Clones the mirror
+                        symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2); // z-coordinate = c
+
+
+                        //symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count], parent.transform, false));
+                        //symmetryElement[symmetryElement.Count].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2);
+                        //symmetryElement[symmetryElement.Count].transform.Rotate(180, 0, 0);
+
+                        break;
+
+                    default:
+                        Debug.Log("Could not recognize " + spaceGroupSymbols[i] + " as a symmetry element");
+                        break;
+                }
+            }
+        }
+
+        // After iterating over the symmetries
+
     }
 
     // Called in CreateCell
@@ -408,6 +611,21 @@ public class Crystal : MonoBehaviour
         {
             atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors["other"]);
         }
+    }
+
+    // Called in AddSymmetry
+    void ToTransparentMode(Material material)
+    {
+        // Makes a material use the Transparent Rendering Mode
+        // Taken from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/StandardShaderGUI.cs (this is how Unity changes rendering in Client)
+        material.SetOverrideTag("RenderType", "Transparent");
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.DisableKeyword("_ALPHABLEND_ON");
+        material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
     }
 
     /* Deprecated

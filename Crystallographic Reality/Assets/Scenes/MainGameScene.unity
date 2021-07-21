@@ -1566,7 +1566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59da744eb441fb43a977a4b91997b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 1734843215}
+  crystal: {fileID: 1734843215}
   atom: {fileID: 5581097201470644699, guid: 63bf732bf948af34dbe9bccb4da91532, type: 3}
   scaleChange: 0.1
 --- !u!4 &1734843217
