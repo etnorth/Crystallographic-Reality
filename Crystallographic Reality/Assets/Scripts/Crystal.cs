@@ -15,6 +15,8 @@ public class Crystal : MonoBehaviour
     private Vector3[] atomPos; // The position of each atom
     private Vector3 cellLength; // Length of the sides of the cell
     private Vector3 cellAngle; // Angle of the lattice vectors
+    private float cellVolume;
+    private Vector3[] cellVectors; // Unit cell vectors
     private string spaceGroup;
 
 
@@ -61,20 +63,26 @@ public class Crystal : MonoBehaviour
             ConvertCifToXyz(infile); // Converts .cif-file to .xyz-file using cif2cell (uses --no-reduce to get the conventional cell and not the primitive cell. This could maybe be changed by the user later)
         }
         ReadXYZ(Path.GetDirectoryName(infile) + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
+
+        // Sets up Lattice Vectors in relation to Unity's coordinate system
+        /*cellVectors = new Vector3[3] // Be aware these might be wrong ;) (especially c_vec, because WOOF)
+        {
+            new Vector3(Mathf.Cos(cellAngle[2]), 0, Mathf.Sin(cellAngle[2]))*cellLength[0], // a_vec = (cos(gamma/2), sin(gamma/2), 0) * a (Remember Unity uses (x,z,y), but we use (x,y,z)
+            new Vector3(Mathf.Sin(cellAngle[2]), 0, Mathf.Cos(cellAngle[2]))*cellLength[1], // b_vec = (sin(gamma/2), cos(gamma/2), 0) * b
+            new Vector3(Mathf.Sin(cellAngle[0]), 1, Mathf.Sin(cellAngle[1]))*cellLength[2] // c_vec = (sin(alpha), sin(beta), z) * c
+        };*/
+        cellVectors = new Vector3[3] // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (Remember Unity uses (x,z,y), but we use (x,y,z)
+        {
+            new Vector3(cellLength[0], cellLength[2] * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad), cellLength[1] * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)), // a_vec
+            new Vector3(0, cellLength[2] * ( ( Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)*Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) ) / Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), // b_vec
+            new Vector3(0, ( cellVolume / ( cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad) ) ), 0) // c_vec
+        };
+
+
         CreateCell();
         AddSymmetry();
 
-
-        /*
-        NumOfAtoms = 12; // TEMPORARY
-        AtomObjects = new GameObject[NumOfAtoms]; // Initializes list of atoms
-        for (int i = 0; i < NumOfAtoms; i++) // Loops over each atom
-        {
-            atomObjects[i] = Instantiate(Atom, parent.transform, false); // Instantiate (Spawn) atom i
-            atomObjects[i].transform.Translate(i/2f, 0, 0); // Move atom i by x-direction. This will correspond to atom positions after read_cif is done
-            //Atoms[i].transform.localScale += scalechange;
-        }
-        */
+        GameObject plane = CreatePlane(new Vector3(0, 0, 0), new Vector3(5.43053f, 0, 0), new Vector3(0, 5.43053f, 0), new Vector3(5.43053f, 5.43053f, 0), new Color(1, 1, 0, 0.5f), crystal);
     }
 
     // Update is called once per frame
@@ -130,7 +138,7 @@ public class Crystal : MonoBehaviour
         string[] lines = File.ReadAllLines(infile); // Reads the .cif file as an array of lines
         int i = 0; // Counter for cellLength
         int j = 0; // Counter for cellAngle
-        int k = 0; // Counter for spaceGroup (could have combined these to a counter for all needed parameters)
+        int k = 0; // Counter for spaceGroup and cellVolume (could have combined these to a counter for all needed parameters)
         foreach (string line in lines)
         {
             if (line.Contains("_cell_length")) // Looks for the length of the sides of the cell (a, b, c)
@@ -162,7 +170,14 @@ public class Crystal : MonoBehaviour
 
                 k++;
             }
-            else if (i == 2 && j == 2 && k ==1) // When we have gotten all lengths and angles, stop the loop (saves time)
+            else if (line.Contains("_cell_volume"))
+            {
+                string[] words = line.Split(' ');
+                cellVolume = float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture);
+
+                k++;
+            }
+            else if (i == 2 && j == 2 && k == 2) // When we have gotten all lengths and angles, stop the loop (saves time)
             {
                 break;
             }
@@ -512,82 +527,87 @@ public class Crystal : MonoBehaviour
                 {
                     case "a":
                         // Glide translation along half a
+                        {
 
-
-
+                        }
                         break;
-
                     case "b":
                         // Glide translation along half b
+                        {
 
-
-
+                        }
                         break;
-
                     case "c":
                         // Glide translation along half c
+                        {
 
-
-
+                        }
                         break;
-
-
                     case "n":
                         // Glide translation along half of a face diagonal
+                        {
 
-
-
+                        }
                         break;
-
                     case "d":
                         // Glide translation along quarter of a face diagonal
+                        {
 
-
-
+                        }
                         break;
-
                     case "e":
                         // Two glides with the same glide plane and translation along two (different) half lattice-vectors (e.g. a and b)
+                        {
 
-
-
+                        }
                         break;
-
                     case "m":
-                        // Normal Mirror plane
-                        // along axis corresponding to i (i=1 -> x, i=2 -> y, i=3 -> z) I THINK. Could also be others maybe, depending on higher-order axes and stuff..?
+                        {
+                            // Normal Mirror plane
+                            // along axis corresponding to i (i=1 -> x, i=2 -> y, i=3 -> z) I THINK. Could also be others maybe, depending on higher-order axes and stuff..?
 
-                        /*GameObject mirror = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                        mirror.name = "Mirror";
-                        mirror.transform.SetParent(parent.transform, false);*/
-
-                        // This is for z (testing)
-                        symmetryElement.Add(new GameObject("Mirror")); // Creates an empty GameObject to keep the Mirror in as the mirror is two parts
-                        symmetryElement[symmetryElement.Count - 1].transform.SetParent(symmetryParent.transform, false); // Count-1 gives the index of the final element aka. the element we just made
-                        symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, 0, cellLength[1] / 2); // z-coordinate = 0
-
-                        GameObject mirrorBottom = GameObject.CreatePrimitive(PrimitiveType.Quad); // Create the underside of the mirror (Quad is more or less a Plane)
-                        mirrorBottom.transform.parent = symmetryElement[symmetryElement.Count - 1].transform; // Make "Mirror" its parent
-                        mirrorBottom.transform.localPosition = new Vector3(0, 0, 0); // Set the position (it kept being in the wrong place)
-                        mirrorBottom.transform.localScale = new Vector3(cellLength[0], cellLength[1], 1);
-                        mirrorBottom.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0.5f); // Sets the color to a semi-transparent blue (RGBA)
-                        ToTransparentMode(mirrorBottom.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
-
-                        GameObject mirrorTop = Instantiate(mirrorBottom, symmetryElement[symmetryElement.Count - 1].transform, false); // Clones the underside
-
-                        mirrorBottom.transform.Rotate(-90, 0, 0); // Rotates the mirror to lie down (underside)
-                        mirrorTop.transform.Rotate(90, 0, 0); // Rotates the mirror to lie down (overside)
-
-                        symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count - 1], symmetryParent.transform, false)); // Clones the mirror
-                        symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2); // z-coordinate = c
+                            if (i==3) // Z
+                            {
+                                GameObject mirror = CreatePlane(
+                                    new Vector3(0, 0, 0), // BottomLeft (always in origin)
+                                    cellVectors[0], // BottomRight ( Should be vec(a) )
+                                    cellVectors[1], // TopLeft ( Should be vec(b) )
+                                    cellVectors[0] + cellVectors[1], // TopRight ( Should be vec(a+b) )
+                                    new Color(0, 1, 0, 0.5f),
+                                    symmetryParent);
+                                mirror.transform.parent = symmetryParent.transform;
+                                mirror.transform.localPosition = new Vector3(0, 0, 0);
+                            }
 
 
-                        //symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count], parent.transform, false));
-                        //symmetryElement[symmetryElement.Count].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2);
-                        //symmetryElement[symmetryElement.Count].transform.Rotate(180, 0, 0);
+                            // This is for z (testing)
+                            /*{
+                                symmetryElement.Add(new GameObject("Mirror")); // Creates an empty GameObject to keep the Mirror in as the mirror is two parts
+                                symmetryElement[symmetryElement.Count - 1].transform.SetParent(symmetryParent.transform, false); // Count-1 gives the index of the final element aka. the element we just made
+                                symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, 0, cellLength[1] / 2); // z-coordinate = 0
 
+                                GameObject mirrorBottom = GameObject.CreatePrimitive(PrimitiveType.Quad); // Create the underside of the mirror (Quad is more or less a Plane)
+                                mirrorBottom.transform.parent = symmetryElement[symmetryElement.Count - 1].transform; // Make "Mirror" its parent
+                                mirrorBottom.transform.localPosition = new Vector3(0, 0, 0); // Set the position (it kept being in the wrong place)
+                                mirrorBottom.transform.localScale = new Vector3(cellLength[0], cellLength[1], 1);
+                                mirrorBottom.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0.5f); // Sets the color to a semi-transparent blue (RGBA)
+                                ToTransparentMode(mirrorBottom.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
+
+                                GameObject mirrorTop = Instantiate(mirrorBottom, symmetryElement[symmetryElement.Count - 1].transform, false); // Clones the underside
+
+                                mirrorBottom.transform.Rotate(-90, 0, 0); // Rotates the mirror to lie down (underside)
+                                mirrorTop.transform.Rotate(90, 0, 0); // Rotates the mirror to lie down (overside)
+
+                                symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count - 1], symmetryParent.transform, false)); // Clones the mirror
+                                symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2); // z-coordinate = c
+
+
+                                //symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count], parent.transform, false));
+                                //symmetryElement[symmetryElement.Count].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2);
+                                //symmetryElement[symmetryElement.Count].transform.Rotate(180, 0, 0);
+                            }*/
+                        }
                         break;
-
                     default:
                         Debug.Log("Could not recognize " + spaceGroupSymbols[i] + " as a symmetry element");
                         break;
@@ -626,6 +646,79 @@ public class Crystal : MonoBehaviour
         material.DisableKeyword("_ALPHABLEND_ON");
         material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
         material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+    }
+
+    // Called in AddSymmetry
+    GameObject CreatePlane(Vector3 bottomLeft, Vector3 bottomRight, Vector3 topLeft, Vector3 topRight, Color color, GameObject parent = null)
+    {
+        // Creates a Quad GameObject for symmetry planes using four input coordinates (each corner). This should make planes work in crystals where not all angles are 90
+        // Made using https://docs.unity3d.com/Manual/Example-CreatingaBillboardPlane.html
+
+        GameObject planeBoth = new GameObject("Plane");
+        GameObject planeFront = new GameObject("Front");
+        planeFront.transform.parent = planeBoth.transform;
+
+        // Creates a mesh
+        {
+            MeshRenderer meshRenderer = planeFront.AddComponent<MeshRenderer>(); // Adds a meshRenderer to the planeFront, and stores it for ease of access
+            meshRenderer.material = new Material(Shader.Find("Standard")); // Not sure why this is needed, but without it looks purple (guessing it is the "lack-of-material"-material) (was sharedMaterial, but changed it to material)
+
+            MeshFilter meshFilter = planeFront.AddComponent<MeshFilter>(); // Adds a meshFilter
+
+            Mesh mesh = new Mesh(); // Creates a mesh
+
+            Vector3[] vertices = new Vector3[4] // Creates an array of vertices that the shape uses
+            {
+            bottomLeft, bottomRight, topLeft, topRight
+            };
+            mesh.vertices = vertices; // Gives the mesh our made vertices
+
+            int[] tris = new int[6] // triangeles(?) for the mesh
+            {
+            // lower left triangle
+            0,2,1,
+            // upper right triangle
+            2,3,1
+            };
+            mesh.triangles = tris;
+
+            Vector3[] normals = new Vector3[4] // Normals(?) for the mesh
+            {
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward
+            };
+            mesh.normals = normals;
+
+            Vector2[] uv = new Vector2[4]
+            {
+            new Vector2(0, 0),
+            new Vector2(1, 0),
+            new Vector2(0, 1),
+            new Vector2(1, 1)
+            };
+            mesh.uv = uv;
+
+            meshFilter.mesh = mesh; // Applies our newly made mesh to the meshFilter
+        }
+
+        planeFront.GetComponent<Renderer>().material.color = color; // Sets the color of the material
+        ToTransparentMode(planeFront.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
+
+        GameObject planeBack = Instantiate(planeFront, planeBoth.transform, false); // Adds the backside of the plane (Unity only renders one side of the mesh we made)
+        planeBack.name = "Back";
+
+        // Pivot of this GameObject is in bottomLeft and not the center of the item, so we need to adjust for offsets
+        //planeFront.transform.localPosition = -topRight / 2; // Adjusts for offset
+        //planeBack.transform.localPosition = -topRight / 2; // Adjusts for offset
+        planeBack.transform.RotateAround(planeBack.GetComponent<Renderer>().bounds.center, bottomRight, 180); // Rotates around the center of the plane (renderer.bounds.center gives "center of bounding box")
+
+        planeBoth.transform.parent = parent.transform;
+        planeBoth.transform.localPosition = new Vector3(0, 0, 0);
+
+
+        return planeBoth;
     }
 
     /* Deprecated
