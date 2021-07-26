@@ -78,11 +78,8 @@ public class Crystal : MonoBehaviour
             new Vector3(0, ( cellVolume / ( cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad) ) ), 0) // c_vec
         };
 
-
         CreateCell();
         AddSymmetry();
-
-        GameObject plane = CreatePlane(new Vector3(0, 0, 0), new Vector3(5.43053f, 0, 0), new Vector3(0, 5.43053f, 0), new Vector3(5.43053f, 5.43053f, 0), new Color(1, 1, 0, 0.5f), crystal);
     }
 
     // Update is called once per frame
@@ -507,111 +504,182 @@ public class Crystal : MonoBehaviour
                 break;
         }
 
-        // Screw axes and Glide planes
+        // WILL NEED TO DETERMINE CRYSTAL SYSTEM TO KNOW WHICH SYMBOL IS WHICH AXIS. Below is for POINT groups. (I hope it is the same for SPACE groups?)
+        // By convention the following rules have been adopted to describe point groups.
+        // When a rotation axis is followed by a slash and an m, then this mirror is perpendicular to the rotation axis.
+        // For orthorhombic systems the three characters describe the symmetry along the three axes, a, b, and c, respectively.
+        // For tetragonal, trigonal, and hexagonal type cells, the c axis is unique, and the first symbol in the point group shows the symmetry along the unique axis.
+        // In tetragonal systems, the second symbol shows the symmetry along the[100] and[010] directions and the third symbol shows the symmetry along the[110] and[110] directions.
+        // In trigonal and hexagonal cells, the second symbol shows the symmetry along[100], [010] and[110], and the third symbol shows symmetry along[210], [120], and[120].
+        // In rhombohedral systems on rhombohedral axes, the first symbol shows symmetry along[111], and the second symbol shows symmetry along[110], [011], and[101].
+        // Cubic symbols show[100], [010], [001] in the first symbol, [111], [111], [111], [111] in the second symbol and[110], [110], [011], [011], [101], and[101] in the third symbol.
 
-        List<GameObject> symmetryElement = new List<GameObject>();
+// Screw axes and Glide planes
+
+List<GameObject> symmetryElement = new List<GameObject>();
 
         for (int i = 1; i < spaceGroupSymbols.Length; i++) // Iterates over the symbols, but skips the Lattice symbol
         {
             try
             {
-                int.Parse(spaceGroupSymbols[i]); // If this works, the element is a screw axis. If it fails, the element is a glide plane
-                Debug.Log("This is a screw axis!: " + spaceGroupSymbols[i]);
+                int axisSymbol = int.Parse(spaceGroupSymbols[i]); // If this works, the element is a screw axis. If it fails, the element is a glide plane
+                Debug.Log("This is a screw/rotation axis!: " + spaceGroupSymbols[i]);
 
+                // Determines type of axis
+                switch (axisSymbol)
+                {
+                    case -3:
+                        Debug.Log("Oh boy, an inverse three-fold rotation axis?!");
+                        break;
+                    default:
+
+                        break;
+                }
 
             }
             catch (FormatException)
             {
-                Debug.Log("This is a glide plane!: " + spaceGroupSymbols[i]);
-                switch (spaceGroupSymbols[i])
+                if (spaceGroupSymbols[i].Contains("/")) // Finds symmetries such as 4/m
                 {
-                    case "a":
-                        // Glide translation along half a
-                        {
+                    Debug.Log("This is a screw/rotation axis perpendicular to a plane!: " + spaceGroupSymbols[i]);
+                }
+                else if (spaceGroupSymbols[i].Contains("a") || spaceGroupSymbols[i].Contains("b") || spaceGroupSymbols[i].Contains("c") || spaceGroupSymbols[i].Contains("n") || spaceGroupSymbols[i].Contains("d") || spaceGroupSymbols[i].Contains("e") || spaceGroupSymbols[i].Contains("m")) // Finds planes
+                {
+                    Debug.Log("This is a glide/mirror plane!: " + spaceGroupSymbols[i]);
 
-                        }
-                        break;
-                    case "b":
-                        // Glide translation along half b
-                        {
 
-                        }
-                        break;
-                    case "c":
-                        // Glide translation along half c
-                        {
+                    GameObject planeOriginal;
+                    GameObject planeTranslated;
+                    Vector3[] planeVertices = new Vector3[4] // No size (all vertices in origin) (Default)
+                            {
+                            new Vector3(0, 0, 0),
+                            new Vector3(0, 0, 0),
+                            new Vector3(0, 0, 0),
+                            new Vector3(0, 0, 0)
+                            };
+                    Color planeColor = new Color(1, 1, 0, 0.5f); // Transparent Yellow (Default)
+                    string planeName = "Symmetry plane"; // Default
+                    Vector3 planeNormal = new Vector3(0, 0, 0); // Default
 
-                        }
-                        break;
-                    case "n":
-                        // Glide translation along half of a face diagonal
-                        {
+                    //Determintes type of plane
+                    switch (spaceGroupSymbols[i])
+                    {
+                        case "a":
+                            // Glide translation along half a
+                            {
+                                planeName = "a-glide";
+                                planeColor = new Color(0, 0, 1, 0.5f); // Transparent blue
 
-                        }
-                        break;
-                    case "d":
-                        // Glide translation along quarter of a face diagonal
-                        {
+                                // AddAnimation(a-glide);
+                            }
+                            break;
+                        case "b":
+                            // Glide translation along half b
+                            {
+                                planeName = "b-glide";
+                                planeColor = new Color(0, 0, 1, 0.5f); // Transparent blue
 
-                        }
-                        break;
-                    case "e":
-                        // Two glides with the same glide plane and translation along two (different) half lattice-vectors (e.g. a and b)
-                        {
+                                // AddAnimation(b-glide);
+                            }
+                            break;
+                        case "c":
+                            // Glide translation along half c
+                            {
+                                planeName = "c-glide";
+                                planeColor = new Color(0, 0, 1, 0.5f); // Transparent blue
 
-                        }
-                        break;
-                    case "m":
-                        {
+                                // AddAnimation(c-glide);
+                            }
+                            break;
+                        case "n":
+                            // Glide translation along half of a face diagonal
+                            // (if plane is perpendicular to x, slide along y and z by 1/2)
+                            {
+                                planeName = "n-glide";
+                                planeColor = new Color(0, 1, 0, 0.5f); // Transparent green
+
+                                // AddAnimation(n-glide);
+                            }
+                            break;
+                        case "d":
+                            // Glide translation along quarter of a face diagonal
+                            // (if plane is perpendicular to x, slide along y and z by 1/4)
+                            {
+                                planeName = "d-glide";
+                                planeColor = new Color(112 / 255f, 209 / 255f, 244 / 255f, 0.5f); // Transparent "Ford Diamond Blue"
+
+                                // AddAnimation(d-glide);
+
+                            }
+                            break;
+                        case "e":
+                            // Two glides with the same glide plane and translation along two (different) half lattice-vectors (e.g. a and b)
+                            {
+                                planeName = "e-glide";
+                                planeColor = new Color(1, 0, 1, 0.5f); // Transparent magenta
+
+                                // AddAnimation(e-glide);
+                            }
+                            break;
+                        case "m":
                             // Normal Mirror plane
                             // along axis corresponding to i (i=1 -> x, i=2 -> y, i=3 -> z) I THINK. Could also be others maybe, depending on higher-order axes and stuff..?
-
-                            if (i==3) // Z
                             {
-                                GameObject mirror = CreatePlane(
-                                    new Vector3(0, 0, 0), // BottomLeft (always in origin)
-                                    cellVectors[0], // BottomRight ( Should be vec(a) )
-                                    cellVectors[1], // TopLeft ( Should be vec(b) )
-                                    cellVectors[0] + cellVectors[1], // TopRight ( Should be vec(a+b) )
-                                    new Color(0, 1, 0, 0.5f),
-                                    symmetryParent);
-                                mirror.transform.parent = symmetryParent.transform;
-                                mirror.transform.localPosition = new Vector3(0, 0, 0);
+                                planeName = "Mirror";
+                                planeColor = new Color(1, 1, 0, 0.5f); // Transparent Yellow
+
+                                // AddAnimation(mirror);
                             }
+                            break;
+                        default:
+                            Debug.Log(spaceGroupSymbols[i] + " has been filtered to be a plane, so how I didn't recognize this is a mystery...");
+                            planeName = ("Not recognized: " + spaceGroupSymbols[i]);
+                            break;
+                    }
 
+                    // Constructs the vertices of the plane depending on if it is perpendicular to x, y or z
+                    switch (i)
+                    {
+                        case 1: // X
+                            planeVertices[0] = new Vector3(0, 0, 0); // Origin
+                            planeVertices[1] = cellVectors[1]; // vec(b)
+                            planeVertices[2] = cellVectors[2]; // vec(c)
+                            planeVertices[3] = cellVectors[1] + cellVectors[2]; // vec(b)+vec(c)
+                            planeName += " X";
+                            planeNormal = cellVectors[0];
+                            break;
+                        case 2: // Y
+                            planeVertices[0] = new Vector3(0, 0, 0); // Origin
+                            planeVertices[1] = cellVectors[0]; // vec(a)
+                            planeVertices[2] = cellVectors[2]; // vec(c)
+                            planeVertices[3] = cellVectors[1] + cellVectors[2]; // vec(a)+vec(c)
+                            planeName += " Y";
+                            planeNormal = cellVectors[1];
+                            break;
+                        case 3: // Z
+                            planeVertices[0] = new Vector3(0, 0, 0); // Origin
+                            planeVertices[1] = cellVectors[0]; // vec(a)
+                            planeVertices[2] = cellVectors[1]; // vec(b)
+                            planeVertices[3] = cellVectors[0] + cellVectors[1]; // vec(a)+vec(b)
+                            planeName += " Z";
+                            planeNormal = cellVectors[2];
+                            break;
+                        default:
+                            Debug.Log("Could not determine the direction of the plane: " + spaceGroupSymbols[i]);
+                            break;
+                    }
 
-                            // This is for z (testing)
-                            /*{
-                                symmetryElement.Add(new GameObject("Mirror")); // Creates an empty GameObject to keep the Mirror in as the mirror is two parts
-                                symmetryElement[symmetryElement.Count - 1].transform.SetParent(symmetryParent.transform, false); // Count-1 gives the index of the final element aka. the element we just made
-                                symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, 0, cellLength[1] / 2); // z-coordinate = 0
+                    planeOriginal = CreatePlane(planeVertices, planeColor, planeName, symmetryParent);
 
-                                GameObject mirrorBottom = GameObject.CreatePrimitive(PrimitiveType.Quad); // Create the underside of the mirror (Quad is more or less a Plane)
-                                mirrorBottom.transform.parent = symmetryElement[symmetryElement.Count - 1].transform; // Make "Mirror" its parent
-                                mirrorBottom.transform.localPosition = new Vector3(0, 0, 0); // Set the position (it kept being in the wrong place)
-                                mirrorBottom.transform.localScale = new Vector3(cellLength[0], cellLength[1], 1);
-                                mirrorBottom.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0.5f); // Sets the color to a semi-transparent blue (RGBA)
-                                ToTransparentMode(mirrorBottom.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
-
-                                GameObject mirrorTop = Instantiate(mirrorBottom, symmetryElement[symmetryElement.Count - 1].transform, false); // Clones the underside
-
-                                mirrorBottom.transform.Rotate(-90, 0, 0); // Rotates the mirror to lie down (underside)
-                                mirrorTop.transform.Rotate(90, 0, 0); // Rotates the mirror to lie down (overside)
-
-                                symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count - 1], symmetryParent.transform, false)); // Clones the mirror
-                                symmetryElement[symmetryElement.Count - 1].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2); // z-coordinate = c
-
-
-                                //symmetryElement.Add(Instantiate(symmetryElement[symmetryElement.Count], parent.transform, false));
-                                //symmetryElement[symmetryElement.Count].transform.localPosition = new Vector3(cellLength[0] / 2, cellLength[2], cellLength[1] / 2);
-                                //symmetryElement[symmetryElement.Count].transform.Rotate(180, 0, 0);
-                            }*/
-                        }
-                        break;
-                    default:
-                        Debug.Log("Could not recognize " + spaceGroupSymbols[i] + " as a symmetry element");
-                        break;
+                    planeTranslated = Instantiate(planeOriginal, symmetryParent.transform, false); // Creates a mirror for the other end of the cell
+                    planeTranslated.transform.localPosition += planeNormal; // Moves the copy to the other end of the cell
+                    planeTranslated.name = planeName + " (Translated)"; // Adds name to distinguish original and translated plane
                 }
+                else // If the symmetry was not recognized, print it to the log (could be an extra symbol from the cif that is not part of H-M)
+                {
+                    Debug.Log("Could not recognize " + spaceGroupSymbols[i] + " as a symmetry element)");
+                }
+                
             }
         }
 
@@ -649,13 +717,15 @@ public class Crystal : MonoBehaviour
     }
 
     // Called in AddSymmetry
-    GameObject CreatePlane(Vector3 bottomLeft, Vector3 bottomRight, Vector3 topLeft, Vector3 topRight, Color color, GameObject parent = null)
+    GameObject CreatePlane(Vector3[] vertices, Color color, string name = "Plane", GameObject parent = null)
     {
         // Creates a Quad GameObject for symmetry planes using four input coordinates (each corner). This should make planes work in crystals where not all angles are 90
         // Made using https://docs.unity3d.com/Manual/Example-CreatingaBillboardPlane.html
+        // vertices are given as (bottomLeft, bottomRight, topLeft, topRight)
 
-        GameObject planeBoth = new GameObject("Plane");
+        GameObject planeBoth = new GameObject(name);
         GameObject planeFront = new GameObject("Front");
+        GameObject planeBack;
         planeFront.transform.parent = planeBoth.transform;
 
         // Creates a mesh
@@ -667,13 +737,9 @@ public class Crystal : MonoBehaviour
 
             Mesh mesh = new Mesh(); // Creates a mesh
 
-            Vector3[] vertices = new Vector3[4] // Creates an array of vertices that the shape uses
-            {
-            bottomLeft, bottomRight, topLeft, topRight
-            };
             mesh.vertices = vertices; // Gives the mesh our made vertices
 
-            int[] tris = new int[6] // triangeles(?) for the mesh
+            int[] tris = new int[6] // triangles(?) for the mesh
             {
             // lower left triangle
             0,2,1,
@@ -706,17 +772,16 @@ public class Crystal : MonoBehaviour
         planeFront.GetComponent<Renderer>().material.color = color; // Sets the color of the material
         ToTransparentMode(planeFront.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
 
-        GameObject planeBack = Instantiate(planeFront, planeBoth.transform, false); // Adds the backside of the plane (Unity only renders one side of the mesh we made)
+        planeBack = Instantiate(planeFront, planeBoth.transform, false); // Adds the backside of the plane (Unity only renders one side of the mesh we made)
         planeBack.name = "Back";
 
         // Pivot of this GameObject is in bottomLeft and not the center of the item, so we need to adjust for offsets
         //planeFront.transform.localPosition = -topRight / 2; // Adjusts for offset
         //planeBack.transform.localPosition = -topRight / 2; // Adjusts for offset
-        planeBack.transform.RotateAround(planeBack.GetComponent<Renderer>().bounds.center, bottomRight, 180); // Rotates around the center of the plane (renderer.bounds.center gives "center of bounding box")
+        planeBack.transform.RotateAround(planeBack.GetComponent<Renderer>().bounds.center, vertices[1], 180); // Rotates around the center of the plane (renderer.bounds.center gives "center of bounding box")
 
         planeBoth.transform.parent = parent.transform;
         planeBoth.transform.localPosition = new Vector3(0, 0, 0);
-
 
         return planeBoth;
     }
