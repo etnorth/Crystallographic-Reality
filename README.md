@@ -34,18 +34,42 @@ The follwing list includes wanted features, some might be doable during summer, 
     - Can scale down cylinders to rods (0.05,1,0.05) and place them according to Cell_length (and angle eventually)
     Create a prefab with scaling (and shader?), and Instantiate in CreateCell)() function
 - [ ] Create a functioning player, with working hands
+  - Figure out XR Interaction Toolkit
   - [ ] Hand assets
     - [ ] Search the web
-  - [ ] Scale crystal up/down
-    - Figure out XR Interaction Toolkit
+  - [ ] Scale crystal up/down?
     - Scale XR Rig. Gives same effect, but likely easier (and can keep crystal in Å)
   - [ ] Teleport movement
   - [ ] Turn with joystick
 - [ ] Add symmetries
+  - [ ] Symmetry GameObjects
+    - [x] Glide/mirror planes
+    - [ ] Rotation/Screw axis (Rotoinversion here?)
+    - [ ] Identity/Inversion Center
   - Create Algorithm
     - [ ] Hermann-Mauguin Space Group
       - [x] Lattice Type (P, I, F) etc.
       - [ ] Screw axes
-      - [ ] Glide planes
-    - [ ] Convert Space Group to Point Group ??
+      - [x] Glide planes
+      - [ ] Inversion Centers
+    - [ ] Adjust for different crystal systems (Triclinic -> Cubic)
   - Read directly from cif2cell output and convert symmetry matrices into mirrors and axes
+    - [ ] Create matrix file to read from, and read from it
+      - --print-symmetry-operations // --print-seitz-matrices > matrix.txt
+    - [ ] Convert matrixes into actual symmetry (go from matrix no. X to plane/axis/center no. Y)
+      - https://www.cryst.ehu.es/html/resources/bogota2018/Bogota2018_3_SymmOper_Students.pdf
+        - Identity
+          - Always no. 1
+          - det = +1 & matrix has no -1 & ... OR ((1,0,0),(0,1,0),(0,0,1))
+        - Inversion
+          - det = -1 & matrix only has -1 & ... OR ((-1,0,0),(0,-1,0),(0,0-1))
+        - Axis
+          - rotation axis: det = +1
+          - screw axis: det = +1 & translation != (0,0,0)
+          - rotoinversion: det = -1 & rotation axis = -1 (not +1)
+          - (-cos,  sin,  0)
+          - (-sin, -cos,  0)
+          - (   0,    0, -1) (for rotation around z-axis) (normal rotation has +1, rotoinversion has -1)
+        - Plane
+          - Mirror plane: det = -1 & matrix only has one -1
+          - Glide plane: det = -1 & matrix only has one -1 & translation != (0,0,0)

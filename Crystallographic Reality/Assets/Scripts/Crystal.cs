@@ -60,18 +60,12 @@ public class Crystal : MonoBehaviour
 
         if (convertFile)
         {
-            ConvertCifToXyz(infile); // Converts .cif-file to .xyz-file using cif2cell (uses --no-reduce to get the conventional cell and not the primitive cell. This could maybe be changed by the user later)
+            ConvertCifToXYZ(infile); // Converts .cif-file to .xyz-file using cif2cell (uses --no-reduce to get the conventional cell and not the primitive cell. This could maybe be changed by the user later)
         }
         ReadXYZ(Path.GetDirectoryName(infile) + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
-        /*cellVectors = new Vector3[3] // Be aware these might be wrong ;) (especially c_vec, because WOOF)
-        {
-            new Vector3(Mathf.Cos(cellAngle[2]), 0, Mathf.Sin(cellAngle[2]))*cellLength[0], // a_vec = (cos(gamma/2), sin(gamma/2), 0) * a (Remember Unity uses (x,z,y), but we use (x,y,z)
-            new Vector3(Mathf.Sin(cellAngle[2]), 0, Mathf.Cos(cellAngle[2]))*cellLength[1], // b_vec = (sin(gamma/2), cos(gamma/2), 0) * b
-            new Vector3(Mathf.Sin(cellAngle[0]), 1, Mathf.Sin(cellAngle[1]))*cellLength[2] // c_vec = (sin(alpha), sin(beta), z) * c
-        };*/
-        cellVectors = new Vector3[3] // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (Remember Unity uses (x,z,y), but we use (x,y,z)
+        cellVectors = new Vector3[3] // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (Remember Unity uses (x,z,y), but we use (x,y,z) )
         {
             new Vector3(cellLength[0], cellLength[2] * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad), cellLength[1] * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)), // a_vec
             new Vector3(0, cellLength[2] * ( ( Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)*Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) ) / Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), // b_vec
@@ -105,7 +99,7 @@ public class Crystal : MonoBehaviour
     }
 
     // Called in Start
-    void ConvertCifToXyz(string infile)
+    void ConvertCifToXYZ(string infile)
     {
         // Converts a .cif-file to .xyz using python and cif2cell in the command line
 
@@ -116,7 +110,7 @@ public class Crystal : MonoBehaviour
         startInfo.Arguments = "/C cd " + Path.GetDirectoryName(infile) + 
             " & python cif2cell " + Path.GetFileName(infile) + 
             " --program=xyz --no-reduce --cartesian --outputfile=cif2cell_convert/" + 
-            Path.GetFileNameWithoutExtension(infile) + ".xyz"; // Moves to appropriate directory and calls for convertion of chosen .cif-file
+            Path.GetFileNameWithoutExtension(infile) + ".xyz"; // Moves to appropriate directory and calls for conversion of chosen .cif-file
         process.StartInfo = startInfo; // Puts the information we have defined inside the process
         process.Start(); // Starts the process
         process.WaitForExit(); // Waits for the process to end before continuing
@@ -207,9 +201,9 @@ public class Crystal : MonoBehaviour
             {
                 string[] words = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // Splits the line on each tab into words
                 atomElement[i] = words[0];
-                atomPos[i] = new Vector3(float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture),
-                    float.Parse(words[2], System.Globalization.CultureInfo.InvariantCulture),
-                    float.Parse(words[3], System.Globalization.CultureInfo.InvariantCulture)); // NullReferenceException: Object reference not set to an instance of an object
+                atomPos[i] = new Vector3(float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture), // X
+                    float.Parse(words[3], System.Globalization.CultureInfo.InvariantCulture), // Z (We use (x,y,z), but Unity has y be vertical instead of z)
+                    float.Parse(words[2], System.Globalization.CultureInfo.InvariantCulture)); // Y (We use (x,y,z), but Unity has y be vertical instead of z)
 
                 i++;
             }
