@@ -19,7 +19,6 @@ public class Crystal : MonoBehaviour
     private Vector3[] cellVectors; // Unit cell vectors
     private string spaceGroup;
 
-
     public GameObject crystal; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this. In hindsight I could have skipped this entirely and made this in the script, but this works fine.
     public GameObject atom; // Atom prefab. Selected manually in Unity. This could also have been made by using GameObject.CreatePrimitive() and then setting constraints via the script
     private GameObject[] atomObjects; // Array of atom objects.
@@ -55,14 +54,25 @@ public class Crystal : MonoBehaviour
     void Start()
     {
         // Initialization (The thought is to have a separate game scene with buttons, sliders, etc. for setting up the crystal. This is parsed to this file and creates the appropriate crystal)
-        infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\files\Si.cif"; // This will likely be input from user somehow. @ makes backslash parsable
+        //infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\files\Si.cif"; // This will likely be input from user somehow. @ makes backslash parsable
+        infile = CrystalManager.infile;
         bool convertFile = true; // Specifies that the user wishes to convert their .cif to a .xyz automatically by the program
+
+        if (!Directory.Exists(Application.persistentDataPath + @"\cif2cell_convert\")) // If the cif2cell_convert folder does not exist in the persistentDataPath
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + @"\cif2cell_convert"); // Create cif2cell_convert folder
+        }
+        if (!File.Exists(Application.persistentDataPath + @"\cif2cell")) // If cif2cell does not exist in the persistentDataPath
+        {
+            File.Copy(Application.dataPath + @"\Scripts\cif2cell", Application.persistentDataPath + @"\cif2cell"); // Copy cif2cell from Assets/Scipts to the persistentDataPath in AppData
+        }
+
 
         if (convertFile)
         {
             ConvertCifToXYZ(infile); // Converts .cif-file to .xyz-file using cif2cell (uses --no-reduce to get the conventional cell and not the primitive cell. This could maybe be changed by the user later)
         }
-        ReadXYZ(Path.GetDirectoryName(infile) + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
+        ReadXYZ(Application.persistentDataPath + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
         cellVectors = new Vector3[3] // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (Remember Unity uses (x,z,y), but we use (x,y,z) )
@@ -107,15 +117,15 @@ public class Crystal : MonoBehaviour
         System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(); // Defines a variable to insert our information in
         startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden; // Hides the Command prompt window from user
         startInfo.FileName = "cmd.exe"; // Calls for the command prompt
-        startInfo.Arguments = "/C cd " + Path.GetDirectoryName(infile) + 
-            " & python cif2cell " + Path.GetFileName(infile) + 
-            " --program=xyz --no-reduce --cartesian --outputfile=cif2cell_convert/" + 
-            Path.GetFileNameWithoutExtension(infile) + ".xyz"; // Moves to appropriate directory and calls for conversion of chosen .cif-file
+        startInfo.Arguments = "/C cd " + Path.GetDirectoryName(infile) + // cif2cell can' handle files in a named directory, so we call cif2cell through python with a named directory instead
+            " & python \"" + Application.persistentDataPath + "\\cif2cell\" " + Path.GetFileName(infile) + 
+            " --program=xyz --no-reduce --cartesian --outputfile=\"" + Application.persistentDataPath + @"\cif2cell_convert\" + 
+            Path.GetFileNameWithoutExtension(infile) + ".xyz\""; // Moves to appropriate directory and calls for conversion of chosen .cif-file (\" takes care of potential spaces in directory names)
         process.StartInfo = startInfo; // Puts the information we have defined inside the process
         process.Start(); // Starts the process
         process.WaitForExit(); // Waits for the process to end before continuing
 
-        if (File.Exists(Path.GetDirectoryName(infile) + @"\\cif2cell_convert\\" + Path.GetFileNameWithoutExtension(infile) + ".xyz")) { // If the converted file exists in the correct location
+        if (File.Exists(Application.persistentDataPath + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz")) { // If the converted file exists in the correct location
             Debug.Log(".cif-file converted to .xyz!"); // Prints to the Unity Console
         }
         else // Notifies that the program could not find the converted file
@@ -127,6 +137,7 @@ public class Crystal : MonoBehaviour
 
         Debug.Log("Fetching cell parameters manually"); // Prints to the Unity Console
         string[] lines = File.ReadAllLines(infile); // Reads the .cif file as an array of lines
+        int index; // Not all .cifs use a single space. We therefore get the index by seeing how many we have.
         int i = 0; // Counter for cellLength
         int j = 0; // Counter for cellAngle
         int k = 0; // Counter for spaceGroup and cellVolume (could have combined these to a counter for all needed parameters)
@@ -135,22 +146,24 @@ public class Crystal : MonoBehaviour
             if (line.Contains("_cell_length")) // Looks for the length of the sides of the cell (a, b, c)
             {
                 string[] words = line.Split(' '); // Splits the line into an array of words. Splits by whitespace
-                if (words[1].Contains("(")) // If the file has included uncertainty, remove it.
+                index = words.Length - 1; // Gets amount of words (aka. how many spaces between name and value)
+                if (words[index].Contains("(")) // If the file has included uncertainty, remove it.
                 {
-                    words[1] = words[1].Remove(words[1].Length - 3);
+                    words[index] = words[index].Remove(words[index].Length - 3);
                 }
-                cellLength[i] = float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture); // Sets index i to the length (.cif uses x->y->z so 0->1->2 should be fine)
+                cellLength[i] = float.Parse(words[index], System.Globalization.CultureInfo.InvariantCulture); // Sets index i to the length (.cif uses x->y->z so 0->1->2 should be fine)
 
                 i++;
             }
             else if (line.Contains("_cell_angle")) // Looks for the angles (alpha, beta, gamma)
             {
                 string[] words = line.Split(' '); // Splits the line into an array of words. Splits by whitespace
-                if (words[1].Contains("(")) // If the file has included uncertainty, remove it. Likely not the case for angles.
+                index = words.Length - 1; // Gets amount of words (aka. how many spaces between name and value)
+                if (words[index].Contains("(")) // If the file has included uncertainty, remove it. Likely not the case for angles.
                 {
-                    words[1] = words[1].Remove(words[1].Length - 3);
+                    words[index] = words[1].Remove(words[1].Length - 3);
                 }
-                cellAngle[j] = float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture); // Sets index i to the angle (.cif uses x->y->z so 0->1->2 should be fine)
+                cellAngle[j] = float.Parse(words[index], System.Globalization.CultureInfo.InvariantCulture); // Sets index i to the angle (.cif uses x->y->z so 0->1->2 should be fine)
 
                 j++;
             }
@@ -164,7 +177,8 @@ public class Crystal : MonoBehaviour
             else if (line.Contains("_cell_volume"))
             {
                 string[] words = line.Split(' ');
-                cellVolume = float.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture);
+                index = words.Length - 1;
+                cellVolume = float.Parse(words[index], System.Globalization.CultureInfo.InvariantCulture);
 
                 k++;
             }
