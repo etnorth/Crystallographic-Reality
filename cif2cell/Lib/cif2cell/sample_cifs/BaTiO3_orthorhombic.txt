@@ -1,0 +1,72 @@
+CIF2CELL 2.0.0
+2021-07-30 18:01
+Output for Ba (Ti O3) (Barium titanate - nanocrystalline)
+CIF file exported from Inorganic Crystal Structure Database.
+Database reference code: 161341.
+ BIBLIOGRAPHIC INFORMATION
+Xiao, C.J. et al., Materials Chemistry and Physics 111, 209-212 (2008) 
+ INPUT CELL INFORMATION
+Symmetry information:
+Orthorhombic crystal system.
+Space group number     : 38
+Hall symbol            : A 2 -2
+Hermann-Mauguin symbol : Amm2
+
+Lattice parameters:
+          a           b           c 
+  4.0094000   5.6214000   5.6386000 
+      alpha        beta       gamma 
+ 90.0000000  90.0000000  90.0000000 
+Representative sites :
+Atom            x           y           z 
+Ba      0.0000000   0.0000000   0.0000000
+Ti      0.5000000   0.0000000   0.5100000
+O       0.5000000   0.5000000   0.4900000
+O       0.5000000   0.7525000   0.7396000
+
+ OUTPUT CELL INFORMATION
+Symmetry information:
+Orthorhombic crystal system.
+Space group number     : 38
+Hall symbol            : A 2 -2
+Hermann-Mauguin symbol : Amm2
+
+Bravais lattice vectors :
+  4.0094000   0.0000000   0.0000000 
+  0.0000000   5.6214000   0.0000000 
+  0.0000000   0.0000000   5.6386000 
+All sites, (cartesian coordinates):
+Atom            x           y           z 
+Ba      0.0000000   0.0000000   0.0000000
+Ba      0.0000000   2.8107000   2.8193000
+Ti      2.0047000   0.0000000   2.8756860
+Ti      2.0047000   2.8107000   0.0563860
+O       2.0047000   2.8107000   2.7629140
+O       2.0047000   0.0000000   5.5822140
+O       2.0047000   4.2301035   4.1703086
+O       2.0047000   1.3912965   4.1703086
+O       2.0047000   1.4194035   1.3510086
+O       2.0047000   4.2019965   1.3510086
+
+Unit cell volume  : 127.0852543 A^3
+Unit cell density :   3.6698357 u/A^3 =  41.1237052 g/cm^3
+
+Symmetry operations :
+  3x3 rotation matrix +
+  3x1 translation vector
+Operation 1
+  -1.0000000   0.0000000   0.0000000   0.0000000  -1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000
+Operation 2
+  -1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000
+Operation 3
+   1.0000000   0.0000000   0.0000000   0.0000000  -1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000
+Operation 4
+   1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000
+Operation 5
+   1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.5000000   0.5000000
+Operation 6
+   1.0000000   0.0000000   0.0000000   0.0000000  -1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.5000000   0.5000000
+Operation 7
+  -1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.5000000   0.5000000
+Operation 8
+  -1.0000000   0.0000000   0.0000000   0.0000000  -1.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.5000000   0.5000000

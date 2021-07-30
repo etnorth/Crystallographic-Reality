@@ -11,10 +11,11 @@ public class Crystal : MonoBehaviour
     private string infile; //.cif-file filename and location
     private int NumOfAtoms; // Number of UNIQUE atoms in the conventional cell (aka. number of atoms from input file, not the amount of atoms that are created by the end)
     private string fileinfo; // cif2cell's info about converted file
-    private string[] atomElement; // The element of each atom
-    private Vector3[] atomPos; // The position of each atom
     private Vector3 cellLength; // Length of the sides of the cell
     private Vector3 cellAngle; // Angle of the lattice vectors
+    private string[] atomElement; // The element of each atom
+    private Vector3[] atomPos; // The position of each atom
+    private Vector3[][] symmetryMatrices; // An array of Vector3-arrays
     private float cellVolume;
     private Vector3[] cellVectors; // Unit cell vectors
     private string spaceGroup;
@@ -54,7 +55,12 @@ public class Crystal : MonoBehaviour
     void Start()
     {
         // Initialization (The thought is to have a separate game scene with buttons, sliders, etc. for setting up the crystal. This is parsed to this file and creates the appropriate crystal)
-        //infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\files\Si.cif"; // This will likely be input from user somehow. @ makes backslash parsable
+
+        //ReadConvert(CrystalManager.outfile);
+        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt");
+
+        // "Old" Setup
+        /*
         infile = CrystalManager.infile;
         bool convertFile = true; // Specifies that the user wishes to convert their .cif to a .xyz automatically by the program
 
@@ -84,6 +90,7 @@ public class Crystal : MonoBehaviour
 
         CreateCell();
         AddSymmetry();
+        */
     }
 
     // Update is called once per frame
@@ -106,6 +113,70 @@ public class Crystal : MonoBehaviour
             parent.transform.localScale += new Vector3(scaleChange, scaleChange, scaleChange);
         }
         */
+    }
+
+    // Called in Start
+    void ReadConvert(string infile)
+    {
+        List<string> atomElementList = new List<string>();
+        List<Vector3> atomPosList = new List<Vector3>();
+        List<Vector3[]> symmetryMatricesList = new List<Vector3[]>();
+
+        string[] lines = File.ReadAllLines(infile); // Reads the file and stores each line in the array "lines"
+        string[] words;
+        int k = 0; // Counts index for number of symmetry operations
+        for (int i = 0; i < lines.Length - 1; i++) // Initially foreach, but took for to get easier enumeration and skippable lines
+        {
+            if (lines[i].Contains("Lattice parameters:"))
+            {
+                // cellLength
+                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // the new array part is just to get the correct overload of the Split-function. RemoveEmptyEntries fixes consecutive spaces
+                cellLength.x = StringToFloat(words[0]);
+                cellLength.y = StringToFloat(words[2]); // Y is vertical, so we use y as z
+                cellLength.z = StringToFloat(words[1]); // Likewise we use z as y
+
+                // cellAngle
+                words = lines[i + 4].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                cellAngle[0] = StringToFloat(words[0]); // alpha ([0] is equivalent to .x)
+                cellAngle[2] = StringToFloat(words[2]); // gamma
+                cellAngle[1] = StringToFloat(words[1]); // beta (we keep gamma and beta flipped as well just to be consistent)
+                
+                i += 4; // Skips next lines as they've already been read
+            }
+            if (lines[i].Contains("Representative sites :"))
+            {
+                int j = 0; // counts number of representative sites
+                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                while (words.Length == 4)
+                {
+                    atomElementList.Add(words[0]);
+                    atomPosList.Add(new Vector3(StringToFloat(words[1]),
+                        StringToFloat(words[3]),
+                        StringToFloat(words[2]))); // (x,z,y)
+
+                    j++;
+                    words = lines[i + 2 + j].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                }
+                i += j; // Adds j as those lines have already been read
+            }
+            i++;
+            if (lines[i].Contains("Operation ") & k < 2)
+            {
+                words = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                symmetryMatricesList.Add(new Vector3[]
+                {
+                    new Vector3(StringToFloat(words[0]), StringToFloat(words[6]), StringToFloat(words[3])),
+                    new Vector3(StringToFloat(words[1]), StringToFloat(words[7]), StringToFloat(words[4])),
+                    new Vector3(StringToFloat(words[2]), StringToFloat(words[8]), StringToFloat(words[5])),
+                    new Vector3(StringToFloat(words[9]), StringToFloat(words[11]), StringToFloat(words[10]))
+                }); // NEED TO CONFIRM IF IT IS ROW-MAJOR OR COLUMN-MAJOR
+                foreach (Vector3 vec in symmetryMatricesList[k])
+                {
+                    Debug.Log(vec);
+                }
+                k++;
+            }
+        }
     }
 
     // Called in Start
@@ -277,7 +348,7 @@ public class Crystal : MonoBehaviour
         List<string> equivalentAtomElements = new List<string>(); // Creates a list for the new atomElements
         int equivalentCount = 0;
 
-        
+        //NOTE: This will set y as z and z as y, due to Unity being x,z,y but we using x, y, z. Fix1: Convert to cif x, z, y. Fix2: rotate cell to fit(but rotation will be a mirrored cell due to right hand rule)
         for (int i = 0; i < NumOfAtoms; i++)
         {
             atomObjectsList.Add(Instantiate(atom, atomParent.transform, false)); // Creates an atom with its position relative to the parent
@@ -312,10 +383,10 @@ public class Crystal : MonoBehaviour
         List<string> moreEquivalentAtomElements = new List<string>();
         equivalentCount = 0;
 
+        //NOTE: This will set y as z and z as y, due to Unity being x,z,y but we using x, y, z. Fix1: Convert to cif x, z, y. Fix2: rotate cell to fit(but rotation will be a mirrored cell due to right hand rule)
         for (int i = 0; i < equivalentAtomObjects.Count; i++)
         {
-
-            for (int j = 1; j < 3; j++) // Iterates over y and z
+            for (int j = 1; j < 3; j++) // Iterates over y and z 
             {
                 if (Mathf.Abs(equivalentAtomObjects[i].transform.localPosition[j]) < 0.0001f) // If atom position is approx. 0
                 {
@@ -660,7 +731,7 @@ List<GameObject> symmetryElement = new List<GameObject>();
                             planeVertices[0] = new Vector3(0, 0, 0); // Origin
                             planeVertices[1] = cellVectors[0]; // vec(a)
                             planeVertices[2] = cellVectors[2]; // vec(c)
-                            planeVertices[3] = cellVectors[1] + cellVectors[2]; // vec(a)+vec(c)
+                            planeVertices[3] = cellVectors[0] + cellVectors[2]; // vec(a)+vec(c)
                             planeName += " Y";
                             planeNormal = cellVectors[1];
                             break;
@@ -722,6 +793,11 @@ List<GameObject> symmetryElement = new List<GameObject>();
         material.DisableKeyword("_ALPHABLEND_ON");
         material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
         material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+    }
+
+    float StringToFloat(string str)
+    {
+        return float.Parse(str, System.Globalization.CultureInfo.InvariantCulture); // InvariantCulture makes sure commas and periods don't cause problems
     }
 
     // Called in AddSymmetry
