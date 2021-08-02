@@ -63,16 +63,16 @@ The GNU General Public License does not permit incorporating your program into p
       - https://www.cryst.ehu.es/html/resources/bogota2018/Bogota2018_3_SymmOper_Students.pdf
         - Identity
           - Always no. 1
-          - det = +1 & matrix has no -1 & ... OR ((1,0,0),(0,1,0),(0,0,1))
+          - det = +1 & matrix only has +1 & trace(M) = 3 (& abs_sum_non_diag = 0 )
         - Inversion
-          - det = -1 & matrix only has -1 & ... OR ((-1,0,0),(0,-1,0),(0,0-1))
+          - det = -1 & matrix only has -1 & trace(M) = 3 (& abs_sum_non_diag = 0 )
         - Axis
-          - rotation axis: det = +1
+          - rotation axis: det = +1 & translation = (0,0,0)
           - screw axis: det = +1 & translation != (0,0,0)
           - rotoinversion: det = -1 & rotation axis = -1 (not +1)
           - (-cos,  sin,  0)
           - (-sin, -cos,  0)
-          - (   0,    0, -1) (for rotation around z-axis) (normal rotation has +1, rotoinversion has -1)
+          - (   0,    0, -1) (for rotation around z-axis)
         - Plane
-          - Mirror plane: det = -1 & matrix only has one -1
+          - Mirror plane: det = -1 & matrix only has one -1 & translation = (0,0,0)
           - Glide plane: det = -1 & matrix only has one -1 & translation != (0,0,0)

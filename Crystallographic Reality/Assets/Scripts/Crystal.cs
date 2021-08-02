@@ -15,7 +15,8 @@ public class Crystal : MonoBehaviour
     private Vector3 cellAngle; // Angle of the lattice vectors
     private string[] atomElement; // The element of each atom
     private Vector3[] atomPos; // The position of each atom
-    private Vector3[][] symmetryMatrices; // An array of Vector3-arrays
+    private float[][,] symmetryMatrices; // An array of Vector3-arrays (1st array to count operations, 2nd array is a 3x3 rotation + 3x1 translation matrix) Matrix given by normal (x,y,z,) and will be converted upon use
+    private string[] symmetryMatricesType; // The type of operation for each symmetry matrix
     private float cellVolume;
     private Vector3[] cellVectors; // Unit cell vectors
     private string spaceGroup;
@@ -57,7 +58,8 @@ public class Crystal : MonoBehaviour
         // Initialization (The thought is to have a separate game scene with buttons, sliders, etc. for setting up the crystal. This is parsed to this file and creates the appropriate crystal)
 
         //ReadConvert(CrystalManager.outfile);
-        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt");
+        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
+        SymmetryEval();
 
         // "Old" Setup
         /*
@@ -120,22 +122,21 @@ public class Crystal : MonoBehaviour
     {
         List<string> atomElementList = new List<string>();
         List<Vector3> atomPosList = new List<Vector3>();
-        List<Vector3[]> symmetryMatricesList = new List<Vector3[]>();
+        List<float[,]> symmetryMatricesList = new List<float[,]>(); // A list of multi-dimensional arrays (each Vector array is a 3x3 matrix + 3x1 translation)
 
         string[] lines = File.ReadAllLines(infile); // Reads the file and stores each line in the array "lines"
         string[] words;
-        int k = 0; // Counts index for number of symmetry operations
         for (int i = 0; i < lines.Length - 1; i++) // Initially foreach, but took for to get easier enumeration and skippable lines
         {
             if (lines[i].Contains("Lattice parameters:"))
             {
-                // cellLength
-                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // the new array part is just to get the correct overload of the Split-function. RemoveEmptyEntries fixes consecutive spaces
+                // cellLength (the length is two lines below "Lattice parameters:". Therefore i + 2)
+                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // the "new[]" part is just to get the correct overload of the Split-function. RemoveEmptyEntries fixes consecutive spaces in the file
                 cellLength.x = StringToFloat(words[0]);
                 cellLength.y = StringToFloat(words[2]); // Y is vertical, so we use y as z
                 cellLength.z = StringToFloat(words[1]); // Likewise we use z as y
 
-                // cellAngle
+                // cellAngle (the angle is four lines below "Lattice parameters:". Therefore i + 4)
                 words = lines[i + 4].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 cellAngle[0] = StringToFloat(words[0]); // alpha ([0] is equivalent to .x)
                 cellAngle[2] = StringToFloat(words[2]); // gamma
@@ -143,39 +144,314 @@ public class Crystal : MonoBehaviour
                 
                 i += 4; // Skips next lines as they've already been read
             }
-            if (lines[i].Contains("Representative sites :"))
+            else if (lines[i].Contains("Representative sites :"))
             {
-                int j = 0; // counts number of representative sites
-                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                while (words.Length == 4)
+                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // The 1st rep. site is 2 lines below "Representative sites :"
+                while (words.Length == 4) // The next line after has 0 (or 1) words, while the next one has 6 words)
                 {
                     atomElementList.Add(words[0]);
                     atomPosList.Add(new Vector3(StringToFloat(words[1]),
                         StringToFloat(words[3]),
                         StringToFloat(words[2]))); // (x,z,y)
 
-                    j++;
-                    words = lines[i + 2 + j].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    i++; // We increment i for each rep. site we read
+                    words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // Could have not defined words, and had while lines[i + 2]... but that looks messy
                 }
-                i += j; // Adds j as those lines have already been read
             }
-            i++;
-            if (lines[i].Contains("Operation ") & k < 2)
+            else if (lines[i].Contains("Operation "))
             {
-                words = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                symmetryMatricesList.Add(new Vector3[]
+                words = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // The actual operation is one line below
+                symmetryMatricesList.Add(new float[,]
                 {
-                    new Vector3(StringToFloat(words[0]), StringToFloat(words[6]), StringToFloat(words[3])),
-                    new Vector3(StringToFloat(words[1]), StringToFloat(words[7]), StringToFloat(words[4])),
-                    new Vector3(StringToFloat(words[2]), StringToFloat(words[8]), StringToFloat(words[5])),
-                    new Vector3(StringToFloat(words[9]), StringToFloat(words[11]), StringToFloat(words[10]))
-                }); // NEED TO CONFIRM IF IT IS ROW-MAJOR OR COLUMN-MAJOR
-                foreach (Vector3 vec in symmetryMatricesList[k])
-                {
-                    Debug.Log(vec);
-                }
-                k++;
+                    { StringToFloat(words[0]), StringToFloat(words[1]), StringToFloat(words[2]), StringToFloat(words[9]) }, // (a11, a21, a31, a14) column 1 (x,y,z)
+                    { StringToFloat(words[3]), StringToFloat(words[4]), StringToFloat(words[5]), StringToFloat(words[9]) }, // (a12, a22, a32, a24) column 2 (x,y,z)
+                    { StringToFloat(words[6]), StringToFloat(words[7]), StringToFloat(words[8]), StringToFloat(words[9]) }  // (a13, a23, a13, a34) column 3 (x,y,z)
+                });
+                i++; // We increment i to avoid reading the line of the numbers, and rather skip to next "Operation "
             }
+        }
+        // Converts lists to arrays, for faster access (When creating cells atomElement and atomPos will be converted back to lists and filled, then over to array again)
+        atomElement = atomElementList.ToArray();
+        atomPos = atomPosList.ToArray();
+        symmetryMatrices = symmetryMatricesList.ToArray();
+    }
+
+    // Called in Start
+    void SymmetryEval()
+    {
+        // Evaluates each Vector3[] to determine type of symmetry operation. Uses the global symmetryMatrices
+        List<string> symmetryMatricesTypeList = new List<string>();
+
+        for (int i = 0; i < symmetryMatrices.Length - 1; i++) // .Length counts from 1, so we subtract 1 to count from 0
+        {
+            float[,] matrix = symmetryMatrices[i];
+            string axis;
+
+            // Step 1: Det(ermine) determinant
+            float det = Det(matrix);
+            float trace = Trace(matrix);
+            float absNonDiagSum = AbsNonDiagSum(matrix);
+            float eps = 0.0001f;
+
+            if (det > 0) // If determinant is positive
+            {
+                // Identity or rotation axis (Not rotoinversion)
+
+                // Step 2: Identity has Trace(M) = 3 and absNonDiagSum = 0
+                if (Mathf.Abs(trace-3) < eps & absNonDiagSum < eps) // uses < and a tolerance to avoid float number errors
+                {
+                    //Identity
+                    symmetryMatricesTypeList.Add("Identity");
+                }
+                else
+                {
+                    // Rotation axis
+                    int degOfRotation;
+
+                    // Step 3: Determine axis of rotation
+                    /*
+                        1  0    0
+                        0 cos -sin   x
+                        0 sin  cos
+                       
+                        cos 0 -sin
+                         0  1   0    y
+                        sin 0  cos
+                       
+                        cos -sin 0
+                        sin  cos 0   z
+                         0    0  1
+                        theta varies from 0.5 to -1 to 0.5 (6_1 -> 6_5) (which includes all 2, 3 and 4 within the interval) (Means only one axis will have diag = 1
+                    */
+
+                    // Find diagonal element with value = 1. This is the axis of rotation
+                    if (Mathf.Abs(matrix[0, 0] - 1) < eps) // If element a11 = 1
+                    {
+                        // x-axis
+                        axis = "x";
+                        // Step 4: Determine degree of rotation (2=180, 3=120, 4=90, 6=60) // n=5,7 not included (molecules) (yet?)
+                        degOfRotation = DegreeOfRotation(Mathf.Atan2(matrix[2, 1], matrix[1, 1]) * Mathf.Rad2Deg); // Uses atan(y/x) and converts to degrees
+
+                    }
+                    else if (Mathf.Abs(matrix[1, 1] - 1) < eps) // If element a22 = 1
+                    {
+                        // y-axis
+                        axis = "y";
+                        // Step 4: Determine degree of rotation (2=180, 3=120, 4=90, 6=60) // n=5,7 not included (molecules) (yet?)
+                        degOfRotation = DegreeOfRotation(Mathf.Atan2(matrix[2, 0], matrix[0, 0]) * Mathf.Rad2Deg);
+                    }
+                    else if (Mathf.Abs(matrix[2, 2] - 1) < eps) // If element a33 = 1
+                    {
+                        // z-axis
+                        axis = "z";
+                        // Step 4: Determine degree of rotation (2=180, 3=120, 4=90, 6=60) // n=5,7 not included (molecules) (yet?)
+                        degOfRotation = DegreeOfRotation(Mathf.Atan2(matrix[1, 0], matrix[0, 0]) * Mathf.Rad2Deg);
+                    }
+                    else
+                    {
+                        //Debug.Log("Could not find axis of rotation for rotation axis. Symmetry operation: " + (i + 1));
+                        //axis = "unknown";
+                        //degOfRotation = 0;
+                        throw new ArgumentException("Could not find axis of rotation for rotation axis. Symmetry operation: " + (i + 1)); // operation 7 in Si is a diagonal rotation and all Trace(M)=0 (Reached by y-rotation followed by x (old z) rotation)
+                    }
+                    
+                    // Step 5: Determine rotation vs. screw
+                    if (Mathf.Abs(matrix[0,3])+ Mathf.Abs(matrix[1, 3])+ Mathf.Abs(matrix[2, 3]) < eps) // If the sum of the translation vector components = 0
+                    {
+                        // Rotation axis
+                        symmetryMatricesTypeList.Add("Rotation " + axis + " " + degOfRotation);
+                    }
+                    else // Screw axis
+                    {
+                        // n_m = rotation (n) + translation (m/n). Try different values of m to fit with translation
+                        if (Mathf.Abs((matrix[0,4] * degOfRotation) - 1) < eps) // Re-written matrix[0,4] = 1/degOfRotation (testing 2_1, 3_1, 4_1, 6_1)
+                        {
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 1);
+                        }
+                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 2) < eps) // Re-written matrix[0,4] = 2/degOfRotation (testing 3_2, 4_2, 6_2)
+                        {
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 2);
+                        }
+                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 3) < eps) // Re-written matrix[0,4] = 3/degOfRotation (testing 4_3, 6_3)
+                        {
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 3);
+                        }
+                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 4) < eps) // Re-written matrix[0,4] = 4/degOfRotation (testing 6_4)
+                        {
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 4);
+                        }
+                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 5) < eps) // Re-written matrix[0,4] = 5/degOfRotation (testing 6_5)
+                        {
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 5);
+                        }
+                        else
+                        {
+                            symmetryMatricesTypeList.Add("Unknown");
+                            throw new ArgumentException("Could not determine subscript for screw axis. Symmetry operation: " + (i + 1));
+                        }
+
+
+                    }
+                }
+
+            }
+            else if (det < 0) // If determinant is negative
+            {
+                // Inversion or reflection (also rotoinversion)
+
+                // Step 2: Inversion has Trace(M) = - 3 and absNonDiagSum = 0
+                if (Mathf.Abs(trace + 3) < eps & absNonDiagSum < eps)
+                {
+                    // Inversion
+                    symmetryMatricesTypeList.Add("Inversion");
+                }
+                else
+                {
+                    // Reflection (or rotoinversion)
+                    // Step 3: Determine plane of reflection (Reflections only have one diag with value = -1)
+                    if (Mathf.Abs(matrix[0, 0] + 1) < eps) // x-axis is plane normal
+                    {
+                        axis = "x";
+                        // Step 4: Determine mirror vs. glide
+                    }
+                    else if (Mathf.Abs(matrix[1, 1] + 1) < eps) // y-axis is plane normal
+                    {
+                        axis = "y";
+                    }
+                    else if (Mathf.Abs(matrix[2, 2] + 1) < eps) // z-axis is plane normal
+                    {
+                        axis = "z";
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Could not determine normal of reflection plane. Symmetry operation: " + (i + 1));
+                    }
+
+                    // Step 4: Determine mirror vs. glide
+                    if (Mathf.Abs(matrix[0, 3]) + Mathf.Abs(matrix[1, 3]) + Mathf.Abs(matrix[2, 3]) < eps)
+                    {
+                        symmetryMatricesTypeList.Add("Mirror " + axis);
+                    }
+                    else
+                    {
+                        // Glide plane
+                        // Step 5: Determine type of glide plane
+                        // a-glide (0.5, 0, 0)
+                        // b-glide (0, 0,5, 0)
+                        // c-glide (0, 0, 0.5)
+                        // n-glide (0.5, 0.5, 0.5)
+                        // d-glide (0.25, 0.25, 0.25) (We ignore e-glide as that is two other glides combined)
+
+                        if ((Mathf.Abs(matrix[0, 3]) - 0.5) < eps & Mathf.Abs(matrix[1, 3]) + Mathf.Abs(matrix[2, 3]) < eps) // If x=0.5 and y and z = 0
+                        {
+                            // a-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " a");
+                        }
+                        else if ((Mathf.Abs(matrix[1, 3]) - 0.5) < eps & Mathf.Abs(matrix[0, 3]) + Mathf.Abs(matrix[2, 3]) < eps) // If y=0.5 and x and z = 0
+                        {
+                            // b-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " b");
+                        }
+                        else if ((Mathf.Abs(matrix[2, 3]) - 0.5) < eps & Mathf.Abs(matrix[0, 3]) + Mathf.Abs(matrix[2, 3]) < eps) // If z=0.5 and x and z = 0
+                        {
+                            // a-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " c");
+                        }
+                        else if ((Mathf.Abs(matrix[0, 3]) - 0.5) < eps & (Mathf.Abs(matrix[1, 3]) - 0.5) < eps & (Mathf.Abs(matrix[1, 3]) - 0.5) < eps) // If x, y and z = 0.5
+                        {
+                            // n-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " n");
+                        }
+                        else if ((Mathf.Abs(matrix[0, 3]) - 0.25) < eps & (Mathf.Abs(matrix[1, 3]) - 0.25) < eps & (Mathf.Abs(matrix[1, 3]) - 0.25) < eps) // If x, y and z = 0.25
+                        {
+                            // d-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " d");
+                        }
+                        else
+                        {
+                            symmetryMatricesTypeList.Add("Unknown");
+                            throw new NotImplementedException("Could not determine type of glide plane. Symmetry operation: " + (i + 1));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                symmetryMatricesTypeList.Add("Unknown");
+                throw new NotImplementedException("Could not evaluate symmetry based on determinant: " + det + ". Fix not implemented (and likely will not be). Symmetry operation: " + (i + 1));
+            }
+            Debug.Log("Identified Symmetry Operation " + (i + 1) + " as " + symmetryMatricesTypeList[i]);
+        }
+        symmetryMatricesType = symmetryMatricesTypeList.ToArray();
+    }
+
+    // Called in SymmetryEval
+    float Det(float[,] matrix)
+    {
+        //Finds the determinant of a 3x3 rotation matrix (here: in a 3x4 matrix (rotation + translation))
+        if(matrix.Length < 3) // Throws an error if the matrix is too small
+        {
+            throw new ArgumentException("Matrix does not have enough elements to find 3x3 determinant");
+        }
+
+        float a = matrix[0, 0] * (matrix[1, 1] * matrix[2, 2] - matrix[1, 2] * matrix[2, 1]); // a11 * (a22*a33 - a23*a32)
+        float b = matrix[0, 1] * (matrix[1, 0] * matrix[2, 2] - matrix[1, 2] * matrix[2, 0]); // a12 * (a21*a33 - a23*a31)
+        float c = matrix[0, 2] * (matrix[1, 0] * matrix[2, 1] - matrix[1, 1] * matrix[2, 0]); // a13 * (a21*a32 - a22*a31)
+
+        return a - b + c;
+    }
+
+    // Called in SymmetryEval
+    float Trace(float[,] matrix)
+    {
+        // Adds diagonal elements of a 3x3 matrix (Here: 3x3 rotation + 3x1 translation)
+
+        if (matrix.Length < 3) // Throws an error if the matrix is too small
+        {
+            throw new ArgumentException("Matrix does not have enough elements to trace 3x3 matrix");
+        }
+
+        return matrix[0, 0] + matrix[1, 1] + matrix[2, 2];
+    }
+
+    // Called in SymmetryEval
+    float AbsNonDiagSum(float[,] matrix)
+    {
+        // Adds together the sum of the absolute value of all non-diagonal elements in a 3x3 matrix (Here: 3x3 rotation + 3x1 translation)
+        // Uses absolute value of induvidual values to avoid elements cancelling each other out
+        
+        if (matrix.Length < 3) // Throws an error if the matrix is too small
+        {
+            throw new ArgumentException("Matrix does not have enough elements to add non-diag elements in 3x3 matrix");
+        }
+
+        return Mathf.Abs(matrix[0, 1]) + Mathf.Abs(matrix[0, 2])
+            + Mathf.Abs(matrix[1, 0]) + Mathf.Abs(matrix[1, 2])
+            + Mathf.Abs(matrix[2, 0]) + Mathf.Abs(matrix[2, 1]); // Could have looped but is more complicated and not needed (plus this is likely faster)
+    }
+
+    // Called in SymmetryEval -> Rotation axis
+    int DegreeOfRotation(float theta, float eps = 0.0001f)
+    {
+        if (Mathf.Abs(theta - 180) < eps)
+        {
+            return 2;
+        }
+        else if (Mathf.Abs(theta - 120) < eps)
+        {
+            return 3;
+        }
+        else if (Mathf.Abs(theta - 90) < eps)
+        {
+            return 4;
+        }
+        else if (Mathf.Abs(theta - 60) < eps)
+        {
+            return 6;
+        }
+        else
+        {
+            throw new NotImplementedException("Degrees not matching 2, 3, 4 and 6 not implemented");
         }
     }
 
@@ -592,10 +868,10 @@ public class Crystal : MonoBehaviour
         // In trigonal and hexagonal cells, the second symbol shows the symmetry along[100], [010] and[110], and the third symbol shows symmetry along[210], [120], and[120].
         // In rhombohedral systems on rhombohedral axes, the first symbol shows symmetry along[111], and the second symbol shows symmetry along[110], [011], and[101].
         // Cubic symbols show[100], [010], [001] in the first symbol, [111], [111], [111], [111] in the second symbol and[110], [110], [011], [011], [101], and[101] in the third symbol.
-
-// Screw axes and Glide planes
-
-List<GameObject> symmetryElement = new List<GameObject>();
+        
+        // Screw axes and Glide planes
+        
+        List<GameObject> symmetryElement = new List<GameObject>();
 
         for (int i = 1; i < spaceGroupSymbols.Length; i++) // Iterates over the symbols, but skips the Lattice symbol
         {
