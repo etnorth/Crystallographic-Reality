@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2082782279310613444}
   - component: {fileID: 3289473428749355982}
   - component: {fileID: 1354975449053690075}
+  - component: {fileID: 5137068580585482633}
   m_Layer: 0
   m_Name: Atom
   m_TagString: Untagged
@@ -112,3 +113,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &5137068580585482633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581097201470644699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846a4dff56f41954c9ff33cb6769bea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags: []

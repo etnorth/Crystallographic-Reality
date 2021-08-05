@@ -20,6 +20,7 @@ public class Crystal : MonoBehaviour
     private float cellVolume;
     private Vector3[] cellVectors; // Unit cell vectors
     private string spaceGroup;
+    public float eps = 0.0001f;
 
     public GameObject crystal; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this. In hindsight I could have skipped this entirely and made this in the script, but this works fine.
     public GameObject atom; // Atom prefab. Selected manually in Unity. This could also have been made by using GameObject.CreatePrimitive() and then setting constraints via the script
@@ -59,11 +60,22 @@ public class Crystal : MonoBehaviour
 
         //ReadConvert(CrystalManager.outfile);
         ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
-        SymmetryEval();
+        EvalSymmetry();
+        CreateCrystal();
+        CreateSymmetry();
+
+
+        //Debug.Log("Matrix #rows: " + matrix.GetLength(0));
+        //Debug.Log("Matrix #columns: " + matrix.GetLength(1));
+        //Debug.Log("Matrix element 0,3: " + matrix[0, 3]);
 
         // "Old" Setup
         /*
         infile = CrystalManager.infile;
+        if (infile == null)
+        {
+            infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\files\Si.cif";
+        }
         bool convertFile = true; // Specifies that the user wishes to convert their .cif to a .xyz automatically by the program
 
         if (!Directory.Exists(Application.persistentDataPath + @"\cif2cell_convert\")) // If the cif2cell_convert folder does not exist in the persistentDataPath
@@ -126,7 +138,7 @@ public class Crystal : MonoBehaviour
 
         string[] lines = File.ReadAllLines(infile); // Reads the file and stores each line in the array "lines"
         string[] words;
-        for (int i = 0; i < lines.Length - 1; i++) // Initially foreach, but took for to get easier enumeration and skippable lines
+        for (int i = 0; i < lines.Length; i++) // Initially foreach, but took for to get easier enumeration and skippable lines
         {
             if (lines[i].Contains("Lattice parameters:"))
             {
@@ -163,9 +175,9 @@ public class Crystal : MonoBehaviour
                 words = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // The actual operation is one line below
                 symmetryMatricesList.Add(new float[,]
                 {
-                    { StringToFloat(words[0]), StringToFloat(words[1]), StringToFloat(words[2]), StringToFloat(words[9]) }, // (a11, a21, a31, a14) column 1 (x,y,z)
-                    { StringToFloat(words[3]), StringToFloat(words[4]), StringToFloat(words[5]), StringToFloat(words[9]) }, // (a12, a22, a32, a24) column 2 (x,y,z)
-                    { StringToFloat(words[6]), StringToFloat(words[7]), StringToFloat(words[8]), StringToFloat(words[9]) }  // (a13, a23, a13, a34) column 3 (x,y,z)
+                    { StringToFloat(words[0]), StringToFloat(words[3]), StringToFloat(words[6]), StringToFloat(words[9]) }, // (a11, a12, a13, a14) row 1 (x,y,z)
+                    { StringToFloat(words[1]), StringToFloat(words[4]), StringToFloat(words[7]), StringToFloat(words[10]) }, // (a21, a22, a23, a24) row 2 (x,y,z)
+                    { StringToFloat(words[2]), StringToFloat(words[5]), StringToFloat(words[8]), StringToFloat(words[11]) }  // (a31, a32, a33, a34) row 3 (x,y,z)
                 });
                 i++; // We increment i to avoid reading the line of the numbers, and rather skip to next "Operation "
             }
@@ -177,22 +189,21 @@ public class Crystal : MonoBehaviour
     }
 
     // Called in Start
-    void SymmetryEval()
+    void EvalSymmetry()
     {
         // Evaluates each Vector3[] to determine type of symmetry operation. Uses the global symmetryMatrices
         List<string> symmetryMatricesTypeList = new List<string>();
 
-        for (int i = 0; i < symmetryMatrices.Length - 1; i++) // .Length counts from 1, so we subtract 1 to count from 0
+        for (int i = 0; i < symmetryMatrices.Length; i++) // .Length counts from 1, so we subtract 1 to count from 0
         {
             float[,] matrix = symmetryMatrices[i];
             string axis;
 
-            // Step 1: Det(ermine) determinant
             float det = Det(matrix);
             float trace = Trace(matrix);
             float absNonDiagSum = AbsNonDiagSum(matrix);
-            float eps = 0.0001f;
 
+            // Step 1: Det(ermine) determinant
             if (det > 0) // If determinant is positive
             {
                 // Identity or rotation axis (Not rotoinversion)
@@ -228,7 +239,7 @@ public class Crystal : MonoBehaviour
                     if (Mathf.Abs(matrix[0, 0] - 1) < eps) // If element a11 = 1
                     {
                         // x-axis
-                        axis = "x";
+                        axis = "(1,0,0)";
                         // Step 4: Determine degree of rotation (2=180, 3=120, 4=90, 6=60) // n=5,7 not included (molecules) (yet?)
                         degOfRotation = DegreeOfRotation(Mathf.Atan2(matrix[2, 1], matrix[1, 1]) * Mathf.Rad2Deg); // Uses atan(y/x) and converts to degrees
 
@@ -236,23 +247,51 @@ public class Crystal : MonoBehaviour
                     else if (Mathf.Abs(matrix[1, 1] - 1) < eps) // If element a22 = 1
                     {
                         // y-axis
-                        axis = "y";
+                        axis = "(0,1,0)";
                         // Step 4: Determine degree of rotation (2=180, 3=120, 4=90, 6=60) // n=5,7 not included (molecules) (yet?)
                         degOfRotation = DegreeOfRotation(Mathf.Atan2(matrix[2, 0], matrix[0, 0]) * Mathf.Rad2Deg);
                     }
                     else if (Mathf.Abs(matrix[2, 2] - 1) < eps) // If element a33 = 1
                     {
                         // z-axis
-                        axis = "z";
+                        axis = "(0,0,1)";
                         // Step 4: Determine degree of rotation (2=180, 3=120, 4=90, 6=60) // n=5,7 not included (molecules) (yet?)
                         degOfRotation = DegreeOfRotation(Mathf.Atan2(matrix[1, 0], matrix[0, 0]) * Mathf.Rad2Deg);
                     }
                     else
                     {
-                        //Debug.Log("Could not find axis of rotation for rotation axis. Symmetry operation: " + (i + 1));
-                        //axis = "unknown";
-                        //degOfRotation = 0;
-                        throw new ArgumentException("Could not find axis of rotation for rotation axis. Symmetry operation: " + (i + 1)); // operation 7 in Si is a diagonal rotation and all Trace(M)=0 (Reached by y-rotation followed by x (old z) rotation)
+                        // Below only works if matrix is non-symmetric.
+                        // Original taken from https://en.wikipedia.org/wiki/Rotation_matrix#Determining_the_axis
+                        // See http://scipp.ucsc.edu/~haber/ph116A/rotation_11.pdf page 7 for full guide
+                        float[] u;
+
+                        if ((Mathf.Abs(trace) + 1) < eps && (Mathf.Abs(trace) - 3) < eps) // trace != -1, 3
+                        {
+                            float prefactor = 1 / (Mathf.Sqrt((3 - trace) * (1 + trace)));
+                            u = new float[] {
+                                prefactor*(matrix[2, 1] - matrix[1, 2]),
+                                prefactor*(matrix[0, 2] - matrix[2, 0]),
+                                prefactor*(matrix[1, 0] - matrix[0, 1]) }; // u = prefactor * (a32-a23, a13-a31, a21-a12)
+                        }
+                        else
+                        {
+                            // We have ruled out theta=0 as that is identity. This is theta=pi rad = 180 deg
+                            // However, we still do not know the axis of rotation
+                            Debug.LogWarning("NotImplemented: Find eigenvector with lambda=1 for rotation axis");
+                            u = new float[] { 0, 0, 0 };
+                        }
+
+
+                        axis = "(" + u[0] + "," + u[1] + "," + u[2] + ")";
+
+                        // Now, to determine the angle theta for degOfRotation,
+                        // we can either use that ||u||=2*sin(theta),
+                        // or we can use Trace(matrix) = 1 + 2 cos(theta).
+                        // Using trace seems simpler, computationally, as we have a function for that already. // Trace is might already be zero, but it wouldn't use trace instead of -1/2
+                        // However, by using both methods, we can again use Atan2 for increased range of theta
+                        float sin = Mathf.Sqrt((u[0] * u[0]) + (u[1] * u[1]) + (u[2] * u[2]))/2; // ||u|| = sqrt(x^2+y^2+z^2). sin(theta) = ||u||/2
+                        float cos = (trace - 1f) / 2; // Trace(M) = 1 + 2*cos -> cos = (Trace(M)-1)/2
+                        degOfRotation = DegreeOfRotation(Mathf.Atan2(sin,cos) * Mathf.Rad2Deg); // Atan2 only works when sin>0, for sin<0 the angle is off by 180 deg. The function takes this into account
                     }
                     
                     // Step 5: Determine rotation vs. screw
@@ -264,30 +303,31 @@ public class Crystal : MonoBehaviour
                     else // Screw axis
                     {
                         // n_m = rotation (n) + translation (m/n). Try different values of m to fit with translation
-                        if (Mathf.Abs((matrix[0,4] * degOfRotation) - 1) < eps) // Re-written matrix[0,4] = 1/degOfRotation (testing 2_1, 3_1, 4_1, 6_1)
+                        if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 1) < eps) // Re-written matrix[0,4] = 1/degOfRotation (testing 2_1, 3_1, 4_1, 6_1)
                         {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 1);
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 1);
                         }
-                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 2) < eps) // Re-written matrix[0,4] = 2/degOfRotation (testing 3_2, 4_2, 6_2)
+                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 2) < eps) // Re-written matrix[0,4] = 2/degOfRotation (testing 3_2, 4_2, 6_2)
                         {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 2);
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 2);
                         }
-                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 3) < eps) // Re-written matrix[0,4] = 3/degOfRotation (testing 4_3, 6_3)
+                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 3) < eps) // Re-written matrix[0,4] = 3/degOfRotation (testing 4_3, 6_3)
                         {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 3);
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 3);
                         }
-                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 4) < eps) // Re-written matrix[0,4] = 4/degOfRotation (testing 6_4)
+                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 4) < eps) // Re-written matrix[0,4] = 4/degOfRotation (testing 6_4)
                         {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 4);
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 4);
                         }
-                        else if (Mathf.Abs((matrix[0, 4] * degOfRotation) - 5) < eps) // Re-written matrix[0,4] = 5/degOfRotation (testing 6_5)
+                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 5) < eps) // Re-written matrix[0,4] = 5/degOfRotation (testing 6_5)
                         {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + "_" + 5);
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 5);
                         }
                         else
                         {
-                            symmetryMatricesTypeList.Add("Unknown");
-                            throw new ArgumentException("Could not determine subscript for screw axis. Symmetry operation: " + (i + 1));
+                            Debug.LogError("Could not determine subscript for screw axis. Could this be a rotoinversion?? (but det>0?!) Symmetry operation: " + (i + 1));
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " 0");
+                            //throw new ArgumentException("Could not determine subscript for screw axis. Symmetry operation: " + (i + 1));
                         }
 
 
@@ -311,20 +351,36 @@ public class Crystal : MonoBehaviour
                     // Step 3: Determine plane of reflection (Reflections only have one diag with value = -1)
                     if (Mathf.Abs(matrix[0, 0] + 1) < eps) // x-axis is plane normal
                     {
-                        axis = "x";
+                        axis = "(1,0,0)";
                         // Step 4: Determine mirror vs. glide
                     }
                     else if (Mathf.Abs(matrix[1, 1] + 1) < eps) // y-axis is plane normal
                     {
-                        axis = "y";
+                        axis = "(0,1,0)";
                     }
                     else if (Mathf.Abs(matrix[2, 2] + 1) < eps) // z-axis is plane normal
                     {
-                        axis = "z";
+                        axis = "(0,0,0)";
                     }
-                    else
+                    else 
                     {
-                        throw new ArgumentException("Could not determine normal of reflection plane. Symmetry operation: " + (i + 1));
+                        float[] v = { 1, 2, 3 }; // We define an arbitrary vector to be reflected
+                        float[] u = LinTransform(matrix,v); // Mv = u
+                        float[] displacement = { u[0] - v[0],
+                            u[1] - v[1],
+                            u[2] - v[2] }; // The displacement is the normal of the reflection plane. displacement = u-v
+
+                        if (Mathf.Abs(displacement[0]) < eps & Mathf.Abs(displacement[1]) < eps & Mathf.Abs(displacement[2]) < eps)
+                        {
+                            Debug.LogError("The plane normal is (0,0,0). Is this a rotoinversion? Symmetry operation: " + (i + 1));
+                            axis = "unknown";
+                        }
+                        else
+                        {
+                            axis = "(" + displacement[0] + "," + displacement[1] + "," + displacement[2] + ")";
+                        }
+                        //Debug.LogError("Could not determine normal of reflection plane. Symmetry operation: " + (i + 1));
+                        //throw new ArgumentException("Could not determine normal of reflection plane. Symmetry operation: " + (i + 1));
                     }
 
                     // Step 4: Determine mirror vs. glide
@@ -342,47 +398,179 @@ public class Crystal : MonoBehaviour
                         // n-glide (0.5, 0.5, 0.5)
                         // d-glide (0.25, 0.25, 0.25) (We ignore e-glide as that is two other glides combined)
 
-                        if ((Mathf.Abs(matrix[0, 3]) - 0.5) < eps & Mathf.Abs(matrix[1, 3]) + Mathf.Abs(matrix[2, 3]) < eps) // If x=0.5 and y and z = 0
+                        if ((Mathf.Abs(matrix[0, 3]) - 0.5) < eps && (Mathf.Abs(matrix[1, 3]) + Mathf.Abs(matrix[2, 3])) < eps) // If x=0.5 and y and z = 0
                         {
                             // a-glide
                             symmetryMatricesTypeList.Add("Glide " + axis + " a");
                         }
-                        else if ((Mathf.Abs(matrix[1, 3]) - 0.5) < eps & Mathf.Abs(matrix[0, 3]) + Mathf.Abs(matrix[2, 3]) < eps) // If y=0.5 and x and z = 0
+                        else if ((Mathf.Abs(matrix[1, 3]) - 0.5) < eps && (Mathf.Abs(matrix[0, 3]) + Mathf.Abs(matrix[2, 3])) < eps) // If y=0.5 and x and z = 0
                         {
                             // b-glide
                             symmetryMatricesTypeList.Add("Glide " + axis + " b");
                         }
-                        else if ((Mathf.Abs(matrix[2, 3]) - 0.5) < eps & Mathf.Abs(matrix[0, 3]) + Mathf.Abs(matrix[2, 3]) < eps) // If z=0.5 and x and z = 0
+                        else if ((Mathf.Abs(matrix[2, 3]) - 0.5) < eps && (Mathf.Abs(matrix[0, 3]) + Mathf.Abs(matrix[2, 3])) < eps) // If z=0.5 and x and z = 0
                         {
-                            // a-glide
+                            // c-glide
                             symmetryMatricesTypeList.Add("Glide " + axis + " c");
                         }
-                        else if ((Mathf.Abs(matrix[0, 3]) - 0.5) < eps & (Mathf.Abs(matrix[1, 3]) - 0.5) < eps & (Mathf.Abs(matrix[1, 3]) - 0.5) < eps) // If x, y and z = 0.5
+                        else if (((Mathf.Abs(matrix[0, 3]) - 0.5) < eps && (Mathf.Abs(matrix[1, 3]) - 0.5) < eps)) // If x and y = 0.5
                         {
                             // n-glide
-                            symmetryMatricesTypeList.Add("Glide " + axis + " n");
+                            symmetryMatricesTypeList.Add("Glide " + axis + " n xy");
                         }
-                        else if ((Mathf.Abs(matrix[0, 3]) - 0.25) < eps & (Mathf.Abs(matrix[1, 3]) - 0.25) < eps & (Mathf.Abs(matrix[1, 3]) - 0.25) < eps) // If x, y and z = 0.25
+                        else if (((Mathf.Abs(matrix[0, 3]) - 0.5) < eps && (Mathf.Abs(matrix[2, 3]) - 0.5) < eps)) // If x and z = 0.5
+                        {
+                            // n-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " n xz");
+                        }
+                        else if (((Mathf.Abs(matrix[1, 3]) - 0.5) < eps && (Mathf.Abs(matrix[2, 3]) - 0.5) < eps)) // If y and z = 0.5
+                        {
+                            // n-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " n yz");
+                        }
+                        else if (((Mathf.Abs(matrix[0, 3]) - 0.25) < eps && (Mathf.Abs(matrix[1, 3]) - 0.25) < eps)) // If x and y = 0.5
                         {
                             // d-glide
-                            symmetryMatricesTypeList.Add("Glide " + axis + " d");
+                            symmetryMatricesTypeList.Add("Glide " + axis + " d xy");
+                        }
+                        else if (((Mathf.Abs(matrix[0, 3]) - 0.25) < eps && (Mathf.Abs(matrix[2, 3]) - 0.25) < eps)) // If x and z = 0.5
+                        {
+                            // d-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " d xz");
+                        }
+                        else if (((Mathf.Abs(matrix[1, 3]) - 0.25) < eps && (Mathf.Abs(matrix[2, 3]) - 0.25) < eps)) // If y and z = 0.5
+                        {
+                            // d-glide
+                            symmetryMatricesTypeList.Add("Glide " + axis + " d yz");
                         }
                         else
                         {
-                            symmetryMatricesTypeList.Add("Unknown");
-                            throw new NotImplementedException("Could not determine type of glide plane. Symmetry operation: " + (i + 1));
+                            // e-glide (I HOPE)
+                            Debug.LogError("Could not determine type of glide plane. Maybe e-glide? Symmetry operation: " + (i + 1));
+                            symmetryMatricesTypeList.Add("Glide " + axis + " e");
+                            //throw new NotImplementedException("Could not determine type of glide plane. Symmetry operation: " + (i + 1));
                         }
                     }
                 }
             }
             else
             {
+                Debug.LogError("Could not evaluate symmetry based on determinant: " + det + ". Fix not implemented. Symmetry operation: " + (i + 1));
                 symmetryMatricesTypeList.Add("Unknown");
-                throw new NotImplementedException("Could not evaluate symmetry based on determinant: " + det + ". Fix not implemented (and likely will not be). Symmetry operation: " + (i + 1));
+                //throw new NotImplementedException("Could not evaluate symmetry based on determinant: " + det + ". Fix not implemented. Symmetry operation: " + (i + 1));
             }
             Debug.Log("Identified Symmetry Operation " + (i + 1) + " as " + symmetryMatricesTypeList[i]);
         }
         symmetryMatricesType = symmetryMatricesTypeList.ToArray();
+    }
+
+    // Called in Start
+    void CreateCrystal()
+    {
+        // Constructs the crystal unit cell by running the representative sites through each symmetry matrix
+        // Whenever a duplicate atom is made, it should delete the duplicate and rather add a tag to the original atom, binding it to it's symmetrical equivalent
+
+        GameObject atomParent = new GameObject("Atoms"); // Creates an empty GameObject to parent all atoms (mostly for tidier structure in Unity Editor)
+        atomParent.transform.parent = crystal.transform; // Sets the atomParent as a child of the Crystal
+        atomParent.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the atomParent is in the Crystal's (0,0,0) and not the worlds' (0,0,0)
+        List<GameObject> atomObjectsList = new List<GameObject>(); // Creates a list to contain each atom's object for easier access. Will be converted to array at the end
+        List<string> atomElementsList = new List<string>();// Creates a list to contain each atom's element for easier access. Will be converted to array at the end
+
+        bool posIsNew;
+
+        for (int i = 0; i < atomPos.Length; i++) // Loops over each representative site
+        {
+            atomObjectsList.Add(Instantiate(atom, atomParent.transform, false)); // Creates a physical atom object, with atomParent as parent, and adds it to the list
+            atomElementsList.Add(atomElement[i]); // Adds the atom's element
+
+            atomObjectsList[i].transform.localPosition = atomPos[i]; // Places the atom in its correct position
+            SetAtomColor(atomObjectsList[i], atomElementsList[i]); // Sets the atom's color based on its element
+            atomObjectsList[i].name = atomElement[i] + " " + atomPos[i]; // Names the atom so they are easier to distinguish in the Unity Editor
+
+            Debug.Log("Added representative site: " + atomObjectsList[i].name);
+
+            for (int j = 0; j < symmetryMatrices.Length; j++) // Loops over each symmetry matrix
+            {
+                Vector3 pos = PerformSymmetry(symmetryMatrices[j], atomPos[i]); // Performs symmetry operation on representative site (including translation)
+                atomObjectsList[i].GetComponent<CustomTag>().AddTag(symmetryMatricesType[j]); // Enters the CustomTag component and adds a tag corresponding to our symmetry operation
+                posIsNew = true; // Cleans up if previous position was false
+
+                for (int k = 0; k < atomObjectsList.Count; k++) // Loops over each existing atom
+                {
+                    if (atomElementsList[k]==atomElement[i] && (Mathf.Abs(pos[0] - atomObjectsList[k].transform.localPosition[0]) < eps) && 
+                        (Mathf.Abs(pos[1] - atomObjectsList[k].transform.localPosition[1]) < eps) && 
+                        (Mathf.Abs(pos[1] - atomObjectsList[k].transform.localPosition[1]) < eps)) // Checks if position already exists from before for this atom (could cause atoms inside each other?)
+                    {
+                        posIsNew = false;
+                        if (!atomObjectsList[k].GetComponent<CustomTag>().HasTag(symmetryMatricesType[j])) // If atom we compared with doesn't have the tag from before
+                        {
+                            atomObjectsList[k].GetComponent<CustomTag>().AddTag(symmetryMatricesType[j]); // Adds symmetry tag to the atom we just compared with
+                            Debug.Log("Added tag: " + symmetryMatricesType[j] + " to atom: " + atomObjectsList[k].name + ". k = " + k + ", symmetry Operation: " + (j + 1));
+                        }
+                        else
+                        {
+                            //Debug.Log("Tag: " + symmetryMatricesType[j] + " already existed on atom: " + atomObjectsList[k].name + ". k = " + k + ", symmetry Operation: " + (j + 1));
+                        }
+                    }
+                    else // If position doesn't already exist
+                    {
+                        posIsNew = posIsNew & true; // By having true AND itself, it can never have been false before. If the last iteration is true, then it will create even though it was false before
+                    }
+                }
+
+                if (posIsNew) // If, after checking every existing atom, the position still is new, we can create it
+                {
+                    GameObject equivalentAtom = Instantiate(atom, atomParent.transform, false); // Creates symmetry-made atom
+                    equivalentAtom.transform.localPosition = pos; // Sets its position
+                    SetAtomColor(equivalentAtom, atomElement[i]); // Changes its color
+                    equivalentAtom.GetComponent<CustomTag>().AddTag(symmetryMatricesType[j]); // Adds tag for what symmetry operation made it
+                    equivalentAtom.name = atomElement[i] + " " + pos; // Names the atom so they are easier to distinguish in the Unity Editor
+
+                    atomObjectsList.Add(equivalentAtom); // Adds atom to list
+                    atomElementsList.Add(atomElement[i]); // Adds atom Element to list
+
+                    Debug.Log("Added atom: " + equivalentAtom.name + " with symmetry operation: " + symmetryMatricesType[j] + ", symmetry Operation: " + (j + 1)); 
+                }
+            }
+        }
+
+    }
+
+    // Called in Start
+    void CreateSymmetry()
+    {
+        for (int i = 0; i < symmetryMatricesType.Length; i++)
+        {
+            string symmetry = symmetryMatricesType[i];
+            string[] symmetryInfo = symmetry.Split(' '); // Here I know there's only one space, so I do it the easy way
+
+            switch (symmetryInfo[0])
+            {
+                case "Identity":
+                    // This always exists, so ignore it
+                    break;
+                case "Inversion":
+                    // Instantiate Inversion element
+                    break;
+                case "Rotation":
+                    // Instantiate Rotation axis based on axis and degree of rotation
+                    break;
+                case "Screw":
+                    // Instantiate Screw axis based on axis, degree of rotation and subscript
+                    break;
+                case "Mirror":
+                    // Instantiate Mirror plane based on plane normal and size of lattice (CreatePlane())
+                    break;
+                case "Glide":
+                    // Instantiate Glide plane based on plane normal and size of lattice (CreatePlane()), with different color to indicate type of glide
+                    break;
+                case "Unknown":
+                    // throw error message
+                default:
+                    break;
+            }
+
+        }
     }
 
     // Called in SymmetryEval
@@ -430,9 +618,10 @@ public class Crystal : MonoBehaviour
             + Mathf.Abs(matrix[2, 0]) + Mathf.Abs(matrix[2, 1]); // Could have looped but is more complicated and not needed (plus this is likely faster)
     }
 
-    // Called in SymmetryEval -> Rotation axis
+    // Called in SymmetryEval/Rotation axis
     int DegreeOfRotation(float theta, float eps = 0.0001f)
     {
+        // This function determines the degree of rotation of a rotation axis based on its angle
         if (Mathf.Abs(theta - 180) < eps)
         {
             return 2;
@@ -445,15 +634,159 @@ public class Crystal : MonoBehaviour
         {
             return 4;
         }
+        else if (Mathf.Abs(theta + 90) < eps) // arctan(1/0) = error, but atan2() gives -90. However, it should give +90. We take this into account here
+        {
+            return 4;
+        }
         else if (Mathf.Abs(theta - 60) < eps)
         {
             return 6;
         }
         else
         {
-            throw new NotImplementedException("Degrees not matching 2, 3, 4 and 6 not implemented");
+            Debug.LogError("Degree of rotation was not 2, 3, 4 or 6. theta=" + theta);
+            return 0;
+            //throw new NotImplementedException("Degrees not matching 2, 3, 4 and 6 not implemented");
         }
     }
+
+    // Called in SymmetryEval
+    float[] LinTransform(float[,] M, float[] v)
+    {
+        // This function performs a linear transformation "M" on a vector "v"
+
+        float[] u = new float[v.Length]; // Define the output vector to fill iteratively
+        for(int i = 0; i < v.Length; i++) // Loop over each element in the vector (each row in v)
+        {
+            for (int j = 0; j < M.GetLength(0); j++) // Loop over each row j, in column i, of M (array.GetLength(0) gives number of rows, array.GetLength(1) gives number of columns)
+            {
+                u[j] += v[i] * M[j,i];
+            }
+        }
+        return u;
+    }
+
+    // Called in CreateCrystal. Overload to work for Vector3 using "(x,z,y)"
+    Vector3 PerformSymmetry(float[,] M, Vector3 v)
+    {
+        // This LinTransform takes a multidimensional array as a matrix and a Unity.Vector3, and transforms the vector using the matrix
+        // Unity uses y is vertical and z is horisontal, but we use z as vertical and y as horisontal.
+        // We therefore need to switch the vector around before and after the transform (or switch the matrix around).
+
+        float[] a = new float[] { v[0], v[2], v[1] }; // Swaps y and z so that the third coordinate is the vertical axis ( (x,z,y)->(x,y,z) )
+        float[] b = LinTransform(M, a); // Transforms the array-vector, a, with the matrix, M. This uses the other overload, where the actual transformation is perfomed
+        b = new float[] { b[0] + (M[0, 3]*cellLength[0]), 
+            b[1] + (M[1, 3]*cellLength[1]), 
+            b[2] + (M[2, 3]*cellLength[2]) }; // Translates b according to the translational component of M, and multiplies with cellLength to handle fractional coordinates BUT NOT BRAVAISVECTORS WHICH IS BAD
+
+        return new Vector3(b[0], b[2], b[1]); // Swaps y and z back again ( (x,y,z) -> (x,z,y) )
+    }
+
+    // Called in CreateCell
+    void SetAtomColor(GameObject atom, string element)
+    {
+        // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
+        try
+        {
+            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors[element]); // Changes the material color of the gameobject's renderer component
+        }
+        catch (KeyNotFoundException) // If atom is not in the dictonary, default to "other"
+        {
+            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors["other"]);
+        }
+    }
+
+    // Called in AddSymmetry
+    void ToTransparentMode(Material material)
+    {
+        // Makes a material use the Transparent Rendering Mode
+        // Taken from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/StandardShaderGUI.cs (this is how Unity changes rendering in Client)
+        material.SetOverrideTag("RenderType", "Transparent");
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.DisableKeyword("_ALPHABLEND_ON");
+        material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+    }
+
+    float StringToFloat(string str)
+    {
+        return float.Parse(str, System.Globalization.CultureInfo.InvariantCulture); // InvariantCulture makes sure commas and periods don't cause problems
+    }
+
+    // Called in AddSymmetry
+    GameObject CreatePlane(Vector3[] vertices, Color color, string name = "Plane", GameObject parent = null)
+    {
+        // Creates a Quad GameObject for symmetry planes using four input coordinates (each corner). This should make planes work in crystals where not all angles are 90
+        // Made using https://docs.unity3d.com/Manual/Example-CreatingaBillboardPlane.html
+        // vertices are given as (bottomLeft, bottomRight, topLeft, topRight)
+
+        GameObject planeBoth = new GameObject(name);
+        GameObject planeFront = new GameObject("Front");
+        GameObject planeBack;
+        planeFront.transform.parent = planeBoth.transform;
+
+        // Creates a mesh
+        {
+            MeshRenderer meshRenderer = planeFront.AddComponent<MeshRenderer>(); // Adds a meshRenderer to the planeFront, and stores it for ease of access
+            meshRenderer.material = new Material(Shader.Find("Standard")); // Not sure why this is needed, but without it looks purple (guessing it is the "lack-of-material"-material) (was sharedMaterial, but changed it to material)
+
+            MeshFilter meshFilter = planeFront.AddComponent<MeshFilter>(); // Adds a meshFilter
+
+            Mesh mesh = new Mesh(); // Creates a mesh
+
+            mesh.vertices = vertices; // Gives the mesh our made vertices
+
+            int[] tris = new int[6] // triangles(?) for the mesh
+            {
+            // lower left triangle
+            0,2,1,
+            // upper right triangle
+            2,3,1
+            };
+            mesh.triangles = tris;
+
+            Vector3[] normals = new Vector3[4] // Normals(?) for the mesh
+            {
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward
+            };
+            mesh.normals = normals;
+
+            Vector2[] uv = new Vector2[4]
+            {
+            new Vector2(0, 0),
+            new Vector2(1, 0),
+            new Vector2(0, 1),
+            new Vector2(1, 1)
+            };
+            mesh.uv = uv;
+
+            meshFilter.mesh = mesh; // Applies our newly made mesh to the meshFilter
+        }
+
+        planeFront.GetComponent<Renderer>().material.color = color; // Sets the color of the material
+        ToTransparentMode(planeFront.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
+
+        planeBack = Instantiate(planeFront, planeBoth.transform, false); // Adds the backside of the plane (Unity only renders one side of the mesh we made)
+        planeBack.name = "Back";
+
+        // Pivot of this GameObject is in bottomLeft and not the center of the item, so we need to adjust for offsets
+        //planeFront.transform.localPosition = -topRight / 2; // Adjusts for offset
+        //planeBack.transform.localPosition = -topRight / 2; // Adjusts for offset
+        planeBack.transform.RotateAround(planeBack.GetComponent<Renderer>().bounds.center, vertices[1], 180); // Rotates around the center of the plane (renderer.bounds.center gives "center of bounding box")
+
+        planeBoth.transform.parent = parent.transform;
+        planeBoth.transform.localPosition = new Vector3(0, 0, 0);
+
+        return planeBoth;
+    }
+
+    // Old method
 
     // Called in Start
     void ConvertCifToXYZ(string infile)
@@ -465,14 +798,15 @@ public class Crystal : MonoBehaviour
         startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden; // Hides the Command prompt window from user
         startInfo.FileName = "cmd.exe"; // Calls for the command prompt
         startInfo.Arguments = "/C cd " + Path.GetDirectoryName(infile) + // cif2cell can' handle files in a named directory, so we call cif2cell through python with a named directory instead
-            " & python \"" + Application.persistentDataPath + "\\cif2cell\" " + Path.GetFileName(infile) + 
-            " --program=xyz --no-reduce --cartesian --outputfile=\"" + Application.persistentDataPath + @"\cif2cell_convert\" + 
+            " & python \"" + Application.persistentDataPath + "\\cif2cell\" " + Path.GetFileName(infile) +
+            " --program=xyz --no-reduce --cartesian --outputfile=\"" + Application.persistentDataPath + @"\cif2cell_convert\" +
             Path.GetFileNameWithoutExtension(infile) + ".xyz\""; // Moves to appropriate directory and calls for conversion of chosen .cif-file (\" takes care of potential spaces in directory names)
         process.StartInfo = startInfo; // Puts the information we have defined inside the process
         process.Start(); // Starts the process
         process.WaitForExit(); // Waits for the process to end before continuing
 
-        if (File.Exists(Application.persistentDataPath + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz")) { // If the converted file exists in the correct location
+        if (File.Exists(Application.persistentDataPath + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"))
+        { // If the converted file exists in the correct location
             Debug.Log(".cif-file converted to .xyz!"); // Prints to the Unity Console
         }
         else // Notifies that the program could not find the converted file
@@ -631,7 +965,7 @@ public class Crystal : MonoBehaviour
             atomElementsList.Add(atomElement[i]); // Adds the atoms element to the list we will be using
             atomObjectsList[i].transform.localPosition = atomPos[i]; // Sets the atom position to match that of the .xyz-file (can do scaling in Update() )
             SetAtomColor(atomObjectsList[i], atomElement[i]); // Sets the atom's color based on its element
-            atomObjectsList[i].name = atomElement[i] + " " +  atomPos[i]; // Names the atom so they are easier to distinguish in the Unity Editor
+            atomObjectsList[i].name = atomElement[i] + " " + atomPos[i]; // Names the atom so they are easier to distinguish in the Unity Editor
 
             // Creates atoms not in the .xyz-file, but still useful or necessary
             for (int j = 0; j < 3; j++) // Iterates over x, y and z
@@ -653,7 +987,7 @@ public class Crystal : MonoBehaviour
             }
         }
 
-        
+
         // Solves the cases where two coordinates are zero. NOTE: This creates duplicates of atoms as (x,1,0) and (x,0,1) from previous loop are flipped to (x,1,1). Will destroy duplicates.
         List<GameObject> moreEquivalentAtomObjects = new List<GameObject>();
         List<string> moreEquivalentAtomElements = new List<string>();
@@ -718,9 +1052,9 @@ public class Crystal : MonoBehaviour
 
 
         // Destroys duplicate atoms
-        for (int i = 0; i < atomObjectsList.Count-1; i++)
+        for (int i = 0; i < atomObjectsList.Count - 1; i++)
         {
-            if (atomObjectsList[i].transform.position == atomObjectsList[i+1].transform.position) // If position vectors are equal (Vector3 includes approximation)
+            if (atomObjectsList[i].transform.position == atomObjectsList[i + 1].transform.position) // If position vectors are equal (Vector3 includes approximation)
             {
                 Destroy(atomObjectsList[i + 1]); // Destroys atom
                 atomObjectsList.RemoveAt(i + 1); // Removes the now destroyed atom from the list
@@ -868,9 +1202,9 @@ public class Crystal : MonoBehaviour
         // In trigonal and hexagonal cells, the second symbol shows the symmetry along[100], [010] and[110], and the third symbol shows symmetry along[210], [120], and[120].
         // In rhombohedral systems on rhombohedral axes, the first symbol shows symmetry along[111], and the second symbol shows symmetry along[110], [011], and[101].
         // Cubic symbols show[100], [010], [001] in the first symbol, [111], [111], [111], [111] in the second symbol and[110], [110], [011], [011], [101], and[101] in the third symbol.
-        
+
         // Screw axes and Glide planes
-        
+
         List<GameObject> symmetryElement = new List<GameObject>();
 
         for (int i = 1; i < spaceGroupSymbols.Length; i++) // Iterates over the symbols, but skips the Lattice symbol
@@ -1034,116 +1368,12 @@ public class Crystal : MonoBehaviour
                 {
                     Debug.Log("Could not recognize " + spaceGroupSymbols[i] + " as a symmetry element)");
                 }
-                
+
             }
         }
 
         // After iterating over the symmetries
 
-    }
-
-    // Called in CreateCell
-    void SetAtomColor(GameObject atom, string element)
-    {
-        // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
-        try
-        {
-            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors[element]); // Changes the material color of the gameobject's renderer component
-        }
-        catch (KeyNotFoundException) // If atom is not in the dictonary, default to "other"
-        {
-            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors["other"]);
-        }
-    }
-
-    // Called in AddSymmetry
-    void ToTransparentMode(Material material)
-    {
-        // Makes a material use the Transparent Rendering Mode
-        // Taken from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/StandardShaderGUI.cs (this is how Unity changes rendering in Client)
-        material.SetOverrideTag("RenderType", "Transparent");
-        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-        material.SetInt("_ZWrite", 0);
-        material.DisableKeyword("_ALPHATEST_ON");
-        material.DisableKeyword("_ALPHABLEND_ON");
-        material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
-        material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
-    }
-
-    float StringToFloat(string str)
-    {
-        return float.Parse(str, System.Globalization.CultureInfo.InvariantCulture); // InvariantCulture makes sure commas and periods don't cause problems
-    }
-
-    // Called in AddSymmetry
-    GameObject CreatePlane(Vector3[] vertices, Color color, string name = "Plane", GameObject parent = null)
-    {
-        // Creates a Quad GameObject for symmetry planes using four input coordinates (each corner). This should make planes work in crystals where not all angles are 90
-        // Made using https://docs.unity3d.com/Manual/Example-CreatingaBillboardPlane.html
-        // vertices are given as (bottomLeft, bottomRight, topLeft, topRight)
-
-        GameObject planeBoth = new GameObject(name);
-        GameObject planeFront = new GameObject("Front");
-        GameObject planeBack;
-        planeFront.transform.parent = planeBoth.transform;
-
-        // Creates a mesh
-        {
-            MeshRenderer meshRenderer = planeFront.AddComponent<MeshRenderer>(); // Adds a meshRenderer to the planeFront, and stores it for ease of access
-            meshRenderer.material = new Material(Shader.Find("Standard")); // Not sure why this is needed, but without it looks purple (guessing it is the "lack-of-material"-material) (was sharedMaterial, but changed it to material)
-
-            MeshFilter meshFilter = planeFront.AddComponent<MeshFilter>(); // Adds a meshFilter
-
-            Mesh mesh = new Mesh(); // Creates a mesh
-
-            mesh.vertices = vertices; // Gives the mesh our made vertices
-
-            int[] tris = new int[6] // triangles(?) for the mesh
-            {
-            // lower left triangle
-            0,2,1,
-            // upper right triangle
-            2,3,1
-            };
-            mesh.triangles = tris;
-
-            Vector3[] normals = new Vector3[4] // Normals(?) for the mesh
-            {
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward
-            };
-            mesh.normals = normals;
-
-            Vector2[] uv = new Vector2[4]
-            {
-            new Vector2(0, 0),
-            new Vector2(1, 0),
-            new Vector2(0, 1),
-            new Vector2(1, 1)
-            };
-            mesh.uv = uv;
-
-            meshFilter.mesh = mesh; // Applies our newly made mesh to the meshFilter
-        }
-
-        planeFront.GetComponent<Renderer>().material.color = color; // Sets the color of the material
-        ToTransparentMode(planeFront.GetComponent<Renderer>().material); // Makes the material use the Transparent rendering mode
-
-        planeBack = Instantiate(planeFront, planeBoth.transform, false); // Adds the backside of the plane (Unity only renders one side of the mesh we made)
-        planeBack.name = "Back";
-
-        // Pivot of this GameObject is in bottomLeft and not the center of the item, so we need to adjust for offsets
-        //planeFront.transform.localPosition = -topRight / 2; // Adjusts for offset
-        //planeBack.transform.localPosition = -topRight / 2; // Adjusts for offset
-        planeBack.transform.RotateAround(planeBack.GetComponent<Renderer>().bounds.center, vertices[1], 180); // Rotates around the center of the plane (renderer.bounds.center gives "center of bounding box")
-
-        planeBoth.transform.parent = parent.transform;
-        planeBoth.transform.localPosition = new Vector3(0, 0, 0);
-
-        return planeBoth;
     }
 
     /* Deprecated
