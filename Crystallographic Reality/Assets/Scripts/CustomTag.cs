@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CustomTag : MonoBehaviour
 {
-    [SerializeField]
-    private List<string> tags = new List<string>();
+    //[SerializeField] // Not sure what this does so removed it
+    public List<string> tags = new List<string>(); // Was private, but changed for adding tags in Crystal.cs/CreateCrystal add corner/edge/face atom
 
     public bool HasTag(string tag)
     {

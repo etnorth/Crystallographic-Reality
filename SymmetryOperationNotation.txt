@@ -1,0 +1,9 @@
+Symmetry	axis	base_info	more_info	(whitespace as separator)
+
+Identity
+Rotation	axis	degOfRotation
+Screw		axis	degOfRotation	subscript
+Inversion
+Mirror		axis
+Glide		axis	typeOfGlide	(sometimes) diagonalGlideDirection (xy,xz,yz)
+Unknown

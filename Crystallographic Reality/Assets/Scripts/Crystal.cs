@@ -3,27 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System; // For StringSplitOptions to split e.g. 3 or 4 consecutive whitespaces (tab or one whitespace did not work) (also handles our Globalization)
-using System.IO; // IO: InputOutput. Used to read our input file
+using System.IO; // IO: InputOutput. Used to read our input file. OLD
+using System.Linq; // Adds array.where to exlude 0 from .Min(). See Step 3 for reflection in EvalSymmetry()
 //using System.Diagnostics; // Provides access to local and remote processes and enables you to start and stop local system processes
 
 public class Crystal : MonoBehaviour
 {
-    private string infile; //.cif-file filename and location
-    private int NumOfAtoms; // Number of UNIQUE atoms in the conventional cell (aka. number of atoms from input file, not the amount of atoms that are created by the end)
-    private string fileinfo; // cif2cell's info about converted file
-    private Vector3 cellLength; // Length of the sides of the cell
-    private Vector3 cellAngle; // Angle of the lattice vectors
-    private string[] atomElement; // The element of each atom
-    private Vector3[] atomPos; // The position of each atom
-    private float[][,] symmetryMatrices; // An array of Vector3-arrays (1st array to count operations, 2nd array is a 3x3 rotation + 3x1 translation matrix) Matrix given by normal (x,y,z,) and will be converted upon use
-    private string[] symmetryMatricesType; // The type of operation for each symmetry matrix
-    private float cellVolume;
-    private Vector3[] cellVectors; // Unit cell vectors
-    private string spaceGroup;
-    public float eps = 0.0001f;
-
     public GameObject crystal; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this. In hindsight I could have skipped this entirely and made this in the script, but this works fine.
     public GameObject atom; // Atom prefab. Selected manually in Unity. This could also have been made by using GameObject.CreatePrimitive() and then setting constraints via the script
+    public float eps = 0.0001f; // tolerance for comparing float numbers (abs(x)<eps => x=0). Meant to avoid rounding errors. (typically called eps or tol from MAT-IN1105)
+    public float scaleChange = 0.1f; // A scale for making unit cell smaller/larger.
+
+    private string infile; //.cif-file filename and location
+    private int NumOfAtoms; // Number of UNIQUE atoms in the conventional cell (aka. number of atoms from input file, not the amount of atoms that are in the end)
+    private string fileinfo; // cif2cell's info about converted file
+    private Vector3 cellLength; // Length of the sides of the cell (a, b, c)
+    private Vector3 cellAngle; // Angle of the lattice vectors  (alpha, beta, gamma)
+    private string[] atomElement; // The element of each atom ( which can now be accessed through gameObject.name.Split(' ')[0] )
+    private Vector3[] atomPos; // The position of each atom. (x,z,y), not (x,y,z)
+    private float[][,] symmetryMatrices; // An array of Vector3-arrays (1st array to count operations, 2nd array is a 3x3 rotation + 3x1 translation matrix) Matrix given by normal (x,y,z,) and will be converted upon use
+    private string[] symmetryMatricesType; // The type of operation for each symmetry matrix
+    private float cellVolume; // Volume of the cell Old: Taken from file. New: Calculated
+    private Vector3[] cellVectors; // Unit cell vectors NOTE: uses (x,z,y)
+    private float[,] cellMatrix; // We create a matrix for the bravais as well, so we can transform coordinates correctly NOTE: uses normal (x,y,z)
+    private string spaceGroup; // OLD
+
     private GameObject[] atomObjects; // Array of atom objects.
     private Dictionary<string, Color> atomColors = new Dictionary<string, Color>() // A Dictionary to apply colors depending on what atom it is
     {
@@ -49,62 +53,48 @@ public class Crystal : MonoBehaviour
         {"Si", Color.gray},
         {"Cu", Color.yellow}, // I'd prefer "Orange"
     };
-    public float scaleChange; // A scale for making unit cell smaller/larger.
     
     
-
     // Start is called before the first frame update
     void Start()
     {
         // Initialization (The thought is to have a separate game scene with buttons, sliders, etc. for setting up the crystal. This is parsed to this file and creates the appropriate crystal)
 
-        //ReadConvert(CrystalManager.outfile);
-        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
-        EvalSymmetry();
-        CreateCrystal();
-        CreateSymmetry();
-
-
-        //Debug.Log("Matrix #rows: " + matrix.GetLength(0));
-        //Debug.Log("Matrix #columns: " + matrix.GetLength(1));
-        //Debug.Log("Matrix element 0,3: " + matrix[0, 3]);
-
-        // "Old" Setup
-        /*
-        infile = CrystalManager.infile;
-        if (infile == null)
-        {
-            infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\files\Si.cif";
-        }
-        bool convertFile = true; // Specifies that the user wishes to convert their .cif to a .xyz automatically by the program
-
-        if (!Directory.Exists(Application.persistentDataPath + @"\cif2cell_convert\")) // If the cif2cell_convert folder does not exist in the persistentDataPath
-        {
-            Directory.CreateDirectory(Application.persistentDataPath + @"\cif2cell_convert"); // Create cif2cell_convert folder
-        }
-        if (!File.Exists(Application.persistentDataPath + @"\cif2cell")) // If cif2cell does not exist in the persistentDataPath
-        {
-            File.Copy(Application.dataPath + @"\Scripts\cif2cell", Application.persistentDataPath + @"\cif2cell"); // Copy cif2cell from Assets/Scipts to the persistentDataPath in AppData
-        }
-
-
-        if (convertFile)
-        {
-            ConvertCifToXYZ(infile); // Converts .cif-file to .xyz-file using cif2cell (uses --no-reduce to get the conventional cell and not the primitive cell. This could maybe be changed by the user later)
-        }
-        ReadXYZ(Application.persistentDataPath + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
+        //ReadConvert(CrystalManager.outfile); // Reads the converted file and stores needed data
+        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\LSMO.txt"); // Temporary, use comment above after testing, and when back in UI menu
+        //ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
-        cellVectors = new Vector3[3] // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (Remember Unity uses (x,z,y), but we use (x,y,z) )
+        // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (We use x,y,z)
+        /*
+        cellVolume = cellLength[0] * cellLength[1] * cellLength[2] // abc
+            * Mathf.Sqrt(1 - (Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad)) // * sqrt( 1-cos^2(alpha)
+            - (Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)) // -cos^2(beta)
+            - (Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)) // -cos^2(gamma)
+            + 2 * Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)); // + 2*cos(alpha)*cos(beta)*cos(gamma) )
+        cellVectors = new Vector3[3]
         {
-            new Vector3(cellLength[0], cellLength[2] * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad), cellLength[1] * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)), // a_vec
-            new Vector3(0, cellLength[2] * ( ( Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)*Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) ) / Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), // b_vec
-            new Vector3(0, ( cellVolume / ( cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad) ) ), 0) // c_vec
+            new Vector3(cellLength[0], // a
+            0, 
+            0), // a_vec = a,0,0
+            new Vector3(cellLength[1] * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad), // b*cos(gamma)
+            cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad), // b*sin(gamma)
+            0), // b_vec = b*cos(gamma), b*sin(gamma), 0
+            new Vector3(cellLength[2] * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad), // c*cos(beta)
+            cellLength[2] * ( ( Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)*Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) ) / Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), // c * ( (cos(alpha)-cos(beta)*cos(gamma)) / sin(gamma) )
+            ( cellVolume / ( cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad) ) )) // cellVolume/(a*b*sin(gamma)
+            // c_vec = c*cos(beta), c * ( (cos(alpha)-cos(beta)*cos(gamma)) / sin(gamma) ), cellVolume/(a*b*sin(gamma)
         };
-
-        CreateCell();
-        AddSymmetry();
+        cellMatrix = new float[,] { {cellVectors[0].x, cellVectors[1].x, cellVectors[2].x }, // We might need it for translational coordinates
+            {cellVectors[0].y, cellVectors[1].y, cellVectors[2].y },
+            {cellVectors[0].z, cellVectors[1].z, cellVectors[2].z },};
         */
+        Debug.Log("Number of atom positions from cif: "+ atomPos.Length);
+
+        EvalSymmetry(); // Evaluates each symmetry matrix and categorizes them
+        CreateCrystal(); // Constructs the physical unit cell based on conventional atom positions, tags atoms if they match through symmetry, creates corner/edge/face atoms of cell, and adds unit cell "sticks"
+        //CreateSymmetry();
+
     }
 
     // Update is called once per frame
@@ -132,12 +122,13 @@ public class Crystal : MonoBehaviour
     // Called in Start
     void ReadConvert(string infile)
     {
+        // Reads a cif2cell run's command-line output in as .txt-file and extracts needed data
         List<string> atomElementList = new List<string>();
         List<Vector3> atomPosList = new List<Vector3>();
         List<float[,]> symmetryMatricesList = new List<float[,]>(); // A list of multi-dimensional arrays (each Vector array is a 3x3 matrix + 3x1 translation)
 
         string[] lines = File.ReadAllLines(infile); // Reads the file and stores each line in the array "lines"
-        string[] words;
+        string[] words; // We initialize words before using it, though we also could have initialized it within each if I believe
         for (int i = 0; i < lines.Length; i++) // Initially foreach, but took for to get easier enumeration and skippable lines
         {
             if (lines[i].Contains("Lattice parameters:"))
@@ -145,29 +136,52 @@ public class Crystal : MonoBehaviour
                 // cellLength (the length is two lines below "Lattice parameters:". Therefore i + 2)
                 words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // the "new[]" part is just to get the correct overload of the Split-function. RemoveEmptyEntries fixes consecutive spaces in the file
                 cellLength.x = StringToFloat(words[0]);
-                cellLength.y = StringToFloat(words[2]); // Y is vertical, so we use y as z
-                cellLength.z = StringToFloat(words[1]); // Likewise we use z as y
+                cellLength.y = StringToFloat(words[1]);
+                cellLength.z = StringToFloat(words[2]); // We use x,y,z here
 
                 // cellAngle (the angle is four lines below "Lattice parameters:". Therefore i + 4)
                 words = lines[i + 4].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 cellAngle[0] = StringToFloat(words[0]); // alpha ([0] is equivalent to .x)
-                cellAngle[2] = StringToFloat(words[2]); // gamma
-                cellAngle[1] = StringToFloat(words[1]); // beta (we keep gamma and beta flipped as well just to be consistent)
-                
+                cellAngle[2] = StringToFloat(words[1]); // beta
+                cellAngle[1] = StringToFloat(words[2]); // gamma
+
                 i += 4; // Skips next lines as they've already been read
             }
-            else if (lines[i].Contains("Representative sites :"))
+            else if (lines[i].Contains("Bravais lattice vectors :"))
             {
-                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // The 1st rep. site is 2 lines below "Representative sites :"
-                while (words.Length == 4) // The next line after has 0 (or 1) words, while the next one has 6 words)
+                // cellVectors and cellMatrix
+                words = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // a_vec
+                string[] moreWords = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // b_vec
+                string[] evenMoreWords = lines[i + 3].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // c_vec
+
+                cellMatrix = new float[,]
+                {
+                    {StringToFloat(words[0]), StringToFloat(words[1]), StringToFloat(words[2]) }, // We might need it for translational coordinates
+                    {StringToFloat(moreWords[0]), StringToFloat(moreWords[1]), StringToFloat(moreWords[2]) },
+                    {StringToFloat(evenMoreWords[0]), StringToFloat(evenMoreWords[1]), StringToFloat(evenMoreWords[2]) }
+                };
+                cellVectors = new Vector3[]
+                {
+                    new Vector3(cellMatrix[0, 0],cellMatrix[0, 2],cellMatrix[0, 1]), // a_vec (x,z,y)
+                    new Vector3(cellMatrix[2, 0],cellMatrix[2, 2],cellMatrix[2, 1]), // c_vec (x,z,y)
+                    new Vector3(cellMatrix[1, 0],cellMatrix[1, 2],cellMatrix[1, 1]), // b_vec (x,z,y)
+                };
+
+                i += 3; // Skips next lines as they've already been read
+            }
+            else if (lines[i].Contains("All sites")) // Looks for conventional cell atom sites
+            {
+                Debug.Log(".txt containes \"All sites\"");
+                words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // The 1st line with info is 2 lines below
+                while (words.Length > 0) // After "All sites" is a blank line (len=0), so we keep going until then
                 {
                     atomElementList.Add(words[0]);
                     atomPosList.Add(new Vector3(StringToFloat(words[1]),
                         StringToFloat(words[3]),
-                        StringToFloat(words[2]))); // (x,z,y)
+                        StringToFloat(words[2]))); // We use (x,z,y) as Unity has y be vertical, and z be horisontal like x
 
                     i++; // We increment i for each rep. site we read
-                    words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // Could have not defined words, and had while lines[i + 2]... but that looks messy
+                    words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // Update words for next iteration
                 }
             }
             else if (lines[i].Contains("Operation "))
@@ -263,8 +277,21 @@ public class Crystal : MonoBehaviour
                         // Below only works if matrix is non-symmetric.
                         // Original taken from https://en.wikipedia.org/wiki/Rotation_matrix#Determining_the_axis
                         // See http://scipp.ucsc.edu/~haber/ph116A/rotation_11.pdf page 7 for full guide
-                        float[] u;
 
+                        float[] u = new float[] { // There was a prefactor, but it caused tricky thetas and ugly vectors, so I removed it.
+                                (matrix[2, 1] - matrix[1, 2]),
+                                (matrix[0, 2] - matrix[2, 0]),
+                                (matrix[1, 0] - matrix[0, 1]) }; // u = (a32-a23, a13-a31, a21-a12)
+
+                        if (Mathf.Abs(u[0]) < eps && Mathf.Abs(u[1]) < eps && Mathf.Abs(u[2]) < eps) // Should take care of symmetrycal matrices
+                        {
+                            Debug.LogError("NotImplemented: Find eigenvector with lambda=1 for rotation axis");
+                            u = new float[] { 0, 0, 0 };
+                        }
+
+
+                        /* This caused issues for non-symmetrical matrices, so I changed it back to the old formula again
+                        float[] u;
                         if ((Mathf.Abs(trace) + 1) < eps && (Mathf.Abs(trace) - 3) < eps) // trace != -1, 3
                         {
                             float prefactor = 1 / (Mathf.Sqrt((3 - trace) * (1 + trace)));
@@ -280,7 +307,7 @@ public class Crystal : MonoBehaviour
                             Debug.LogWarning("NotImplemented: Find eigenvector with lambda=1 for rotation axis");
                             u = new float[] { 0, 0, 0 };
                         }
-
+                        */
 
                         axis = "(" + u[0] + "," + u[1] + "," + u[2] + ")";
 
@@ -303,34 +330,22 @@ public class Crystal : MonoBehaviour
                     else // Screw axis
                     {
                         // n_m = rotation (n) + translation (m/n). Try different values of m to fit with translation
-                        if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 1) < eps) // Re-written matrix[0,4] = 1/degOfRotation (testing 2_1, 3_1, 4_1, 6_1)
+                        // Originally did translation * n = m and compared for different m, but I could just assign it as-is
+                        if (degOfRotation != 2) // 2-fold screw axis can only be 2_1, so we skip it entirely
                         {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 1);
-                        }
-                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 2) < eps) // Re-written matrix[0,4] = 2/degOfRotation (testing 3_2, 4_2, 6_2)
-                        {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 2);
-                        }
-                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 3) < eps) // Re-written matrix[0,4] = 3/degOfRotation (testing 4_3, 6_3)
-                        {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 3);
-                        }
-                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 4) < eps) // Re-written matrix[0,4] = 4/degOfRotation (testing 6_4)
-                        {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 4);
-                        }
-                        else if (Mathf.Abs((matrix[0, 3] * degOfRotation) - 5) < eps) // Re-written matrix[0,4] = 5/degOfRotation (testing 6_5)
-                        {
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + 5);
+                            if (Mathf.Abs(matrix[0,3]) < eps) // Rotation can leave one coordinate zero and translate the other two, so we take this into account
+                            {
+                                symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + (Mathf.Abs(matrix[0, 3] * degOfRotation)));
+                            }
+                            else // if x = 0, then y and z should be != 0
+                            {
+                                symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + (Mathf.Abs(matrix[1, 3] * degOfRotation)));
+                            }
                         }
                         else
                         {
-                            Debug.LogError("Could not determine subscript for screw axis. Could this be a rotoinversion?? (but det>0?!) Symmetry operation: " + (i + 1));
-                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " 0");
-                            //throw new ArgumentException("Could not determine subscript for screw axis. Symmetry operation: " + (i + 1));
+                            symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " 1");
                         }
-
-
                     }
                 }
 
@@ -360,7 +375,7 @@ public class Crystal : MonoBehaviour
                     }
                     else if (Mathf.Abs(matrix[2, 2] + 1) < eps) // z-axis is plane normal
                     {
-                        axis = "(0,0,0)";
+                        axis = "(0,0,1)";
                     }
                     else 
                     {
@@ -372,15 +387,17 @@ public class Crystal : MonoBehaviour
 
                         if (Mathf.Abs(displacement[0]) < eps & Mathf.Abs(displacement[1]) < eps & Mathf.Abs(displacement[2]) < eps)
                         {
-                            Debug.LogError("The plane normal is (0,0,0). Is this a rotoinversion? Symmetry operation: " + (i + 1));
+                            Debug.LogError("The plane normal is (0,0,0). Either the plane normal is (1,2,3) as that was our input, or this is a rotoinversion or something else? Symmetry operation: " + (i + 1));
                             axis = "unknown";
                         }
                         else
                         {
+                            float min = displacement.Where(x => !(Mathf.Abs(x) < eps)).Min(); // Finds the minimum value in displacement that is not 0.
+                            displacement = new float[] { displacement[0] / min,
+                            displacement[1] / min,
+                            displacement[2] / min }; // Makes displacement use smaller values ( (0,-5,-5) -> (0,1,1). Since (0,-1,1)==(0,1,-1) this should not cause issues with flipping planes incorrectly
                             axis = "(" + displacement[0] + "," + displacement[1] + "," + displacement[2] + ")";
                         }
-                        //Debug.LogError("Could not determine normal of reflection plane. Symmetry operation: " + (i + 1));
-                        //throw new ArgumentException("Could not determine normal of reflection plane. Symmetry operation: " + (i + 1));
                     }
 
                     // Step 4: Determine mirror vs. glide
@@ -446,7 +463,7 @@ public class Crystal : MonoBehaviour
                         else
                         {
                             // e-glide (I HOPE)
-                            Debug.LogError("Could not determine type of glide plane. Maybe e-glide? Symmetry operation: " + (i + 1));
+                            Debug.LogWarning("Could not determine type of glide plane. Maybe e-glide? Defaulting to e-glide. Symmetry operation: " + (i + 1));
                             symmetryMatricesTypeList.Add("Glide " + axis + " e");
                             //throw new NotImplementedException("Could not determine type of glide plane. Symmetry operation: " + (i + 1));
                         }
@@ -474,66 +491,137 @@ public class Crystal : MonoBehaviour
         atomParent.transform.parent = crystal.transform; // Sets the atomParent as a child of the Crystal
         atomParent.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the atomParent is in the Crystal's (0,0,0) and not the worlds' (0,0,0)
         List<GameObject> atomObjectsList = new List<GameObject>(); // Creates a list to contain each atom's object for easier access. Will be converted to array at the end
-        List<string> atomElementsList = new List<string>();// Creates a list to contain each atom's element for easier access. Will be converted to array at the end
+        //List<string> atomElementsList = new List<string>(); // Creates a list to contain each atom's element for easier access. Will be converted to array at the end
 
-        bool posIsNew;
-
-        for (int i = 0; i < atomPos.Length; i++) // Loops over each representative site
+        // Creates basic atom positions, and tags them with symmetries
+        for (int i = 0; i < atomPos.Length; i++) // Loops over each conventional atom site
         {
             atomObjectsList.Add(Instantiate(atom, atomParent.transform, false)); // Creates a physical atom object, with atomParent as parent, and adds it to the list
-            atomElementsList.Add(atomElement[i]); // Adds the atom's element
+            //atomElementsList.Add(atomElement[i]); // Adds the atom's element
 
             atomObjectsList[i].transform.localPosition = atomPos[i]; // Places the atom in its correct position
-            SetAtomColor(atomObjectsList[i], atomElementsList[i]); // Sets the atom's color based on its element
-            atomObjectsList[i].name = atomElement[i] + " " + atomPos[i]; // Names the atom so they are easier to distinguish in the Unity Editor
+            atomObjectsList[i].name = atomElement[i] + " " + atomPos[i]; // Names the atom so they are easier to distinguish in the Unity Editor, AND to use for SetAtomColor which takes the name to find element
+            SetAtomColor(atomObjectsList[i]); // Sets the atom's color based on its element
 
-            Debug.Log("Added representative site: " + atomObjectsList[i].name);
+            Debug.Log("Added conventional atom: " + atomObjectsList[i].name);
 
             for (int j = 0; j < symmetryMatrices.Length; j++) // Loops over each symmetry matrix
             {
                 Vector3 pos = PerformSymmetry(symmetryMatrices[j], atomPos[i]); // Performs symmetry operation on representative site (including translation)
-                atomObjectsList[i].GetComponent<CustomTag>().AddTag(symmetryMatricesType[j]); // Enters the CustomTag component and adds a tag corresponding to our symmetry operation
-                posIsNew = true; // Cleans up if previous position was false
 
-                for (int k = 0; k < atomObjectsList.Count; k++) // Loops over each existing atom
+                for (int k = 0; k < atomPos.Length; k++) // Loops over each conventional atom position
                 {
-                    if (atomElementsList[k]==atomElement[i] && (Mathf.Abs(pos[0] - atomObjectsList[k].transform.localPosition[0]) < eps) && 
-                        (Mathf.Abs(pos[1] - atomObjectsList[k].transform.localPosition[1]) < eps) && 
-                        (Mathf.Abs(pos[1] - atomObjectsList[k].transform.localPosition[1]) < eps)) // Checks if position already exists from before for this atom (could cause atoms inside each other?)
+
+                    // Checks if symmetry-made position is outside unit cell due to symmetry operation, and translates inside unit cell again
+                    if (pos[0] > cellLength[0]) // x
                     {
-                        posIsNew = false;
-                        if (!atomObjectsList[k].GetComponent<CustomTag>().HasTag(symmetryMatricesType[j])) // If atom we compared with doesn't have the tag from before
-                        {
-                            atomObjectsList[k].GetComponent<CustomTag>().AddTag(symmetryMatricesType[j]); // Adds symmetry tag to the atom we just compared with
-                            Debug.Log("Added tag: " + symmetryMatricesType[j] + " to atom: " + atomObjectsList[k].name + ". k = " + k + ", symmetry Operation: " + (j + 1));
-                        }
-                        else
-                        {
-                            //Debug.Log("Tag: " + symmetryMatricesType[j] + " already existed on atom: " + atomObjectsList[k].name + ". k = " + k + ", symmetry Operation: " + (j + 1));
-                        }
+                        pos[0] = pos[0] - cellLength[0];
                     }
-                    else // If position doesn't already exist
+                    if (pos[1] > cellLength[1]) // z
                     {
-                        posIsNew = posIsNew & true; // By having true AND itself, it can never have been false before. If the last iteration is true, then it will create even though it was false before
+                        pos[1] = pos[1] - cellLength[1];
                     }
-                }
+                    if (pos[2] > cellLength[0]) // y
+                    {
+                        pos[2] = pos[2] - cellLength[2];
+                    }
 
-                if (posIsNew) // If, after checking every existing atom, the position still is new, we can create it
-                {
-                    GameObject equivalentAtom = Instantiate(atom, atomParent.transform, false); // Creates symmetry-made atom
-                    equivalentAtom.transform.localPosition = pos; // Sets its position
-                    SetAtomColor(equivalentAtom, atomElement[i]); // Changes its color
-                    equivalentAtom.GetComponent<CustomTag>().AddTag(symmetryMatricesType[j]); // Adds tag for what symmetry operation made it
-                    equivalentAtom.name = atomElement[i] + " " + pos; // Names the atom so they are easier to distinguish in the Unity Editor
-
-                    atomObjectsList.Add(equivalentAtom); // Adds atom to list
-                    atomElementsList.Add(atomElement[i]); // Adds atom Element to list
-
-                    Debug.Log("Added atom: " + equivalentAtom.name + " with symmetry operation: " + symmetryMatricesType[j] + ", symmetry Operation: " + (j + 1)); 
+                    if (atomElement[k]==atomElement[i] && // If new atom is of same element (if the new atom is in the same site but a different element, we want to check that out)
+                        (Mathf.Abs(pos[0] - atomPos[k][0]) < eps) && 
+                        (Mathf.Abs(pos[1] - atomPos[k][1]) < eps) && 
+                        (Mathf.Abs(pos[2] - atomPos[k][2]) < eps)) // Checks if position already exists from before for this atom
+                    {
+                        atomObjectsList[i].GetComponent<CustomTag>().AddTag((j + 1) + " " + k); // Adds symmetry tag to atom we just made. "symmetryOperationNumber equivalentAtomPosNumber"
+                        Debug.Log("Added tag: \"" + (j + 1) + " " + k + "\" to atom: " + atomObjectsList[i].name);
+                    }
                 }
             }
         }
 
+        // Adds corner/edge/face atoms
+        // Solves for where one coordinate is zero (face)
+        for (int i = 0; i < atomPos.Length; i++)
+        {
+            for (int j = 0; j < 3; j++) // Iterates over x, y and z (x -> z -> y)
+            {
+                if (Mathf.Abs(atomPos[i][j]) < eps) // If atom position is approx. 0
+                {
+                    Vector3 newPos = atomPos[i]; // Updates the equivalent position
+                    newPos = newPos + cellVectors[j]; // We defined cellVectors as a_vec, c_vec, b_vec so it should be fine. Uses cartesian converted bravais coordinates
+                    //newPos[j] = cellLength[j]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom WORKS ONLY FOR CELLANGLES = 90
+
+                    GameObject newAtom = Instantiate(atom, atomParent.transform, false); // Instantiates new atom
+
+                    newAtom.transform.localPosition = newPos; // Sets the equivalent position
+                    newAtom.name = atomElement[i] + " " + newPos; // Names the atom so they are easier to distinguish in the Unity Editor
+                    SetAtomColor(newAtom); // Sets the atom's color based on its element
+                    newAtom.GetComponent<CustomTag>().tags = atomObjectsList[i].GetComponent<CustomTag>().tags; // Adds symmetry tags to atom
+
+                    atomObjectsList.Add(newAtom); // Adds the atom to the list
+                    //atomElementsList.Add(newElement); // Adds the element to the list
+
+                    Debug.Log("Created face atom: " + newPos + " from " + atomPos[i]);
+
+                    // Solves for where two coordinates are zero (edge). NOTE: This creates duplicates of atoms as (x,1,0) and (x,0,1) from previous loop are flipped to (x,1,1). Will destroy duplicates after
+                    for (int k = 1; k < 3; k++) // Iterates over y and z (z -> y)
+                    {
+                        if (Mathf.Abs(newPos[k]) < eps) // If atom position is approx. 0
+                        {
+                            Vector3 newerPos = newPos;
+                            //newerPos[k] = cellLength[k]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
+                            newerPos = newerPos + cellVectors[k]; // Sets start of cell to end of cell
+
+                            GameObject newerAtom = Instantiate(atom, atomParent.transform, false);
+
+                            newerAtom.transform.localPosition = newerPos; // Sets the equivalent position
+                            newerAtom.name = atomElement[i] + " " + newerPos; // Names the atom
+                            SetAtomColor(newerAtom); // Sets the atom's color based on its element
+                            newerAtom.GetComponent<CustomTag>().tags = atomObjectsList[i].GetComponent<CustomTag>().tags; // Adds symmetry tags to atom
+
+                            atomObjectsList.Add(newerAtom); // Instantiates an equivalent atom to the original
+                            //atomElementsList.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
+
+                            Debug.Log("Created edge atom: " + newerPos + " from " + newPos);
+
+                            // Solves for where three coordinates are zero (corner)
+                            // Iterates over y
+                            if (Mathf.Abs(newerPos[2]) < eps) // If atom position is approx. 0
+                            {
+                                Vector3 newestPos = newerPos;
+                                //newestPos[2] = cellLength[2]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
+                                newestPos = newestPos + cellVectors[2]; // Sets start of cell to end of cell in y direction (since (x,z,y) )
+
+                                GameObject newestAtom = Instantiate(atom, atomParent.transform, false);
+
+                                newestAtom.transform.localPosition = newestPos; // Sets the equivalent position
+                                newestAtom.name = atomElement[i] + " " + newestPos; // Names the atom
+                                SetAtomColor(newestAtom); // Sets the atom's color based on its element
+                                newestAtom.GetComponent<CustomTag>().tags = atomObjectsList[i].GetComponent<CustomTag>().tags; // Adds symmetry tags to atom
+
+                                atomObjectsList.Add(newestAtom); // Instantiates an equivalent atom to the original
+                                //atomElementsList.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
+
+                                Debug.Log("Created corner atom: " + newestPos + " from " + newerPos);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Destroys duplicate atoms
+        for (int i = 0; i < atomObjectsList.Count - 2; i++)
+        {
+            // (This should deal with all atoms, as the algorithm only makes dupes 2 indexes apart. If not, iterate again with j and j != 0)
+            if (atomObjectsList[i].transform.position == atomObjectsList[i + 2].transform.position) // If position vectors are equal (Vector3 includes approximation)
+            {
+                Destroy(atomObjectsList[i + 2]); // Destroys atom
+                atomObjectsList.RemoveAt(i + 2); // Removes the now destroyed atom from the list
+                //atomElementsList.RemoveAt(i + 1); // Removes the element so we have track of it
+            }
+        }
+        atomObjects = atomObjectsList.ToArray(); // Converts the atomObjectsList to an array (arrays are better, faster, harder, stronger)
+        //atomElement = atomElementsList.ToArray(); // Updates the atomElement array to match all our atoms
     }
 
     // Called in Start
@@ -666,6 +754,17 @@ public class Crystal : MonoBehaviour
         return u;
     }
 
+    /*
+    // Overload of LinTransform, called in CreateCrystal for corner/edge/face atoms
+    Vector3 LinTransform(float[,] M, Vector3 v)
+    {
+        float[] a = new float[] { v[0], v[2], v[1] }; // Swaps y and z so that the third coordinate is the vertical axis ( (x,z,y)->(x,y,z) )
+        float[] b = LinTransform(M, a); // Transforms the array-vector, a, with the matrix, M. This uses the overload of LinTransform that uses arrays, where the actual transformation is perfomed
+
+        return new Vector3(b[0], b[2], b[1]); // Swaps y and z back again ( (x,y,z) -> (x,z,y) )
+    }
+    */
+
     // Called in CreateCrystal. Overload to work for Vector3 using "(x,z,y)"
     Vector3 PerformSymmetry(float[,] M, Vector3 v)
     {
@@ -674,7 +773,7 @@ public class Crystal : MonoBehaviour
         // We therefore need to switch the vector around before and after the transform (or switch the matrix around).
 
         float[] a = new float[] { v[0], v[2], v[1] }; // Swaps y and z so that the third coordinate is the vertical axis ( (x,z,y)->(x,y,z) )
-        float[] b = LinTransform(M, a); // Transforms the array-vector, a, with the matrix, M. This uses the other overload, where the actual transformation is perfomed
+        float[] b = LinTransform(M, a); // Transforms the array-vector, a, with the matrix, M. This uses the overload of LinTransform that uses arrays, where the actual transformation is perfomed
         b = new float[] { b[0] + (M[0, 3]*cellLength[0]), 
             b[1] + (M[1, 3]*cellLength[1]), 
             b[2] + (M[2, 3]*cellLength[2]) }; // Translates b according to the translational component of M, and multiplies with cellLength to handle fractional coordinates BUT NOT BRAVAISVECTORS WHICH IS BAD
@@ -688,12 +787,29 @@ public class Crystal : MonoBehaviour
         // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
         try
         {
-            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors[element]); // Changes the material color of the gameobject's renderer component
+            atom.GetComponent<Renderer>().material.color =  atomColors[element]; // Changes the material color of the gameobject's renderer component
         }
         catch (KeyNotFoundException) // If atom is not in the dictonary, default to "other"
         {
-            atom.GetComponent<Renderer>().material.SetColor("_Color", atomColors["other"]);
+            atom.GetComponent<Renderer>().material.color = atomColors["other"];
         }
+    }
+
+    // Overload of SetAtomColor, called in CreateCrystal
+    void SetAtomColor(GameObject atom)
+    {
+        // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
+        // Uses the name of the GameObject to set the color
+        string element = atom.name.Split(' ')[0]; // Gets the "First name" of the gameobject (e.g. "Si" from "Si (0,0,0)") and sets that as the element
+        try
+        {
+            atom.GetComponent<Renderer>().material.color = atomColors[element];
+        }
+        catch (KeyNotFoundException) // If atom is not in the dictonary, default to "other"
+        {
+            atom.GetComponent<Renderer>().material.color = atomColors["other"];
+        }
+
     }
 
     // Called in AddSymmetry
@@ -1376,65 +1492,40 @@ public class Crystal : MonoBehaviour
 
     }
 
-    /* Deprecated
-    void Read_cif()
+    // Old Setup, using ConvertCiftoXYZ, ReadXYZ, CreateCell and AddSymmetry as base
+    /*
+    infile = CrystalManager.infile;
+    if (infile == null)
     {
-        //Reads a cif-file given by the user. Deprecated as we will read a different file type, but leaving it in should it be useful later in development.
-        double a_length;
-        double b_length;
-        double c_length;
-        double a_angle;
-        double b_angle;
-        double c_angle;
-
-        infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\cif files for converting\Si.cif";
-
-        if (!File.Exists(infile))
-        {
-            Debug.Log("File does not exist!");
-            return;
-        }
-
-        string[] lines = File.ReadAllLines(infile);
-
-        foreach (string line in lines)
-        {
-            if (line.Contains("_cell_length"))
-            {
-                string[] words = line.Split(' ');
-                Debug.Log("Word: " + words[1] + "\n");
-                if (words[1].Contains("("))
-                {
-                    words[1] = words[1].Remove(words[1].Length-3);
-                    Debug.Log("() removed: " + words[1] + "\n");
-                }
-                //a_length = double.Parse(words[1]);
-                a_length = double.Parse("5.43053");
-                Debug.Log("a: " + a_length);
-            }
-        }
+        infile = @"C:\Users\erlen\Documents\Github\Crystallographic-Reality\files\Si.cif";
     }
-    */
+    bool convertFile = true; // Specifies that the user wishes to convert their .cif to a .xyz automatically by the program
 
-    /* TestCreateCell is called in Start
-    void TestCreateCell()
+    if (!Directory.Exists(Application.persistentDataPath + @"\cif2cell_convert\")) // If the cif2cell_convert folder does not exist in the persistentDataPath
     {
-        // This function is a test and will create a unit cell manually
-
-        Atoms = [atom1, atom2, atom3, atom4, atom5, atom6, atom7, atom8, atom9, atom10, atom11, atom12];
-        var  atom1 = Instantiate(Atom, parent.transform, false); // Creates an atom at the parent's position
-        var  atom2 = Instantiate(Atom, parent.transform, false);  atom2.transform.Translate(1f    * scale, 0f    * scale, 0f    * scale); // Creates an atom and moves it from the parent's position
-        var  atom3 = Instantiate(Atom, parent.transform, false);  atom3.transform.Translate(0f    * scale, 1f    * scale, 0f    * scale); // Creates an atom and moves it from the parent's position
-        var  atom4 = Instantiate(Atom, parent.transform, false);  atom4.transform.Translate(0f    * scale, 0f    * scale, 1f    * scale); // Creates an atom and moves it from the parent's position
-        var  atom5 = Instantiate(Atom, parent.transform, false);  atom5.transform.Translate(0f    * scale, 1f    * scale, 1f    * scale); // Creates an atom and moves it from the parent's position
-        var  atom6 = Instantiate(Atom, parent.transform, false);  atom6.transform.Translate(1f    * scale, 0f    * scale, 1f    * scale); // Creates an atom and moves it from the parent's position
-        var  atom7 = Instantiate(Atom, parent.transform, false);  atom7.transform.Translate(1f    * scale, 1f    * scale, 0f    * scale); // Creates an atom and moves it from the parent's position
-        var  atom8 = Instantiate(Atom, parent.transform, false);  atom8.transform.Translate(1f    * scale, 1f    * scale, 1f    * scale); // Creates an atom and moves it from the parent's position
-        var  atom9 = Instantiate(Atom, parent.transform, false);  atom9.transform.Translate(0.25f * scale, 0.25f * scale, 0.25f * scale); // Creates an atom and moves it from the parent's position
-        var atom10 = Instantiate(Atom, parent.transform, false); atom10.transform.Translate(0.25f * scale, 0.75f * scale, 0.75f * scale); // Creates an atom and moves it from the parent's position
-        var atom11 = Instantiate(Atom, parent.transform, false); atom11.transform.Translate(0.75f * scale, 0.25f * scale, 0.75f * scale); // Creates an atom and moves it from the parent's position
-        var atom12 = Instantiate(Atom, parent.transform, false); atom12.transform.Translate(0.75f * scale, 0.75f * scale, 0.25f * scale); // Creates an atom and moves it from the parent's position
-        
+        Directory.CreateDirectory(Application.persistentDataPath + @"\cif2cell_convert"); // Create cif2cell_convert folder
     }
+    if (!File.Exists(Application.persistentDataPath + @"\cif2cell")) // If cif2cell does not exist in the persistentDataPath
+    {
+        File.Copy(Application.dataPath + @"\Scripts\cif2cell", Application.persistentDataPath + @"\cif2cell"); // Copy cif2cell from Assets/Scipts to the persistentDataPath in AppData
+    }
+
+
+    if (convertFile)
+    {
+        ConvertCifToXYZ(infile); // Converts .cif-file to .xyz-file using cif2cell (uses --no-reduce to get the conventional cell and not the primitive cell. This could maybe be changed by the user later)
+    }
+    ReadXYZ(Application.persistentDataPath + @"\cif2cell_convert\" + Path.GetFileNameWithoutExtension(infile) + ".xyz"); // Reads converted .xyz-file (Could've had Convert_cif return file path to have this cleaner)
+
+    // Sets up Lattice Vectors in relation to Unity's coordinate system
+    cellVectors = new Vector3[3] // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (Remember Unity uses (x,z,y), but we use (x,y,z) )
+    {
+        new Vector3(cellLength[0], cellLength[2] * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad), cellLength[1] * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)), // a_vec
+        new Vector3(0, cellLength[2] * ( ( Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)*Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) ) / Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), // b_vec
+        new Vector3(0, ( cellVolume / ( cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad) ) ), 0) // c_vec
+    };
+
+    CreateCell();
+    AddSymmetry();
     */
 }
