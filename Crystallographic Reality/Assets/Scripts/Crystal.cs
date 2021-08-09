@@ -24,8 +24,9 @@ public class Crystal : MonoBehaviour
     private float[][,] symmetryMatrices; // An array of Vector3-arrays (1st array to count operations, 2nd array is a 3x3 rotation + 3x1 translation matrix) Matrix given by normal (x,y,z,) and will be converted upon use
     private string[] symmetryMatricesType; // The type of operation for each symmetry matrix
     private float cellVolume; // Volume of the cell Old: Taken from file. New: Calculated
-    private Vector3[] cellVectors; // Unit cell vectors NOTE: uses (x,z,y)
-    private float[,] cellMatrix; // We create a matrix for the bravais as well, so we can transform coordinates correctly NOTE: uses normal (x,y,z)
+    private Vector3[] bravaisVectors; // Unit cell vectors NOTE: uses Unity (x,z,y)
+    private float[,] bravaisMatrix; // We create a matrix for the bravais as well, so we can transform coordinates correctly NOTE: uses normal (x,y,z)
+    private float[,] invBravaisMatrix; // We create an inverse matrix for the bravais as well, so we can check corners etc. correctly NOTE: uses normal (x,y,z)
     private string spaceGroup; // OLD
 
     private GameObject[] atomObjects; // Array of atom objects.
@@ -66,33 +67,30 @@ public class Crystal : MonoBehaviour
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
         // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (We use x,y,z)
-        /*
+        
         cellVolume = cellLength[0] * cellLength[1] * cellLength[2] // abc
             * Mathf.Sqrt(1 - (Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad)) // * sqrt( 1-cos^2(alpha)
             - (Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)) // -cos^2(beta)
             - (Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)) // -cos^2(gamma)
-            + 2 * Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)); // + 2*cos(alpha)*cos(beta)*cos(gamma) )
-        cellVectors = new Vector3[3]
-        {
-            new Vector3(cellLength[0], // a
-            0, 
-            0), // a_vec = a,0,0
-            new Vector3(cellLength[1] * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad), // b*cos(gamma)
-            cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad), // b*sin(gamma)
-            0), // b_vec = b*cos(gamma), b*sin(gamma), 0
-            new Vector3(cellLength[2] * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad), // c*cos(beta)
-            cellLength[2] * ( ( Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)*Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) ) / Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), // c * ( (cos(alpha)-cos(beta)*cos(gamma)) / sin(gamma) )
-            ( cellVolume / ( cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad) ) )) // cellVolume/(a*b*sin(gamma)
-            // c_vec = c*cos(beta), c * ( (cos(alpha)-cos(beta)*cos(gamma)) / sin(gamma) ), cellVolume/(a*b*sin(gamma)
-        };
-        cellMatrix = new float[,] { {cellVectors[0].x, cellVectors[1].x, cellVectors[2].x }, // We might need it for translational coordinates
-            {cellVectors[0].y, cellVectors[1].y, cellVectors[2].y },
-            {cellVectors[0].z, cellVectors[1].z, cellVectors[2].z },};
-        */
-        Debug.Log("Number of atom positions from cif: "+ atomPos.Length);
+            + (2 * Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad))); // + 2*cos(alpha)*cos(beta)*cos(gamma) )
+        invBravaisMatrix = new float[,] 
+        { 
+            {1 / cellLength[0], - (Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) / (cellLength[0] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad))), cellLength[1] * cellLength[2] * ((Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)) / (cellVolume * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)) }, // m11, m12, m13
+            {0, 1 / (cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), cellLength[0] * cellLength[2] * ((Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)) - Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad)) / (cellVolume * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)) }, // m21, m23, m22
+            {0, 0, (cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)) / cellVolume } // m31, m32, m33
+        }; // Used for getting corner/edge/face atoms correctly
 
         EvalSymmetry(); // Evaluates each symmetry matrix and categorizes them
         CreateCrystal(); // Constructs the physical unit cell based on conventional atom positions, tags atoms if they match through symmetry, creates corner/edge/face atoms of cell, and adds unit cell "sticks"
+
+        for (int i = 0; i < atomPos.Length; i++)
+        {
+            Debug.Log("atom: " + (i+1) + " had position "+ LinTransform(invBravaisMatrix,atomPos[i]).ToString("F2"));
+        }
+
+        //Debug.Log("x: " + (atomPos[9][0]/cellLength[0]).ToString("F3") + "y: " + 0 + "z: " + (atomPos[9][1]*invBravaisMatrix[2,2]).ToString("F3"));
+
+        CreateUnitCellGrid();
         //CreateSymmetry();
 
     }
@@ -142,8 +140,8 @@ public class Crystal : MonoBehaviour
                 // cellAngle (the angle is four lines below "Lattice parameters:". Therefore i + 4)
                 words = lines[i + 4].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 cellAngle[0] = StringToFloat(words[0]); // alpha ([0] is equivalent to .x)
-                cellAngle[2] = StringToFloat(words[1]); // beta
-                cellAngle[1] = StringToFloat(words[2]); // gamma
+                cellAngle[1] = StringToFloat(words[1]); // beta
+                cellAngle[2] = StringToFloat(words[2]); // gamma
 
                 i += 4; // Skips next lines as they've already been read
             }
@@ -154,24 +152,23 @@ public class Crystal : MonoBehaviour
                 string[] moreWords = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // b_vec
                 string[] evenMoreWords = lines[i + 3].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // c_vec
 
-                cellMatrix = new float[,]
+                bravaisMatrix = new float[,]
                 {
                     {StringToFloat(words[0]), StringToFloat(words[1]), StringToFloat(words[2]) }, // We might need it for translational coordinates
                     {StringToFloat(moreWords[0]), StringToFloat(moreWords[1]), StringToFloat(moreWords[2]) },
                     {StringToFloat(evenMoreWords[0]), StringToFloat(evenMoreWords[1]), StringToFloat(evenMoreWords[2]) }
                 };
-                cellVectors = new Vector3[]
+                bravaisVectors = new Vector3[]
                 {
-                    new Vector3(cellMatrix[0, 0],cellMatrix[0, 2],cellMatrix[0, 1]), // a_vec (x,z,y)
-                    new Vector3(cellMatrix[2, 0],cellMatrix[2, 2],cellMatrix[2, 1]), // c_vec (x,z,y)
-                    new Vector3(cellMatrix[1, 0],cellMatrix[1, 2],cellMatrix[1, 1]), // b_vec (x,z,y)
+                    new Vector3(bravaisMatrix[0, 0],bravaisMatrix[0, 2],bravaisMatrix[0, 1]), // a_vec (x,z,y)
+                    new Vector3(bravaisMatrix[2, 0],bravaisMatrix[2, 2],bravaisMatrix[2, 1]), // c_vec (x,z,y)
+                    new Vector3(bravaisMatrix[1, 0],bravaisMatrix[1, 2],bravaisMatrix[1, 1]), // b_vec (x,z,y)
                 };
 
                 i += 3; // Skips next lines as they've already been read
             }
             else if (lines[i].Contains("All sites")) // Looks for conventional cell atom sites
             {
-                Debug.Log(".txt containes \"All sites\"");
                 words = lines[i + 2].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // The 1st line with info is 2 lines below
                 while (words.Length > 0) // After "All sites" is a blank line (len=0), so we keep going until then
                 {
@@ -200,6 +197,8 @@ public class Crystal : MonoBehaviour
         atomElement = atomElementList.ToArray();
         atomPos = atomPosList.ToArray();
         symmetryMatrices = symmetryMatricesList.ToArray();
+
+        Debug.Log("Read the cif2cell-converted file and stored data");
     }
 
     // Called in Start
@@ -542,13 +541,12 @@ public class Crystal : MonoBehaviour
         // Solves for where one coordinate is zero (face)
         for (int i = 0; i < atomPos.Length; i++)
         {
-            for (int j = 0; j < 3; j++) // Iterates over x, y and z (x -> z -> y)
+            for (int j = 0; j < 3; j++) // Iterates over the bravais lattice vectors (a -> c -> b)
             {
-                if (Mathf.Abs(atomPos[i][j]) < eps) // If atom position is approx. 0
+                if (Mathf.Abs(LinTransform(invBravaisMatrix,atomPos[i])[j]) < eps) // If atom position is approx. 0 (relative to bravais lattice)
                 {
                     Vector3 newPos = atomPos[i]; // Updates the equivalent position
-                    newPos = newPos + cellVectors[j]; // We defined cellVectors as a_vec, c_vec, b_vec so it should be fine. Uses cartesian converted bravais coordinates
-                    //newPos[j] = cellLength[j]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom WORKS ONLY FOR CELLANGLES = 90
+                    newPos += bravaisVectors[j]; // We defined cellVectors as a_vec, b_vec, c_vec so it should be fine. Uses cartesian converted bravais coordinates
 
                     GameObject newAtom = Instantiate(atom, atomParent.transform, false); // Instantiates new atom
 
@@ -558,18 +556,16 @@ public class Crystal : MonoBehaviour
                     newAtom.GetComponent<CustomTag>().tags = atomObjectsList[i].GetComponent<CustomTag>().tags; // Adds symmetry tags to atom
 
                     atomObjectsList.Add(newAtom); // Adds the atom to the list
-                    //atomElementsList.Add(newElement); // Adds the element to the list
 
-                    Debug.Log("Created face atom: " + newPos + " from " + atomPos[i]);
+                    Debug.Log("(1) Created atom: " + newPos.ToString("F2") + " from " + atomPos[i].ToString("F2"));
 
                     // Solves for where two coordinates are zero (edge). NOTE: This creates duplicates of atoms as (x,1,0) and (x,0,1) from previous loop are flipped to (x,1,1). Will destroy duplicates after
-                    for (int k = 1; k < 3; k++) // Iterates over y and z (z -> y)
+                    for (int k = 1; k < 3; k++) // Iterates over b and c (c -> b)
                     {
-                        if (Mathf.Abs(newPos[k]) < eps) // If atom position is approx. 0
+                        if (Mathf.Abs(LinTransform(invBravaisMatrix,newPos)[k]) < eps | Mathf.Abs(LinTransform(invBravaisMatrix, newPos-bravaisVectors[j])[k]) < eps) // If atom position is approx. 0
                         {
                             Vector3 newerPos = newPos;
-                            //newerPos[k] = cellLength[k]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
-                            newerPos = newerPos + cellVectors[k]; // Sets start of cell to end of cell
+                            newerPos += bravaisVectors[k]; // Sets start of cell to end of cell
 
                             GameObject newerAtom = Instantiate(atom, atomParent.transform, false);
 
@@ -579,17 +575,15 @@ public class Crystal : MonoBehaviour
                             newerAtom.GetComponent<CustomTag>().tags = atomObjectsList[i].GetComponent<CustomTag>().tags; // Adds symmetry tags to atom
 
                             atomObjectsList.Add(newerAtom); // Instantiates an equivalent atom to the original
-                            //atomElementsList.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
 
-                            Debug.Log("Created edge atom: " + newerPos + " from " + newPos);
+                            Debug.Log("(2) Created atom: " + newerPos.ToString("F2") + " from " + newPos.ToString("F2"));
 
                             // Solves for where three coordinates are zero (corner)
-                            // Iterates over y
-                            if (Mathf.Abs(newerPos[2]) < eps) // If atom position is approx. 0
+                            // Iterates over b
+                            if (Mathf.Abs(LinTransform(invBravaisMatrix,newerPos)[2]) < eps | Mathf.Abs(LinTransform(invBravaisMatrix, newerPos - bravaisVectors[j] - bravaisVectors[k])[2]) < eps) // If atom position is approx. 0
                             {
                                 Vector3 newestPos = newerPos;
-                                //newestPos[2] = cellLength[2]; // Sets start of cell to end of cell to duplicate other end of cell for equivalent atom
-                                newestPos = newestPos + cellVectors[2]; // Sets start of cell to end of cell in y direction (since (x,z,y) )
+                                newestPos += bravaisVectors[2]; // Sets start of cell to end of cell
 
                                 GameObject newestAtom = Instantiate(atom, atomParent.transform, false);
 
@@ -599,9 +593,8 @@ public class Crystal : MonoBehaviour
                                 newestAtom.GetComponent<CustomTag>().tags = atomObjectsList[i].GetComponent<CustomTag>().tags; // Adds symmetry tags to atom
 
                                 atomObjectsList.Add(newestAtom); // Instantiates an equivalent atom to the original
-                                //atomElementsList.Add(atomElement[i]); // Adds the atomElement for the equivalent atom
 
-                                Debug.Log("Created corner atom: " + newestPos + " from " + newerPos);
+                                Debug.Log("(3) Created atom: " + newestPos.ToString("F2") + " from " + newerPos.ToString("F2"));
                             }
                         }
                     }
@@ -620,8 +613,73 @@ public class Crystal : MonoBehaviour
                 //atomElementsList.RemoveAt(i + 1); // Removes the element so we have track of it
             }
         }
+
         atomObjects = atomObjectsList.ToArray(); // Converts the atomObjectsList to an array (arrays are better, faster, harder, stronger)
-        //atomElement = atomElementsList.ToArray(); // Updates the atomElement array to match all our atoms
+
+        Debug.Log("Created Crystal");
+    }
+
+    // Called in Start
+    void CreateUnitCellGrid()
+    {
+        // Creates the sticks for the sides of the unit cell, giving a clear picture of the unit cell's boundaries
+        GameObject gridParent = new GameObject("Unit Cell Grid"); // Creates an empty GameObject to store gridLines in
+        gridParent.transform.parent = crystal.transform; // Sets unitCellGrid as a child of the Crystal
+        gridParent.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the unitCellGrid is in the Crystal's (0,0,0)
+
+        GameObject gridLineX = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // Creates a standard Unity cylinder
+        gridLineX.transform.parent = gridParent.transform; // Sets the gridLine to a child of the gridParent
+        gridLineX.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the gridLine is in the gridParent's (0,0,0)
+
+        GameObject gridLineY = Instantiate(gridLineX, gridParent.transform, false); // Creates copies
+        GameObject gridLineZ = Instantiate(gridLineX, gridParent.transform, false);
+
+        gridLineX.name = "X "; // Names the gridLines
+        gridLineY.name = "Y ";
+        gridLineZ.name = "Z ";
+        
+        // Scales them to be thinner and as long enough to strech the entire unit cell
+        gridLineX.transform.localScale = new Vector3(0.05f, cellLength[0] / 2, 0.05f); // a
+        gridLineY.transform.localScale = new Vector3(0.05f, cellLength[1] / 2, 0.05f); // b
+        gridLineZ.transform.localScale = new Vector3(0.05f, cellLength[2] / 2, 0.05f); // c
+
+
+        gridLineX.transform.LookAt(bravaisVectors[0] + crystal.transform.position); // Makes the gridLine's z-component look at the coordinate point the bravais vector points to
+        gridLineY.transform.LookAt(bravaisVectors[2] + crystal.transform.position); // b_vec is [2]
+        gridLineZ.transform.LookAt(bravaisVectors[1] + crystal.transform.position); // c_vec is [1]
+
+        // We need to look at the y-component instead, so we rotate the gridLines
+        gridLineX.transform.Rotate(90, 0, 0); // Rotates X so it faces correctly (parallel to bravais)
+        gridLineY.transform.Rotate(90, 0, 0); // Rotates Y so it faces correctly (parallel to bravais)
+        gridLineZ.transform.Rotate(90, 0, 0); // Rotates Z so it faces correctly (parallel to bravais)
+
+        gridLineX.transform.localPosition = bravaisVectors[0] / 2f; // Moves the center of the cylinder to the center of its bravais vector (cylinder has its pivot in center not on its bottom)
+        gridLineY.transform.localPosition = bravaisVectors[2] / 2f;
+        gridLineZ.transform.localPosition = bravaisVectors[1] / 2f;
+
+        // Adds and places gridLines for the other unit cell edges
+        GameObject gridLineXA = Instantiate(gridLineX, gridParent.transform, false);
+        gridLineXA.transform.localPosition += bravaisVectors[1]; // Translates along b
+        GameObject gridLineXB = Instantiate(gridLineX, gridParent.transform, false);
+        gridLineXB.transform.localPosition += bravaisVectors[2]; // Translates along c
+        GameObject gridLineXC = Instantiate(gridLineX, gridParent.transform, false);
+        gridLineXC.transform.localPosition += bravaisVectors[1] + bravaisVectors[2]; // Translates along b and c
+
+        GameObject gridLineYA = Instantiate(gridLineY, gridParent.transform, false);
+        gridLineYA.transform.localPosition += bravaisVectors[0]; // Translates along a
+        GameObject gridLineYB = Instantiate(gridLineY, gridParent.transform, false);
+        gridLineYB.transform.localPosition += bravaisVectors[1]; // Translates along c
+        GameObject gridLineYC = Instantiate(gridLineY, gridParent.transform, false);
+        gridLineYC.transform.localPosition += bravaisVectors[0] + bravaisVectors[1]; // Translates along a and c
+
+        GameObject gridLineZA = Instantiate(gridLineZ, gridParent.transform, false);
+        gridLineZA.transform.localPosition += bravaisVectors[0]; // Translates along a
+        GameObject gridLineZB = Instantiate(gridLineZ, gridParent.transform, false);
+        gridLineZB.transform.localPosition += bravaisVectors[2]; // Translates along b
+        GameObject gridLineZC = Instantiate(gridLineZ, gridParent.transform, false);
+        gridLineZC.transform.localPosition += bravaisVectors[0] + bravaisVectors[2]; // Translates along a and b
+
+        Debug.Log("Created Unit Cell grid");
     }
 
     // Called in Start
@@ -754,16 +812,15 @@ public class Crystal : MonoBehaviour
         return u;
     }
 
-    /*
     // Overload of LinTransform, called in CreateCrystal for corner/edge/face atoms
     Vector3 LinTransform(float[,] M, Vector3 v)
     {
+        // Takes in a normal (x,y,z) matrix M, and a Unity (x,z,y) Vector v
         float[] a = new float[] { v[0], v[2], v[1] }; // Swaps y and z so that the third coordinate is the vertical axis ( (x,z,y)->(x,y,z) )
         float[] b = LinTransform(M, a); // Transforms the array-vector, a, with the matrix, M. This uses the overload of LinTransform that uses arrays, where the actual transformation is perfomed
 
         return new Vector3(b[0], b[2], b[1]); // Swaps y and z back again ( (x,y,z) -> (x,z,y) )
     }
-    */
 
     // Called in CreateCrystal. Overload to work for Vector3 using "(x,z,y)"
     Vector3 PerformSymmetry(float[,] M, Vector3 v)
@@ -781,7 +838,7 @@ public class Crystal : MonoBehaviour
         return new Vector3(b[0], b[2], b[1]); // Swaps y and z back again ( (x,y,z) -> (x,z,y) )
     }
 
-    // Called in CreateCell
+    // Called in CreateCell OLD
     void SetAtomColor(GameObject atom, string element)
     {
         // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
@@ -801,6 +858,11 @@ public class Crystal : MonoBehaviour
         // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
         // Uses the name of the GameObject to set the color
         string element = atom.name.Split(' ')[0]; // Gets the "First name" of the gameobject (e.g. "Si" from "Si (0,0,0)") and sets that as the element
+        if (element.Contains('/'))
+        {
+            // We have multiple atoms with occurences
+            element = element.Split('/')[0]; // For now, default to first atom, later maybe include Random.range(occ1, occ2)(or other if more than two atoms)
+        }
         try
         {
             atom.GetComponent<Renderer>().material.color = atomColors[element];
@@ -1447,27 +1509,27 @@ public class Crystal : MonoBehaviour
                     {
                         case 1: // X
                             planeVertices[0] = new Vector3(0, 0, 0); // Origin
-                            planeVertices[1] = cellVectors[1]; // vec(b)
-                            planeVertices[2] = cellVectors[2]; // vec(c)
-                            planeVertices[3] = cellVectors[1] + cellVectors[2]; // vec(b)+vec(c)
+                            planeVertices[1] = bravaisVectors[1]; // vec(b)
+                            planeVertices[2] = bravaisVectors[2]; // vec(c)
+                            planeVertices[3] = bravaisVectors[1] + bravaisVectors[2]; // vec(b)+vec(c)
                             planeName += " X";
-                            planeNormal = cellVectors[0];
+                            planeNormal = bravaisVectors[0];
                             break;
                         case 2: // Y
                             planeVertices[0] = new Vector3(0, 0, 0); // Origin
-                            planeVertices[1] = cellVectors[0]; // vec(a)
-                            planeVertices[2] = cellVectors[2]; // vec(c)
-                            planeVertices[3] = cellVectors[0] + cellVectors[2]; // vec(a)+vec(c)
+                            planeVertices[1] = bravaisVectors[0]; // vec(a)
+                            planeVertices[2] = bravaisVectors[2]; // vec(c)
+                            planeVertices[3] = bravaisVectors[0] + bravaisVectors[2]; // vec(a)+vec(c)
                             planeName += " Y";
-                            planeNormal = cellVectors[1];
+                            planeNormal = bravaisVectors[1];
                             break;
                         case 3: // Z
                             planeVertices[0] = new Vector3(0, 0, 0); // Origin
-                            planeVertices[1] = cellVectors[0]; // vec(a)
-                            planeVertices[2] = cellVectors[1]; // vec(b)
-                            planeVertices[3] = cellVectors[0] + cellVectors[1]; // vec(a)+vec(b)
+                            planeVertices[1] = bravaisVectors[0]; // vec(a)
+                            planeVertices[2] = bravaisVectors[1]; // vec(b)
+                            planeVertices[3] = bravaisVectors[0] + bravaisVectors[1]; // vec(a)+vec(b)
                             planeName += " Z";
-                            planeNormal = cellVectors[2];
+                            planeNormal = bravaisVectors[2];
                             break;
                         default:
                             Debug.Log("Could not determine the direction of the plane: " + spaceGroupSymbols[i]);
