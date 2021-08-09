@@ -26,7 +26,7 @@ public class Crystal : MonoBehaviour
     private float cellVolume; // Volume of the cell Old: Taken from file. New: Calculated
     private Vector3[] bravaisVectors; // Unit cell vectors NOTE: uses Unity (x,z,y)
     private float[,] bravaisMatrix; // We create a matrix for the bravais as well, so we can transform coordinates correctly NOTE: uses normal (x,y,z)
-    private float[,] invBravaisMatrix; // We create an inverse matrix for the bravais as well, so we can check corners etc. correctly NOTE: uses normal (x,y,z)
+    private float[,] reciprocalMatrix; // Used to convert atom positions into coordinates suitable for finding out if it is in a(n) corner/edge/face
     private string spaceGroup; // OLD
 
     private GameObject[] atomObjects; // Array of atom objects.
@@ -54,8 +54,8 @@ public class Crystal : MonoBehaviour
         {"Si", Color.gray},
         {"Cu", Color.yellow}, // I'd prefer "Orange"
     };
-    
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,32 +63,36 @@ public class Crystal : MonoBehaviour
 
         //ReadConvert(CrystalManager.outfile); // Reads the converted file and stores needed data
         ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\LSMO.txt"); // Temporary, use comment above after testing, and when back in UI menu
-        //ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
+                                                                                                                       //ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
         // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (We use x,y,z)
-        
+
         cellVolume = cellLength[0] * cellLength[1] * cellLength[2] // abc
             * Mathf.Sqrt(1 - (Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad)) // * sqrt( 1-cos^2(alpha)
             - (Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)) // -cos^2(beta)
             - (Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)) // -cos^2(gamma)
             + (2 * Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad))); // + 2*cos(alpha)*cos(beta)*cos(gamma) )
-        invBravaisMatrix = new float[,] 
-        { 
-            {1 / cellLength[0], - (Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad) / (cellLength[0] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad))), cellLength[1] * cellLength[2] * ((Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)) - Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad)) / (cellVolume * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)) }, // m11, m12, m13
-            {0, 1 / (cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)), cellLength[0] * cellLength[2] * ((Mathf.Cos(cellAngle[1] * Mathf.Deg2Rad) * Mathf.Cos(cellAngle[2] * Mathf.Deg2Rad)) - Mathf.Cos(cellAngle[0] * Mathf.Deg2Rad)) / (cellVolume * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)) }, // m21, m23, m22
-            {0, 0, (cellLength[0] * cellLength[1] * Mathf.Sin(cellAngle[2] * Mathf.Deg2Rad)) / cellVolume } // m31, m32, m33
-        }; // Used for getting corner/edge/face atoms correctly
+
+        float reciprocalScale = 2*Mathf.PI/Vector3.Dot(bravaisVectors[0], (Vector3.Cross(bravaisVectors[2], bravaisVectors[1]))); // 2pi / a*(b x c)
+
+        Vector3[] reciprocalVectors = new Vector3[3]
+        {
+            reciprocalScale*Vector3.Cross(bravaisVectors[2],bravaisVectors[1]), // b x c = reci_1
+            reciprocalScale*Vector3.Cross(bravaisVectors[0],bravaisVectors[2]), // a x b = reci_3
+            reciprocalScale*Vector3.Cross(bravaisVectors[1],bravaisVectors[0]) // c x a = reci_2
+        };
+        reciprocalMatrix = new float[3, 3]
+        {
+            {reciprocalVectors[0][0], reciprocalVectors[0][2], reciprocalVectors[0][1] }, // a11, a12, a13
+            {reciprocalVectors[2][0],reciprocalVectors[2][2],reciprocalVectors[2][1] }, // a21, a22, a23
+            {reciprocalVectors[1][0],reciprocalVectors[1][2],reciprocalVectors[1][1] } // a31, a32, a33
+        }; // Flipping vectors from xzy to xyz, so matrix looks jumbled
+        
 
         EvalSymmetry(); // Evaluates each symmetry matrix and categorizes them
         CreateCrystal(); // Constructs the physical unit cell based on conventional atom positions, tags atoms if they match through symmetry, creates corner/edge/face atoms of cell, and adds unit cell "sticks"
 
-        for (int i = 0; i < atomPos.Length; i++)
-        {
-            Debug.Log("atom: " + (i+1) + " had position "+ LinTransform(invBravaisMatrix,atomPos[i]).ToString("F2"));
-        }
-
-        //Debug.Log("x: " + (atomPos[9][0]/cellLength[0]).ToString("F3") + "y: " + 0 + "z: " + (atomPos[9][1]*invBravaisMatrix[2,2]).ToString("F3"));
 
         CreateUnitCellGrid();
         //CreateSymmetry();
@@ -492,7 +496,7 @@ public class Crystal : MonoBehaviour
         List<GameObject> atomObjectsList = new List<GameObject>(); // Creates a list to contain each atom's object for easier access. Will be converted to array at the end
         //List<string> atomElementsList = new List<string>(); // Creates a list to contain each atom's element for easier access. Will be converted to array at the end
 
-        // Creates basic atom positions, and tags them with symmetries
+        // Creates basic atom positions, and tags them with symmetries MAKE SURE THIS WORKS FOR NON-CUBIC
         for (int i = 0; i < atomPos.Length; i++) // Loops over each conventional atom site
         {
             atomObjectsList.Add(Instantiate(atom, atomParent.transform, false)); // Creates a physical atom object, with atomParent as parent, and adds it to the list
@@ -543,7 +547,7 @@ public class Crystal : MonoBehaviour
         {
             for (int j = 0; j < 3; j++) // Iterates over the bravais lattice vectors (a -> c -> b)
             {
-                if (Mathf.Abs(LinTransform(invBravaisMatrix,atomPos[i])[j]) < eps) // If atom position is approx. 0 (relative to bravais lattice)
+                if (Mathf.Abs(LinTransform(reciprocalMatrix,atomPos[i])[j]) < eps) // If atom position is approx. 0 (relative to bravais lattice)
                 {
                     Vector3 newPos = atomPos[i]; // Updates the equivalent position
                     newPos += bravaisVectors[j]; // We defined cellVectors as a_vec, b_vec, c_vec so it should be fine. Uses cartesian converted bravais coordinates
@@ -562,7 +566,7 @@ public class Crystal : MonoBehaviour
                     // Solves for where two coordinates are zero (edge). NOTE: This creates duplicates of atoms as (x,1,0) and (x,0,1) from previous loop are flipped to (x,1,1). Will destroy duplicates after
                     for (int k = 1; k < 3; k++) // Iterates over b and c (c -> b)
                     {
-                        if (Mathf.Abs(LinTransform(invBravaisMatrix,newPos)[k]) < eps | Mathf.Abs(LinTransform(invBravaisMatrix, newPos-bravaisVectors[j])[k]) < eps) // If atom position is approx. 0
+                        if (Mathf.Abs(LinTransform(reciprocalMatrix,newPos)[k]) < eps) // If atom position is approx. 0
                         {
                             Vector3 newerPos = newPos;
                             newerPos += bravaisVectors[k]; // Sets start of cell to end of cell
@@ -580,7 +584,7 @@ public class Crystal : MonoBehaviour
 
                             // Solves for where three coordinates are zero (corner)
                             // Iterates over b
-                            if (Mathf.Abs(LinTransform(invBravaisMatrix,newerPos)[2]) < eps | Mathf.Abs(LinTransform(invBravaisMatrix, newerPos - bravaisVectors[j] - bravaisVectors[k])[2]) < eps) // If atom position is approx. 0
+                            if (Mathf.Abs(LinTransform(reciprocalMatrix,newerPos)[2]) < eps) // If atom position is approx. 0
                             {
                                 Vector3 newestPos = newerPos;
                                 newestPos += bravaisVectors[2]; // Sets start of cell to end of cell
