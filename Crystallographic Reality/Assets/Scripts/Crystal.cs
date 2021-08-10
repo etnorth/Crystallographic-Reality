@@ -63,7 +63,7 @@ public class Crystal : MonoBehaviour
 
         //ReadConvert(CrystalManager.outfile); // Reads the converted file and stores needed data
         ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\LSMO.txt"); // Temporary, use comment above after testing, and when back in UI menu
-                                                                                                                       //ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
+        //SI ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
         // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (We use x,y,z)
@@ -496,8 +496,8 @@ public class Crystal : MonoBehaviour
         List<GameObject> atomObjectsList = new List<GameObject>(); // Creates a list to contain each atom's object for easier access. Will be converted to array at the end
         //List<string> atomElementsList = new List<string>(); // Creates a list to contain each atom's element for easier access. Will be converted to array at the end
 
-        // Creates basic atom positions, and tags them with symmetries MAKE SURE THIS WORKS FOR NON-CUBIC
-        for (int i = 0; i < atomPos.Length; i++) // Loops over each conventional atom site
+        // Creates basic atom positions, and tags them with symmetries
+        for (int i = 0; i < atomPos.Length; i++) // Loops over each conventional atom site LOOK INTO SYMMETRY TAGS
         {
             atomObjectsList.Add(Instantiate(atom, atomParent.transform, false)); // Creates a physical atom object, with atomParent as parent, and adds it to the list
             //atomElementsList.Add(atomElement[i]); // Adds the atom's element
@@ -511,25 +511,25 @@ public class Crystal : MonoBehaviour
             for (int j = 0; j < symmetryMatrices.Length; j++) // Loops over each symmetry matrix
             {
                 Vector3 pos = PerformSymmetry(symmetryMatrices[j], atomPos[i]); // Performs symmetry operation on representative site (including translation)
+                Vector3 bravaisPos = LinTransform(reciprocalMatrix, pos); // Transforms cartesian into bravais coordinates (a,0,0) -> (1,0,0)
 
                 for (int k = 0; k < atomPos.Length; k++) // Loops over each conventional atom position
                 {
-
                     // Checks if symmetry-made position is outside unit cell due to symmetry operation, and translates inside unit cell again
-                    if (pos[0] > cellLength[0]) // x
+                    if (bravaisPos[0] > 1) // If the atom is outside the unit cell in the a direction
                     {
-                        pos[0] = pos[0] - cellLength[0];
+                        pos -= bravaisVectors[0]; // Subtract the a_vec to put it back inside
                     }
-                    if (pos[1] > cellLength[1]) // z
+                    if (bravaisPos[1] > 1) // If the atom is outside the unit cell in the c direction
                     {
-                        pos[1] = pos[1] - cellLength[1];
+                        pos -= bravaisVectors[1]; // Subtract the c_vec to put it back inside
                     }
-                    if (pos[2] > cellLength[0]) // y
+                    if (bravaisPos[2] > 1) // If the atom is outside the unit cell in the b direction
                     {
-                        pos[2] = pos[2] - cellLength[2];
+                        pos -= bravaisVectors[2];// Subtract the b_vec to put it back inside
                     }
 
-                    if (atomElement[k]==atomElement[i] && // If new atom is of same element (if the new atom is in the same site but a different element, we want to check that out)
+                    if (atomElement[k]==atomElement[i] && // If new atom is of same element (if different element, the symmetry should be different, in my head)
                         (Mathf.Abs(pos[0] - atomPos[k][0]) < eps) && 
                         (Mathf.Abs(pos[1] - atomPos[k][1]) < eps) && 
                         (Mathf.Abs(pos[2] - atomPos[k][2]) < eps)) // Checks if position already exists from before for this atom
