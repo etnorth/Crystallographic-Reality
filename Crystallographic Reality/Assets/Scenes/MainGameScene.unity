@@ -1568,6 +1568,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crystal: {fileID: 1734843215}
   atom: {fileID: 5581097201470644699, guid: 63bf732bf948af34dbe9bccb4da91532, type: 3}
+  rotationSymbols:
+  - {fileID: 21300000, guid: 7d55ca4d6e8e4fd48b8b1e97fd755fa1, type: 3}
+  - {fileID: 21300000, guid: 59ad49598935be04388f85b61f9d0a4b, type: 3}
+  - {fileID: 21300000, guid: f29ae540e0c90d34390ff42bd6398c3e, type: 3}
+  - {fileID: 21300000, guid: 5994ed0f508b8d94a902a32460388a36, type: 3}
+  - {fileID: 21300000, guid: 8bb9254e137e9d046938ebb492c73408, type: 3}
+  - {fileID: 21300000, guid: 7f2fbf885629d7349838db75e5af1afc, type: 3}
+  - {fileID: 21300000, guid: cafb17dcb0a0ec34296e6ff4219582a6, type: 3}
+  - {fileID: 21300000, guid: c7471b7d32b5aff4da5b6315f8b255c0, type: 3}
+  - {fileID: 21300000, guid: b119f14c404d64243b99a87de2a9619d, type: 3}
+  - {fileID: 21300000, guid: 4c8176458bca07e46bca98aead9651d4, type: 3}
+  - {fileID: 21300000, guid: 64fd14845798e10468bcb31dc73d1602, type: 3}
+  - {fileID: 21300000, guid: 660e68c3055b1d049af639dd068aeca4, type: 3}
+  - {fileID: 21300000, guid: 07f1f62393b8ee44ba5b834fb8b9de3d, type: 3}
+  - {fileID: 21300000, guid: c569ed37c12b4c74ebe5c2474b446167, type: 3}
+  - {fileID: 21300000, guid: a0f467618c2bd004da3666474ed46aaa, type: 3}
+  - {fileID: 21300000, guid: 1243224ebce3a7e42845163cb721cca2, type: 3}
+  - {fileID: 21300000, guid: e2fbe5c89891ae4408f3514678856396, type: 3}
+  - {fileID: 21300000, guid: 4e3cdf4bf5c403a449d0040e8044930a, type: 3}
+  - {fileID: 21300000, guid: d78fe4abe2e6cff48ae47b832d0f8df9, type: 3}
+  - {fileID: 21300000, guid: 8de89d182c1cae940ba35ace7d61023a, type: 3}
+  - {fileID: 21300000, guid: 65213f4e99770764a8150fc626db700b, type: 3}
+  - {fileID: 21300000, guid: 8e5fc8c4d8dcc91458a8468ec4f85790, type: 3}
+  - {fileID: 21300000, guid: c774d64640e40e64698bc70f35a3f228, type: 3}
+  - {fileID: 21300000, guid: 9b32a93930823cc40894b4b12b1afd27, type: 3}
   eps: 0.0001
   scaleChange: 0.1
 --- !u!4 &1734843217

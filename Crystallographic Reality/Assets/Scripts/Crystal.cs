@@ -5,12 +5,14 @@ using UnityEngine;
 using System; // For StringSplitOptions to split e.g. 3 or 4 consecutive whitespaces (tab or one whitespace did not work) (also handles our Globalization)
 using System.IO; // IO: InputOutput. Used to read our input file. OLD
 using System.Linq; // Adds array.where to exlude 0 from .Min(). See Step 3 for reflection in EvalSymmetry()
+using UnityEngine.UI; // Used for images
 //using System.Diagnostics; // Provides access to local and remote processes and enables you to start and stop local system processes
 
 public class Crystal : MonoBehaviour
 {
     public GameObject crystal; // An object to be used as the parent of the unit cell. In Unity I have selected an empty parent object "Crystal" for this. In hindsight I could have skipped this entirely and made this in the script, but this works fine.
     public GameObject atom; // Atom prefab. Selected manually in Unity. This could also have been made by using GameObject.CreatePrimitive() and then setting constraints via the script
+    public List<Sprite> rotationSymbols; // List containing each rotation symbol
     public float eps = 0.0001f; // tolerance for comparing float numbers (abs(x)<eps => x=0). Meant to avoid rounding errors. (typically called eps or tol from MAT-IN1105)
     public float scaleChange = 0.1f; // A scale for making unit cell smaller/larger.
 
@@ -62,8 +64,8 @@ public class Crystal : MonoBehaviour
         // Initialization (The thought is to have a separate game scene with buttons, sliders, etc. for setting up the crystal. This is parsed to this file and creates the appropriate crystal)
 
         //ReadConvert(CrystalManager.outfile); // Reads the converted file and stores needed data
-        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\LSMO.txt"); // Temporary, use comment above after testing, and when back in UI menu
-        //SI ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
+        //ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\LSMO.txt"); // Temporary, use comment above after testing, and when back in UI menu
+        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
         // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (We use x,y,z)
@@ -95,7 +97,7 @@ public class Crystal : MonoBehaviour
 
 
         CreateUnitCellGrid();
-        //CreateSymmetry();
+        CreateSymmetry();
 
     }
 
@@ -336,13 +338,13 @@ public class Crystal : MonoBehaviour
                         // Originally did translation * n = m and compared for different m, but I could just assign it as-is
                         if (degOfRotation != 2) // 2-fold screw axis can only be 2_1, so we skip it entirely
                         {
-                            if (Mathf.Abs(matrix[0,3]) < eps) // Rotation can leave one coordinate zero and translate the other two, so we take this into account
+                            if (Mathf.Abs(matrix[0,3]) < eps) // Rotation can leave one coordinate zero and translate the other two, so we take this into account using if else
                             {
-                                symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + (Mathf.Abs(matrix[0, 3] * degOfRotation)));
+                                symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + Mathf.RoundToInt(Mathf.Abs(matrix[0, 3] * degOfRotation))); // Uses x-coordinate of translation vector. Also RoundToInt as sometimes it is 0.999
                             }
                             else // if x = 0, then y and z should be != 0
                             {
-                                symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + (Mathf.Abs(matrix[1, 3] * degOfRotation)));
+                                symmetryMatricesTypeList.Add("Screw " + axis + " " + degOfRotation + " " + Mathf.RoundToInt(Mathf.Abs(matrix[1, 3] * degOfRotation))); // Uses y-coordinate of translation vector
                             }
                         }
                         else
@@ -689,27 +691,74 @@ public class Crystal : MonoBehaviour
     // Called in Start
     void CreateSymmetry()
     {
+        // Investigates all Symmetries and visualizes them
+
+        GameObject symmetryParent = new GameObject("Symmetries"); // Creates a parent to keep all symmetries
+        symmetryParent.transform.parent = crystal.transform;
+        symmetryParent.transform.localPosition = new Vector3(0, 0, 0);
+
         for (int i = 0; i < symmetryMatricesType.Length; i++)
         {
-            string symmetry = symmetryMatricesType[i];
-            string[] symmetryInfo = symmetry.Split(' '); // Here I know there's only one space, so I do it the easy way
 
-            switch (symmetryInfo[0])
+            string symmetry = symmetryMatricesType[i];
+            string[] symmetryInfo = symmetry.Split(' '); // Splits the symmetryInfo per whitespace (e.g. "Screw axis degree subscript")
+            string symmetryType = symmetryInfo[0];
+            
+            float[] axis = { 0, 0, 0 }; // Introduce axis. Default (0,0,0), but should be updated inside if when actually used
+
+            if (symmetryInfo.Length > 1) // If the len>1 we have an axis, and so fetch it
             {
-                case "Identity":
-                    // This always exists, so ignore it
-                    break;
-                case "Inversion":
-                    // Instantiate Inversion element
-                    break;
+                string axisString = symmetryInfo[1].Remove(0, 1); // Removes the 1st char (a parenthesis)
+                axisString = axisString.Remove(axisString.Length - 1); // Removes all the final character (closing parenthesis)
+                axis = new float[]
+                {
+                        StringToFloat(axisString.Split(',')[0]), StringToFloat(axisString.Split(',')[1]), StringToFloat(axisString.Split(',')[2]) // Gets x y and z. Splits on comma
+                }; //axisString.Split(',')[0]; // Splits on comma
+
+                Debug.Log("Axis: " + axis[0] + "," + axis[1] + "," + axis[2]);
+            }
+            else // We have Identity or Inversion
+            {
+                switch (symmetryType)
+                {
+                    case "Identity":
+                        // This always exists, so ignore it
+                        break;
+                    case "Inversion":
+                        // Instantiate Inversion element
+                        break;
+                }
+            }
+
+            switch (symmetryType)
+            {
                 case "Rotation":
                     // Instantiate Rotation axis based on axis and degree of rotation
+
+                    int degOfRotation = int.Parse(symmetryInfo[2]);
+                    int subscript = 0; // When the subscript = 0, the function defaults to no screw, normal rotation
+
+                    CreateRotation(symmetry, axis, degOfRotation, subscript, symmetryParent);
+
                     break;
                 case "Screw":
                     // Instantiate Screw axis based on axis, degree of rotation and subscript
+
+                    degOfRotation = int.Parse(symmetryInfo[2]); // Apparently we don't need to declare these when it's a switch case
+                    subscript = int.Parse(symmetryInfo[3]);
+
+                    CreateRotation(symmetry, axis, degOfRotation, subscript, symmetryParent);
                     break;
                 case "Mirror":
                     // Instantiate Mirror plane based on plane normal and size of lattice (CreatePlane())
+                    // The plane normal is actually the same as its miller index, so we base our creation on that
+
+                    // NEEDS MORE WORK
+                    for (int j = 0; j < 3; j++)
+                    {
+
+                    }
+
                     break;
                 case "Glide":
                     // Instantiate Glide plane based on plane normal and size of lattice (CreatePlane()), with different color to indicate type of glide
@@ -772,23 +821,19 @@ public class Crystal : MonoBehaviour
     int DegreeOfRotation(float theta, float eps = 0.0001f)
     {
         // This function determines the degree of rotation of a rotation axis based on its angle
-        if (Mathf.Abs(theta - 180) < eps)
+        if (Mathf.Abs(theta - 180) < eps | Mathf.Abs(theta + 180) < eps)
         {
             return 2;
         }
-        else if (Mathf.Abs(theta - 120) < eps)
+        else if (Mathf.Abs(theta - 120) < eps | Mathf.Abs(theta + 120) < eps) // Sometimes angle was -120, so we added a check for this on all degrees
         {
             return 3;
         }
-        else if (Mathf.Abs(theta - 90) < eps)
+        else if (Mathf.Abs(theta - 90) < eps | Mathf.Abs(theta + 90) < eps) // arctan(1/0) = error, but atan2() gives -90. However, it should give +90. We take this into account here.
         {
             return 4;
         }
-        else if (Mathf.Abs(theta + 90) < eps) // arctan(1/0) = error, but atan2() gives -90. However, it should give +90. We take this into account here
-        {
-            return 4;
-        }
-        else if (Mathf.Abs(theta - 60) < eps)
+        else if (Mathf.Abs(theta - 60) < eps | Mathf.Abs(theta + 60) < eps)
         {
             return 6;
         }
@@ -835,9 +880,16 @@ public class Crystal : MonoBehaviour
 
         float[] a = new float[] { v[0], v[2], v[1] }; // Swaps y and z so that the third coordinate is the vertical axis ( (x,z,y)->(x,y,z) )
         float[] b = LinTransform(M, a); // Transforms the array-vector, a, with the matrix, M. This uses the overload of LinTransform that uses arrays, where the actual transformation is perfomed
-        b = new float[] { b[0] + (M[0, 3]*cellLength[0]), 
-            b[1] + (M[1, 3]*cellLength[1]), 
-            b[2] + (M[2, 3]*cellLength[2]) }; // Translates b according to the translational component of M, and multiplies with cellLength to handle fractional coordinates BUT NOT BRAVAISVECTORS WHICH IS BAD
+        float[] translation = new float[] // Adds translation component
+        {
+            M[0,3], // x
+            M[1,3], // y
+            M[2,3], // z
+        };
+        translation = LinTransform(bravaisMatrix, translation); // Converts translation from bravais (a,b,c) to cartesian (x,y,z) system
+        b = new float[] { b[0] + translation[0], 
+            b[1] + translation[1], 
+            b[2] + translation[2] }; // Translates b according to the translational component of M
 
         return new Vector3(b[0], b[2], b[1]); // Swaps y and z back again ( (x,y,z) -> (x,z,y) )
     }
@@ -898,7 +950,61 @@ public class Crystal : MonoBehaviour
         return float.Parse(str, System.Globalization.CultureInfo.InvariantCulture); // InvariantCulture makes sure commas and periods don't cause problems
     }
 
-    // Called in AddSymmetry
+    // Called in CreateSymmetry
+    GameObject CreateRotation(string parentName, float[] axis, int degOfRotation, int subscript = 0, GameObject parent = null)
+    {
+        // Creates a rotation / screw axis based on its axis, and the fold + subscript (3_1, 3_2, ...)
+        // Takes in the whole symmetryInfo
+
+
+        GameObject rotationParent = new GameObject(parentName); // Creates a parent for the symmetry, as it will be composed of the axis and symbols at the end
+        rotationParent.transform.parent = parent.transform;
+        rotationParent.transform.localPosition = new Vector3(0, 0, 0); // Makes sure the gridLine is in the gridParent's (0,0,0)
+
+        Vector3 axisVec = new Vector3(axis[0], axis[2], axis[1]); // We swap so the vector is x,z,y
+        axisVec = LinTransform(bravaisMatrix, axisVec); // The axis is given in bravais coordinates, but we implement it using cartesian, so we convert it
+
+        GameObject rotationAxis = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // Creates an axis
+        rotationAxis.transform.parent = rotationParent.transform; // Sets the axis as a child
+        rotationAxis.name = "Axis";
+
+        rotationAxis.transform.localScale = new Vector3(0.15f, axisVec.magnitude / 2f, 0.15f); // Sets the length of the axis to be half the length of the vector in cartesian
+        rotationAxis.transform.LookAt(axisVec); // We point the rotation axis the correct way NOTE: For some reason adding crystal.transform.position made it weird, so I removed it
+        rotationAxis.transform.Rotate(90, 0, 0); // And we rotate it as cylinders have y up, but lookAt points z in the direction
+        rotationAxis.transform.localPosition = axisVec / 2f; // Moves the axis so it is in the correct position
+
+        rotationAxis.GetComponent<Renderer>().material.color = new Color(255/255f, 106/255f, 0f, 0.75f); // Colors the axis transparent orange
+        ToTransparentMode(rotationAxis.GetComponent<Renderer>().material); // Sets rotation axis to Transparent mode
+
+        // Creates image to contain symbol. Taken from: https://gamedev.stackexchange.com/questions/102431/how-to-create-gui-image-with-script with modifications
+        GameObject symbol = new GameObject("Symbol"); // Creates an object for our symbol
+        symbol.transform.parent = rotationParent.transform; // Sets it as a child
+        symbol.transform.localPosition = new Vector3(0, 0, 0); // Fixes position to be locally zero
+        symbol.transform.LookAt(axisVec + crystal.transform.position); // Makes the symbol look along the cylinder. Here we needed the crystal again. (LookAt uses worldPosition)
+        symbol.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f); // Scales the Sprite down, as it is very large
+        if (Mathf.Abs(subscript) < eps)
+        {
+            symbol.name = degOfRotation + "-fold"; // Sets the name to match the sprite
+            symbol.AddComponent<SpriteRenderer>().sprite = rotationSymbols.Find(item => item.name == symbol.name); // Finds the sprite for 2-fold, adds a sprite component and sets the sprite
+            symbol.SetActive(true); // Activates the GameObject
+        }
+        else
+        {
+            symbol.name = degOfRotation + "_" + subscript + "-fold"; // Sets the name to match the sprite
+            symbol.AddComponent<SpriteRenderer>().sprite = rotationSymbols.Find(item => item.name == symbol.name); // Finds the sprite for 2-fold, adds a sprite component and sets the sprite
+            symbol.SetActive(true); // Activates the GameObject
+        }
+
+        symbol.GetComponent<SpriteRenderer>().color = rotationAxis.GetComponent<Renderer>().material.color; // Sets the symbol color to match the axis color
+
+        GameObject symbolEnd = Instantiate(symbol, rotationParent.transform, false); // Instantiates a symbol for the other end of the rotation axis
+        symbolEnd.name = symbol.name + " end";
+        symbolEnd.transform.localPosition = axisVec; // Sets position to the end of the axis
+
+        return rotationParent;
+    }
+
+    // Called in AddSymmetry OLD
     GameObject CreatePlane(Vector3[] vertices, Color color, string name = "Plane", GameObject parent = null)
     {
         // Creates a Quad GameObject for symmetry planes using four input coordinates (each corner). This should make planes work in crystals where not all angles are 90
@@ -1513,7 +1619,7 @@ public class Crystal : MonoBehaviour
                     {
                         case 1: // X
                             planeVertices[0] = new Vector3(0, 0, 0); // Origin
-                            planeVertices[1] = bravaisVectors[1]; // vec(b)
+                            planeVertices[1] = bravaisVectors[1]; // vec(b) NOTE: THIS HAS CHANGED TO c and [2] to b !
                             planeVertices[2] = bravaisVectors[2]; // vec(c)
                             planeVertices[3] = bravaisVectors[1] + bravaisVectors[2]; // vec(b)+vec(c)
                             planeName += " X";
