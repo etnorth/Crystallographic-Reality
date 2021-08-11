@@ -4,7 +4,7 @@ using UnityEngine;
 
 using System; // For StringSplitOptions to split e.g. 3 or 4 consecutive whitespaces (tab or one whitespace did not work) (also handles our Globalization)
 using System.IO; // IO: InputOutput. Used to read our input file. OLD
-using System.Linq; // Adds array.where to exlude 0 from .Min(). See Step 3 for reflection in EvalSymmetry()
+using System.Linq; // Used for finding Min value in array, and for the array.Where() function
 using UnityEngine.UI; // Used for images
 //using System.Diagnostics; // Provides access to local and remote processes and enables you to start and stop local system processes
 
@@ -31,7 +31,8 @@ public class Crystal : MonoBehaviour
     private float[,] reciprocalMatrix; // Used to convert atom positions into coordinates suitable for finding out if it is in a(n) corner/edge/face
     private string spaceGroup; // OLD
 
-    private GameObject[] atomObjects; // Array of atom objects.
+    private GameObject[] atomObjects; // Array of atom objects
+    private GameObject[] symmetryElements; // An array of symmetry elements
     private Dictionary<string, Color> atomColors = new Dictionary<string, Color>() // A Dictionary to apply colors depending on what atom it is
     {
         // Using https://en.wikipedia.org/wiki/CPK_coloring#Typical_assignments
@@ -89,7 +90,7 @@ public class Crystal : MonoBehaviour
             {reciprocalVectors[0][0], reciprocalVectors[0][2], reciprocalVectors[0][1] }, // a11, a12, a13
             {reciprocalVectors[2][0],reciprocalVectors[2][2],reciprocalVectors[2][1] }, // a21, a22, a23
             {reciprocalVectors[1][0],reciprocalVectors[1][2],reciprocalVectors[1][1] } // a31, a32, a33
-        }; // Flipping vectors from xzy to xyz, so matrix looks jumbled
+        }; // Matrix for converting cartesian coordinates into bravais coordinates. Flipping vectors from xzy to xyz, so matrix looks jumbled
         
 
         EvalSymmetry(); // Evaluates each symmetry matrix and categorizes them
@@ -385,23 +386,67 @@ public class Crystal : MonoBehaviour
                     else 
                     {
                         float[] v = { 1, 2, 3 }; // We define an arbitrary vector to be reflected
-                        float[] u = LinTransform(matrix,v); // Mv = u
+                        float[] u = LinTransform(matrix,v); // Mv = u. We mirror the vector
                         float[] displacement = { u[0] - v[0],
                             u[1] - v[1],
                             u[2] - v[2] }; // The displacement is the normal of the reflection plane. displacement = u-v
+                        displacement = LinTransform(reciprocalMatrix, displacement); // We convert it to bravais coordinates so the numbers match a,b and c
 
-                        if (Mathf.Abs(displacement[0]) < eps & Mathf.Abs(displacement[1]) < eps & Mathf.Abs(displacement[2]) < eps)
+                        if (Mathf.Abs(displacement[0]) < eps & Mathf.Abs(displacement[1]) < eps & Mathf.Abs(displacement[2]) < eps) // If the displacement = (0,0,0)
                         {
                             Debug.LogError("The plane normal is (0,0,0). Either the plane normal is (1,2,3) as that was our input, or this is a rotoinversion or something else? Symmetry operation: " + (i + 1));
                             axis = "unknown";
                         }
                         else
                         {
-                            float min = displacement.Where(x => !(Mathf.Abs(x) < eps)).Min(); // Finds the minimum value in displacement that is not 0.
-                            displacement = new float[] { displacement[0] / min,
-                            displacement[1] / min,
-                            displacement[2] / min }; // Makes displacement use smaller values ( (0,-5,-5) -> (0,1,1). Since (0,-1,1)==(0,1,-1) this should not cause issues with flipping planes incorrectly
-                            axis = "(" + displacement[0] + "," + displacement[1] + "," + displacement[2] + ")";
+                            // Look for greatest common divisor, so the plane has correct miller index
+
+                            float gcd = 1; // greatest common divisor. For scaling mirror axis correctly
+
+                            gcd = displacement.Where(x => Mathf.Abs(x) > eps).Min(); // Finds smallest non-zero coordinate in displacement. Not ture GCD, but works okay
+
+                            /*
+                            Taken from: https://stackoverflow.com/questions/18541832/c-sharp-find-the-greatest-common-divisor
+                            List<float> nonZeroList = new List<float>(); // List to fill with nonZero elements. For non-cubic systems, the values are not always int
+
+                            for (int j = 0; j < displacement.Length; j++) // Iterate to find nonZero elements
+                            {
+                                if (!(Mathf.Abs(displacement[j]) < eps)) // if nonZero
+                                {
+                                    nonZeroList.Add(Mathf.Abs(displacement[j])); // Add to list (adds absolute value for easier gcd testing after)
+                                }
+                            }
+                            float[] nonZero = nonZeroList.ToArray();
+
+                            switch (nonZero.Count)
+                            {
+                                case 1:
+                                    gcd = nonZero[0];
+                                    break;
+                                case 2:
+                                    while (nonZero[0]! < eps && nonZero[1]! < eps)
+                                    {
+                                        if (nonZero[0] > nonZero[1])
+                                        {
+                                            nonZero[0] %= nonZero[1];
+                                        }
+                                        else
+                                        {
+                                            nonZero[1] %= nonZero[0];
+                                        }
+                                    }
+                                    gcd = nonZero[0] | nonZero[1];
+                                    break;
+                                case 3:
+
+                                    break;
+                            }
+                            */
+
+                            displacement = new float[] { displacement[0] / gcd,
+                            displacement[1] / gcd,
+                            displacement[2] / gcd }; // Makes displacement use smaller values ( (0,-5,-5) -> (0,1,1). Since (0,-1,1)==(0,1,-1) this should not cause issues with flipping planes incorrectly
+                            axis = "(" + displacement[0] + "," + displacement[1] + "," + displacement[2] + ")"; // If this suddenly causes issues, use whitespace as separator
                         }
                     }
 
@@ -697,78 +742,80 @@ public class Crystal : MonoBehaviour
         symmetryParent.transform.parent = crystal.transform;
         symmetryParent.transform.localPosition = new Vector3(0, 0, 0);
 
+        List<GameObject> symmetryElementsList = new List<GameObject>(); // Creates a list to fill with symmetryElements so they can be accessed later
+
         for (int i = 0; i < symmetryMatricesType.Length; i++)
         {
 
             string symmetry = symmetryMatricesType[i];
             string[] symmetryInfo = symmetry.Split(' '); // Splits the symmetryInfo per whitespace (e.g. "Screw axis degree subscript")
             string symmetryType = symmetryInfo[0];
-            
-            float[] axis = { 0, 0, 0 }; // Introduce axis. Default (0,0,0), but should be updated inside if when actually used
 
-            if (symmetryInfo.Length > 1) // If the len>1 we have an axis, and so fetch it
+            if (symmetryInfo.Length > 1) // If the len>1 we have rotation/reflection
             {
-                string axisString = symmetryInfo[1].Remove(0, 1); // Removes the 1st char (a parenthesis)
-                axisString = axisString.Remove(axisString.Length - 1); // Removes all the final character (closing parenthesis)
-                axis = new float[]
+                // Fetches the axis as that is used by all the symmetries. axis = "(x,y,z)"
+                string axisString = symmetryInfo[1].Remove(0, 1); // Removes the 1st char (a parenthesis). axis = "x,y,z)"
+                axisString = axisString.Remove(axisString.Length - 1); // Removes all the final character (closing parenthesis). axis = "x,y,z"
+                float[] axis = new float[]
                 {
-                        StringToFloat(axisString.Split(',')[0]), StringToFloat(axisString.Split(',')[1]), StringToFloat(axisString.Split(',')[2]) // Gets x y and z. Splits on comma
-                }; //axisString.Split(',')[0]; // Splits on comma
+                        StringToFloat(axisString.Split(',')[0]), StringToFloat(axisString.Split(',')[1]), StringToFloat(axisString.Split(',')[2]) // Gets x, y, and z. Splits on comma
+                };
+                // If this suddenly causes issues, use whitespace as separator here and in EvalSymmetry()
 
-                Debug.Log("Axis: " + axis[0] + "," + axis[1] + "," + axis[2]);
+                switch (symmetryType)
+                {
+                    case "Rotation":
+                        // Instantiate Rotation axis based on axis and degree of rotation
+                        symmetryElementsList.Add(CreateRotation(symmetry, axis, int.Parse(symmetryInfo[2]), 0, symmetryParent)); // [2] is the degOfRotation. We set subscript to 0
+
+                        break;
+                    case "Screw":
+                        // Instantiate Screw axis based on axis, degree of rotation and subscript
+                        symmetryElementsList.Add(CreateRotation(symmetry, axis, int.Parse(symmetryInfo[2]), int.Parse(symmetryInfo[3]), symmetryParent)); // [2]=degOfRotation, [3]=subscript
+
+                        break;
+                    case "Mirror":
+                        // Instantiate Mirror plane based on plane normal and size of lattice (CreatePlane())
+                        // The plane normal is actually the same as its miller index, so we could base our creation on that?
+                        // The axis is made by displacement of an arbitrary vector (mirror vector and see where it went to find plane normal).
+                        // This means that the plane position is in half of the displacement.
+                        // We can create a plane facing the displacement, with its position in the displacement / 2f. However, this will likely make the plane difficult to scale perfectly for all angles
+
+                        symmetryElementsList.Add(CreateReflection(symmetry, axis, null, null, symmetryParent)); // Creates reflection based on information
+
+                        break;
+                    case "Glide":
+                        // Instantiate Glide plane based on plane normal and size of lattice (CreatePlane()), with different color to indicate type of glide
+
+                        symmetryElementsList.Add(CreateReflection(symmetry, axis, symmetryInfo[2], symmetryInfo[3], symmetryParent)); // Creates reflection based on information. [2] is glideType, [3] is glideDirection
+                        break;
+                    default: // Includes "Unknown"
+                        symmetryElementsList.Add(new GameObject(symmetry)); // Adds empty GameObject with the name of the symmetry
+                        break;
+                }
             }
             else // We have Identity or Inversion
             {
                 switch (symmetryType)
                 {
                     case "Identity":
-                        // This always exists, so ignore it
+                        // This always exists, so ignore it. We make an empty object, but no render
+                        GameObject identity = new GameObject("Identity");
+                        identity.transform.parent = symmetryParent.transform;
+                        identity.transform.localPosition = new Vector3(0, 0, 0);
+
+                        symmetryElementsList.Add(identity);
                         break;
                     case "Inversion":
-                        // Instantiate Inversion element
+                        // Instantiate Inversion element. For now this is an empty object
+                        GameObject inversion = new GameObject("Inversion");
+                        inversion.transform.parent = symmetryParent.transform;
+                        inversion.transform.localPosition = new Vector3(0, 0, 0);
+
+                        symmetryElementsList.Add(inversion);
                         break;
                 }
             }
-
-            switch (symmetryType)
-            {
-                case "Rotation":
-                    // Instantiate Rotation axis based on axis and degree of rotation
-
-                    int degOfRotation = int.Parse(symmetryInfo[2]);
-                    int subscript = 0; // When the subscript = 0, the function defaults to no screw, normal rotation
-
-                    CreateRotation(symmetry, axis, degOfRotation, subscript, symmetryParent);
-
-                    break;
-                case "Screw":
-                    // Instantiate Screw axis based on axis, degree of rotation and subscript
-
-                    degOfRotation = int.Parse(symmetryInfo[2]); // Apparently we don't need to declare these when it's a switch case
-                    subscript = int.Parse(symmetryInfo[3]);
-
-                    CreateRotation(symmetry, axis, degOfRotation, subscript, symmetryParent);
-                    break;
-                case "Mirror":
-                    // Instantiate Mirror plane based on plane normal and size of lattice (CreatePlane())
-                    // The plane normal is actually the same as its miller index, so we base our creation on that
-
-                    // NEEDS MORE WORK
-                    for (int j = 0; j < 3; j++)
-                    {
-
-                    }
-
-                    break;
-                case "Glide":
-                    // Instantiate Glide plane based on plane normal and size of lattice (CreatePlane()), with different color to indicate type of glide
-                    break;
-                case "Unknown":
-                    // throw error message
-                default:
-                    break;
-            }
-
         }
     }
 
@@ -914,7 +961,7 @@ public class Crystal : MonoBehaviour
         // Sets the color of an atom through the renderer's material by accessing a global dictionary "atomColors"
         // Uses the name of the GameObject to set the color
         string element = atom.name.Split(' ')[0]; // Gets the "First name" of the gameobject (e.g. "Si" from "Si (0,0,0)") and sets that as the element
-        if (element.Contains('/'))
+        if (element.Contains("/"))
         {
             // We have multiple atoms with occurences
             element = element.Split('/')[0]; // For now, default to first atom, later maybe include Random.range(occ1, occ2)(or other if more than two atoms)
@@ -968,7 +1015,7 @@ public class Crystal : MonoBehaviour
         rotationAxis.transform.parent = rotationParent.transform; // Sets the axis as a child
         rotationAxis.name = "Axis";
 
-        rotationAxis.transform.localScale = new Vector3(0.15f, axisVec.magnitude / 2f, 0.15f); // Sets the length of the axis to be half the length of the vector in cartesian
+        rotationAxis.transform.localScale = new Vector3(0.25f, axisVec.magnitude / 2f, 0.25f); // Sets the length of the axis to be half the length of the vector in cartesian
         rotationAxis.transform.LookAt(axisVec); // We point the rotation axis the correct way NOTE: For some reason adding crystal.transform.position made it weird, so I removed it
         rotationAxis.transform.Rotate(90, 0, 0); // And we rotate it as cylinders have y up, but lookAt points z in the direction
         rotationAxis.transform.localPosition = axisVec / 2f; // Moves the axis so it is in the correct position
@@ -995,13 +1042,66 @@ public class Crystal : MonoBehaviour
             symbol.SetActive(true); // Activates the GameObject
         }
 
-        symbol.GetComponent<SpriteRenderer>().color = rotationAxis.GetComponent<Renderer>().material.color; // Sets the symbol color to match the axis color
+        symbol.GetComponent<SpriteRenderer>().material.color = rotationAxis.GetComponent<Renderer>().material.color; // Sets the symbol color to match the axis color (don't need material. on left, but for consistency I added it)
 
         GameObject symbolEnd = Instantiate(symbol, rotationParent.transform, false); // Instantiates a symbol for the other end of the rotation axis
         symbolEnd.name = symbol.name + " end";
         symbolEnd.transform.localPosition = axisVec; // Sets position to the end of the axis
 
         return rotationParent;
+    }
+
+    // Called in CreateSymmetry
+    GameObject CreateReflection(string parentName, float[] axis, string glideType = null, string glideDirection = null, GameObject parent = null)
+    {
+        // Creates a Reflection plane based on it's plane normal (axis) and type of plane. Name has format ("Glide axis glideType glideDirection")
+
+        GameObject reflectionParent = new GameObject(parentName); // Creates a parent object to contain the mirror's front and backside
+        reflectionParent.transform.parent = parent.transform;
+        reflectionParent.transform.localPosition = new Vector3(0, 0, 0);
+
+        Vector3 axisVec = new Vector3(axis[0], axis[2], axis[1]); // We swap so the vector is x,z,y
+        axisVec = LinTransform(bravaisMatrix, axisVec); // The axis is given in bravais coordinates, but we implement it using cartesian, so we convert it
+
+        GameObject reflection = GameObject.CreatePrimitive(PrimitiveType.Quad); // Creates a plane (quad~=plane)
+        reflection.transform.parent = reflectionParent.transform; // Sets the axis as a child
+        reflection.name = "Plane";
+
+        reflection.transform.localScale = new Vector3(1,1,1)*Mathf.Pow(cellVolume, 1f/3f); // Scales the plane to the cube of the cell volume, for now
+        reflection.transform.LookAt(axisVec); // Appearently does NOT need crystal.transform
+        reflection.transform.localPosition = axisVec / 2f; // Moves the axis so it is in the correct position
+
+        // Color plane based on mirror/glide and type
+        if (glideType == null) // Mirror
+        {
+            reflection.GetComponent<Renderer>().material.color = new Color(1, 1, 0, 0.75f); // Transparent Yellow
+        }
+        else // Glide
+        {
+            switch (glideType)
+            {
+                case "n":
+                    reflection.GetComponent<Renderer>().material.color = new Color(0, 1, 0, 0.75f); // Transparent green
+                    break;
+                case "d":
+                    reflection.GetComponent<Renderer>().material.color = new Color(112 / 255f, 209 / 255f, 244 / 255f, 0.75f); // Transparent "Ford Diamond Blue"
+                    break;
+
+                case "e":
+                    reflection.GetComponent<Renderer>().material.color =  new Color(1, 0, 1, 0.75f); // Transparent magenta
+                    break;
+                default: //a,b or c-glide
+                    reflection.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0.75f); // Transparent blue
+                    break;
+
+            }
+        }
+        ToTransparentMode(reflection.GetComponent<Renderer>().material); // Make transparent
+
+        GameObject reflectionBack = Instantiate(reflection, reflectionParent.transform, false); // Instantiates the backside of the plane
+        reflectionBack.transform.LookAt(-axisVec + crystal.transform.position); // Appearently DOES need crystal.transform
+
+        return reflectionParent;
     }
 
     // Called in AddSymmetry OLD
