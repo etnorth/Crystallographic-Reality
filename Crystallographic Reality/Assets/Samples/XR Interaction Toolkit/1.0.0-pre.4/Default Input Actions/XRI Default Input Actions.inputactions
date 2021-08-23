@@ -154,6 +154,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Player Scale Down",
+                    "type": "Button",
+                    "id": "12d88bb3-34b7-4f50-85df-a49a5e013dec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -486,6 +494,17 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "6cb1eec7-0cb3-4af7-b6a6-400b41f6228b",
+                    "path": "<XRController>{LeftHand}/thumbstickClicked",
+                    "interactions": "",
+                    "processors": "Scale(factor=0.9)",
+                    "groups": "Generic XR Controller",
+                    "action": "Player Scale Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -594,6 +613,14 @@
                     "type": "Value",
                     "id": "6f7cf253-7062-443b-b10f-2be48a33f027",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Player Scale Up",
+                    "type": "Button",
+                    "id": "6697cd64-1ca3-4d58-b8f3-e89f17c74317",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -917,6 +944,17 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "aebbc587-4f80-4aa7-8ef6-632274de30dc",
+                    "path": "<XRController>{RightHand}/thumbstickClicked",
+                    "interactions": "",
+                    "processors": "Scale(factor=1.1)",
+                    "groups": "Generic XR Controller",
+                    "action": "Player Scale Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

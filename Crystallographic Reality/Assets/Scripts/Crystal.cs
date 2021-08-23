@@ -31,27 +31,118 @@ public class Crystal : MonoBehaviour
     private Dictionary<string, Color> atomColors = new Dictionary<string, Color>()
     {
         // A Dictionary to apply colors depending on what atom it is
-        // Using https://en.wikipedia.org/wiki/CPK_coloring#Typical_assignments
+        // Using http://jmol.sourceforge.net/jscolors/
         {"H", Color.white},
-        {"C", Color.black},
-        {"N", Color.blue},
-        {"O", Color.red},
-        {"F", Color.green}, {"Cl", Color.green},
-        {"Br", new Color(153/255f, 34/255f, 0, 1)}, // "Dark red"
-        {"I", new Color(102/255f, 0, 187/255f, 1)}, //"Dark violet"
-        // Skipped noble gases (He, Ne, Ar, Xe, Kr use "Cyan")
-        {"P", new Color(255/255f, 153/255f, 0, 1)}, // "Orange"
-        {"S", Color.yellow},
-        {"B", new Color(255/255f, 170/255f, 119/255f, 1)}, // "Beige
-        {"Li", Color.magenta}, {"Na", Color.magenta}, {"K", Color.magenta}, {"Rb", Color.magenta}, {"Cs", Color.magenta},{"Fr", Color.magenta}, // Alkali metals (Should be "Violet")
-        {"Be", new Color(0, 119/255f, 0, 1)}, {"Mg", new Color(0, 119/255f, 0, 1)}, {"Ca", new Color(0, 119/255f, 0, 1)}, {"Sr", new Color(0, 119/255f, 0, 1)}, {"Ba", new Color(0, 119/255f, 0, 1)}, {"Ra", new Color(0, 119/255f, 0, 1)}, // Alkaline earth metals ("Dark green")
-        {"Ti", Color.gray},
-        {"Fe", new Color(221/255f, 119/255f, 0, 1)}, // "Dark orange"
-        {"other", new Color(221/255f, 119/255f, 1, 1)}, // "Pink"
-
-        // Not from "Typical Assignments
-        {"Si", Color.gray},
-        {"Cu", Color.yellow}, // I'd prefer "Orange"
+        {"He", new Color(217/255f, 1, 1, 1) },
+        {"Li", new Color(204/255f, 128/255f, 1, 1) },
+        {"Be", new Color(194/255f, 1, 0, 1) },
+        {"B", new Color(1, 181/255f, 181/255f, 1) },
+        {"C", new Color(144/255f, 144/255f, 144/255f, 1) },
+        {"N", new Color(48/255f, 80/255f, 248/255f, 1) },
+        {"O", new Color(1, 13/255f, 13/255f, 1) },
+        {"F", new Color(144/255f, 224/255f, 80/255f, 1) },
+        {"Ne", new Color(179/255f, 227/255f, 245/255f, 1) },
+        {"Na", new Color(171/255f, 92/255f, 242/255f, 1) },
+        {"Mg", new Color(138/255f, 1, 0, 1) },
+        {"Al", new Color(191/255f, 166/255f, 166/255f, 1) },
+        {"Si", new Color(240/255f, 200/255f, 160/255f, 1) },
+        {"P", new Color(1, 128/255f, 0, 1) },
+        {"S", new Color(1, 1, 48/255f, 1) },
+        {"Cl", new Color(31/255f, 240/255f, 31/255f, 1) },
+        {"Ar", new Color(128/255f, 209/255f, 227/255f, 1) },
+        {"K", new Color(143/255f, 64/255f, 212/255f, 1) },
+        {"Ca", new Color(61/255f, 1, 0, 1) },
+        {"Sc", new Color(230/255f, 230/255f, 230/255f, 1) },
+        {"Ti", new Color(191/255f, 194/255f, 199/255f, 1) },
+        {"V", new Color(166/255f, 166/255f, 171/255f, 1) },
+        {"Cr", new Color(138/255f, 153/255f, 199/255f, 1) },
+        {"Mn", new Color(156/255f, 122/255f, 199/255f, 1) },
+        {"Fe", new Color(224/255f, 102/255f, 51/255f, 1) },
+        {"Co", new Color(240/255f, 144/255f, 160/255f, 1) },
+        {"Ni", new Color(80/255f, 208/255f, 80/255f, 1) },
+        {"Cu", new Color(200/255f, 128/255f, 51/255f, 1) },
+        {"Zn", new Color(125/255f, 128/255f, 176/255f, 1) },
+        {"Ga", new Color(194/255f, 143/255f, 143/255f, 1) },
+        {"Ge", new Color(102/255f, 143/255f, 143/255f, 1) },
+        {"As", new Color(189/255f, 128/255f, 227/255f, 1) },
+        {"Se", new Color(1, 161/255f, 0, 1) },
+        {"Br", new Color(166/255f, 41/255f, 41/255f, 1) },
+        {"Kr", new Color(92/255f, 184/255f, 209/255f, 1) },
+        {"Rb", new Color(112/255f, 46/255f, 176/255f, 1) },
+        {"Sr", new Color(0, 1, 0, 1) },
+        {"Y", new Color(148/255f, 1, 1, 1) },
+        {"Zr", new Color(148/255f, 224/255f, 224/255f, 1) },
+        {"Nb", new Color(115/255f, 194/255f, 201/255f, 1) },
+        {"Mo", new Color(84/255f, 181/255f, 181/255f, 1) },
+        {"Tc", new Color(59/255f, 158/255f, 158/255f, 1) },
+        {"Ru", new Color(36/255f, 143/255f, 143/255f, 1) },
+        {"Rh", new Color(10/255f, 125/255f, 140/255f, 1) },
+        {"Pd", new Color(0, 105, 133/255f, 1) },
+        {"Ag", new Color(192/255f, 192/255f, 192/255f, 1) },
+        {"Cd", new Color(1, 217/255f, 143/255f, 1) },
+        {"In", new Color(166/255f, 117/255f, 115/255f, 1) },
+        {"Sn", new Color(102/255f, 128/255f, 128/255f, 1) },
+        {"Sb", new Color(158/255f, 99/255f, 181/255f, 1) },
+        {"Te", new Color(212/255f, 122/255f, 0, 1) },
+        {"I", new Color(148/255f, 0, 148/255f, 1) },
+        {"Xe", new Color(66/255f, 158/255f, 176/255f, 1) },
+        {"Cs", new Color(87/255f, 23/255f, 143/255f, 1) },
+        {"Ba", new Color(0, 201/255f, 0, 1) },
+        {"La", new Color(112/255f, 212/255f, 1, 1) },
+        {"Ce", new Color(1, 1, 199/255f, 1) },
+        {"Pr", new Color(217/255f, 1, 199/255f, 1) },
+        {"Nd", new Color(199/255f, 1, 199/255f, 1) },
+        {"Pm", new Color(163/255f, 255, 199/255f, 1) },
+        {"Sm", new Color(143/255f, 1, 199/255f, 1) },
+        {"Eu", new Color(97/255f, 1, 199/255f, 1) },
+        {"Gd", new Color(69/255f, 1, 199/255f, 1) },
+        {"Tb", new Color(48/255f, 1, 199/255f, 1) },
+        {"Dy", new Color(31/255f, 1, 199/255f, 1) },
+        {"Ho", new Color(0, 1, 156/255f, 1) },
+        {"Er", new Color(0, 230/255f, 117/255f, 1) },
+        {"Tm", new Color(0/255f, 212/255f, 82/255f, 1) },
+        {"Yb", new Color(0/255f, 191/255f, 56/255f, 1) },
+        {"Lu", new Color(0/255f, 171/255f, 36/255f, 1) },
+        {"Hf", new Color(77/255f, 194/255f, 1, 1) },
+        {"Ta", new Color(77/255f, 166/255f, 1, 1) },
+        {"W", new Color(33/255f, 148/255f, 214/255f, 1) },
+        {"Re", new Color(38/255f, 125/255f, 171/255f, 1) },
+        {"Os", new Color(38/255f, 102/255f, 150/255f, 1) },
+        {"Ir", new Color(23/255f, 84/255f, 135/255f, 1) },
+        {"Pt", new Color(208/255f, 208/255f, 225/255f, 1) },
+        {"Au", new Color(1, 209/255f, 35/255f, 1) },
+        {"Hg", new Color(184/255f, 184/255f, 208/255f, 1) },
+        {"Tl", new Color(166/255f, 84/255f, 77/255f, 1) },
+        {"Pb", new Color(87/255f, 89/255f, 97/255f, 1) },
+        {"Bi", new Color(158/255f, 79/255f, 181/255f, 1) },
+        {"Po", new Color(171/255f, 92/255f, 0, 1) },
+        {"At", new Color(117/255f, 79/255f, 69/255f, 1) },
+        {"Rn", new Color(66/255f, 130/255f, 150/255f, 1) },
+        {"Fr", new Color(66/255f, 0, 102/255f, 1) },
+        {"Ra", new Color(0, 125/255f, 0, 1) },
+        {"Ac", new Color(112/255f, 171/255f, 250/255f, 1) },
+        {"Th", new Color(0, 186/255f, 1, 1) },
+        {"Pa", new Color(0, 161/255f, 1, 1) },
+        {"U", new Color(0, 154/255f, 1, 1) },
+        {"Np", new Color(0, 128/255f, 1, 1) },
+        {"Pu", new Color(0, 107/255f, 1, 1) },
+        {"Am", new Color(84/255f, 92/255f, 242/255f, 1) },
+        {"Cm", new Color(120/255f, 92/255f, 227/255f, 1) },
+        {"Bk", new Color(138/255f, 79/255f, 227/255f, 1) },
+        {"Cf", new Color(161/255f, 54/255f, 212/255f, 1) },
+        {"Es", new Color(179/255f, 31/255f, 212/255f, 1) },
+        {"Fm", new Color(179/255f, 31/255f, 186/255f, 1) },
+        {"Md", new Color(179/255f, 13/255f, 166/255f, 1) },
+        {"No", new Color(189/255f, 13/255f, 135/255f, 1) },
+        {"Lr", new Color(199/255f, 0, 102/255f, 1) },
+        {"Rf", new Color(204/255f, 0, 89/255f, 1) },
+        {"Db", new Color(209/255f, 0, 79/255f, 1) },
+        {"Sg", new Color(217/255f, 0, 69/255f, 1) },
+        {"Bh", new Color(224/255f, 0, 56/255f, 1) },
+        {"Hs", new Color(230/255f, 0, 46/255f, 1) },
+        {"Mt", new Color(235/255f, 0, 38/255f, 1) },
+        // Elements 110-118 not included, but they are all more or less red in CPK
+        {"other", Color.red },
     }; // A Dictionary to apply colors depending on what atom it is
     private Dictionary<string, float> ionicRadii = new Dictionary<string, float>()
     {
@@ -152,7 +243,7 @@ public class Crystal : MonoBehaviour
         {"Es", 92.8f }, // Ed+3
         {"other", 100 } // Other: Default to 100 pm
 
-    }; // A Dictionary containing the most common ionic radius for some atoms. radius given in picometers (10^-12). Atoms way to large, so all are scaled a bit down upon use
+    }; // A Dictionary containing the most common ionic radius for some atoms. radius given in picometers (10^-12). Atoms way to large, so all are scaled a bit down in SetAtomSize()
 
 
     // Start is called before the first frame update
@@ -939,6 +1030,8 @@ public class Crystal : MonoBehaviour
             }
         }
         symmetryElements = symmetryElementsList.ToArray(); // Converts the symmetries to arrays for faster access
+
+        Debug.Log("Created visual symmetry elements. Number of symmetry elements: " + symmetryElements.Length);
     }
 
     // Called in SymmetryEval
@@ -1097,11 +1190,11 @@ public class Crystal : MonoBehaviour
         }
         try
         {
-            atom.transform.localScale *=  (ionicRadii[element]*0.01f); // Scales the atom by its ionic radius. 
+            atom.transform.localScale *=  (ionicRadii[element]*0.02f); // Scales the atom by its ionic radius. 
         }
         catch // If atom is not in the dictonary, default to "other"
         {
-            atom.transform.localScale *=  (ionicRadii["other"]*0.01f);
+            atom.transform.localScale *=  (ionicRadii["other"]*0.02f);
         }
     }
 
