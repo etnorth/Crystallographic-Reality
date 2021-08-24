@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     private GameObject symmetries;
     public InputActionReference symmetryReference;
 
+    private GameObject atoms;
+    public InputActionReference atomSizeUpReference;
+    public InputActionReference atomSizeDownReference;
+
     private void Start()
     {
         crystal = GameObject.Find("Crystal"); // Finds a GameObject named "Crystal"
@@ -22,11 +26,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // Player scaling
+        // Player Scale Up
         if (scaleUpReference.action.triggered)
         {
-            gameObject.transform.localScale *= 1.1f;
+            gameObject.transform.localScale *= 1.1f; // gameObject is the object the script is attatched to aka. the XR Rig
         }
+        // Player Scale Down
         if (scaleDownReference.action.triggered)
         {
             gameObject.transform.localScale *= 0.9f;
@@ -45,6 +50,29 @@ public class Player : MonoBehaviour
                 symmetries.SetActive(true);
             }
             
+        }
+
+        // Grow atoms
+        if (atomSizeUpReference.action.triggered)
+        {
+            atoms = crystal.transform.Find("Atoms").gameObject; // Finds the atoms
+
+            for(int i = 0; i< atoms.transform.childCount; i++) // Iterates over each atom
+            {
+                Transform atomTransform = atoms.transform.GetChild(i); // Gets the i-th atom's transform
+                atomTransform.localScale *= 1.1f;
+            }
+        }
+        // Shrink atoms
+        if (atomSizeDownReference.action.triggered)
+        {
+            atoms = crystal.transform.Find("Atoms").gameObject; // Finds the atoms
+
+            for (int i = 0; i < atoms.transform.childCount; i++) // Iterates over each atom
+            {
+                Transform atomTransform = atoms.transform.GetChild(i); // Gets the i-th atom's transform
+                atomTransform.localScale *= 0.9f;
+            }
         }
 
 

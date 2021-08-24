@@ -251,9 +251,9 @@ public class Crystal : MonoBehaviour
     {
         // Initialization (The thought is to have a separate game scene with buttons, sliders, etc. for setting up the crystal. This is parsed to this file and creates the appropriate crystal)
 
-        //ReadConvert(CrystalManager.outfile); // Reads the converted file and stores needed data
+        ReadConvert(CrystalManager.outfile); // Reads the converted file and stores needed data
         //ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\LSMO.txt"); // Temporary, use comment above after testing, and when back in UI menu
-        ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
+        //ReadConvert(@"C:\Users\erlen\AppData\LocalLow\UiO TeamVR\Crystallographic Reality\cif2cell_convert\Si.txt"); // Temporary, use comment above after testing, and when back in UI menu
 
         // Sets up Lattice Vectors in relation to Unity's coordinate system
         // Got help from https://en.wikipedia.org/wiki/Fractional_coordinates (We use x,y,z)
@@ -286,6 +286,9 @@ public class Crystal : MonoBehaviour
 
         CreateUnitCellGrid();
         CreateSymmetry();
+
+        crystal.transform.Find("Symmetries").gameObject.SetActive(false); // Hides the symmetries as they are misplaced and ugly
+        crystal.transform.position = -bravaisVectors[0] / 2 - bravaisVectors[1] / 2 - bravaisVectors[2] / 2 + new Vector3(1, cellLength[2] / 2 + 1, 0); // Moves crystal so that the center of the crystal is in (0,0,0) (we can use .position as it has no parent object)
 
     }
 

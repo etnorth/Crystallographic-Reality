@@ -947,6 +947,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Atom Size Up",
+                    "type": "Button",
+                    "id": "548bf81e-a8a8-4106-abbf-b640b4e8b9f5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Atom Size Down",
+                    "type": "Button",
+                    "id": "21207e9c-5c92-4b38-9b7e-4aede619512e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -980,6 +996,28 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "SymmetryToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a9953f2-ea67-414a-afaa-f005fc329f6a",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Atom Size Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "55d2b04e-d173-45fb-a8ae-07e67583e5ce",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Atom Size Down",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
