@@ -156,9 +156,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Player Scale Down",
+                    "name": "Player Scale Up",
                     "type": "Button",
-                    "id": "12d88bb3-34b7-4f50-85df-a49a5e013dec",
+                    "id": "d0cec7d1-f274-47df-bd43-281bd1103b7c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -497,12 +497,12 @@
                 },
                 {
                     "name": "",
-                    "id": "6cb1eec7-0cb3-4af7-b6a6-400b41f6228b",
+                    "id": "595d9dbf-5e5e-437b-b64c-66d24b432264",
                     "path": "<XRController>{LeftHand}/thumbstickClicked",
                     "interactions": "",
-                    "processors": "Scale(factor=0.9)",
+                    "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "Player Scale Down",
+                    "action": "Player Scale Up",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -617,9 +617,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Player Scale Up",
+                    "name": "Player Scale Down",
                     "type": "Button",
-                    "id": "6697cd64-1ca3-4d58-b8f3-e89f17c74317",
+                    "id": "6edc54a6-bc9e-4c7d-9fb0-c8c819497528",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -947,12 +947,12 @@
                 },
                 {
                     "name": "",
-                    "id": "aebbc587-4f80-4aa7-8ef6-632274de30dc",
+                    "id": "71e875dd-dc5c-45bb-8474-65937a4f1dd3",
                     "path": "<XRController>{RightHand}/thumbstickClicked",
                     "interactions": "",
-                    "processors": "Scale(factor=1.1)",
+                    "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "Player Scale Up",
+                    "action": "Player Scale Down",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

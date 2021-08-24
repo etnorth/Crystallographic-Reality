@@ -7,21 +7,26 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
 
-    public InputActionReference scaleUp;
-    public InputActionReference scaleDown;
+    public InputActionReference scaleUpReference;
+    public InputActionReference scaleDownReference;
 
     private void Update()
     {
-        bool up = scaleUp.action.ReadValue<bool>();
-        bool down = scaleUp.action.ReadValue<bool>();
+        //bool up = scaleUpReference.action.ReadValue<bool>();
+        //bool down = scaleDownReference.action.ReadValue<bool>();
 
-        if (up)
+        if (scaleUpReference.action.triggered)
         {
             gameObject.transform.localScale *= 1.1f;
         }
-        else if (down)
+        if (scaleDownReference.action.triggered)
         {
             gameObject.transform.localScale *= 0.9f;
         }
+    }
+
+    private void Scale(InputAction.CallbackContext context)
+    {
+
     }
 }
