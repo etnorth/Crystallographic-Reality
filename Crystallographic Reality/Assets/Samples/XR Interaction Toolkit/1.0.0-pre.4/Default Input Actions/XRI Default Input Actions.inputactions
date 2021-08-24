@@ -154,14 +154,6 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Player Scale Up",
-                    "type": "Button",
-                    "id": "d0cec7d1-f274-47df-bd43-281bd1103b7c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -494,17 +486,6 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "595d9dbf-5e5e-437b-b64c-66d24b432264",
-                    "path": "<XRController>{LeftHand}/thumbstickClicked",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Player Scale Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -613,14 +594,6 @@
                     "type": "Value",
                     "id": "6f7cf253-7062-443b-b10f-2be48a33f027",
                     "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Player Scale Down",
-                    "type": "Button",
-                    "id": "6edc54a6-bc9e-4c7d-9fb0-c8c819497528",
-                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -944,15 +917,69 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Crystal",
+            "id": "ea6936a1-3265-42a4-84b7-e52ec714b333",
+            "actions": [
+                {
+                    "name": "Player Scale Up",
+                    "type": "Button",
+                    "id": "a576fbb0-987d-412c-b62b-77de9b18512d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Player Scale Down",
+                    "type": "Button",
+                    "id": "cfd9f1b0-41e2-4991-8b77-0048bfe0d98e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SymmetryToggle",
+                    "type": "Button",
+                    "id": "a8151148-b05f-47af-b70b-5a5874ff6ff1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "73167a8b-0a2e-4b17-8c62-4d855de4c2ea",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Player Scale Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "71e875dd-dc5c-45bb-8474-65937a4f1dd3",
-                    "path": "<XRController>{RightHand}/thumbstickClicked",
+                    "id": "a48c1c61-1427-41b6-905d-ce6a99c434c9",
+                    "path": "<XRController>{RightHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Player Scale Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6b10797-6856-4bbe-a56a-154123fa1c88",
+                    "path": "<XRController>{LeftHand}/thumbstickClicked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "SymmetryToggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
