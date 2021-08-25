@@ -1002,7 +1002,7 @@
                 {
                     "name": "",
                     "id": "1a9953f2-ea67-414a-afaa-f005fc329f6a",
-                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "path": "<XRController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
@@ -1013,7 +1013,7 @@
                 {
                     "name": "",
                     "id": "55d2b04e-d173-45fb-a8ae-07e67583e5ce",
-                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
