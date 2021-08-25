@@ -1193,11 +1193,11 @@ public class Crystal : MonoBehaviour
         }
         try
         {
-            atom.transform.localScale *=  (ionicRadii[element]*0.02f); // Scales the atom by its ionic radius. 
+            atom.transform.localScale *=  (ionicRadii[element]*0.01f); // Scales the atom by its ionic radius. 1pm * 0.01 = 1Å
         }
         catch // If atom is not in the dictonary, default to "other"
         {
-            atom.transform.localScale *=  (ionicRadii["other"]*0.02f);
+            atom.transform.localScale *=  (ionicRadii["other"]*0.01f);
         }
     }
 
